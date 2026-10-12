@@ -124,6 +124,11 @@ Bu proje `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` ile çalışır. Takım yapısı
 4. Sonuçlar team lead'de birleştirilir, kalite kontrolü yapılır
 5. Final rapor kullanıcıya sunulur
 
+## Ponytail (Lazy Senior Dev Modu)
+
+İşi tam çözen **en küçük değişiklik**; istenmeyen soyutlama, seçenek ve bağımlılık yok. Kaynak: [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) (MIT).
+Antigravity: `.agents/rules/ponytail.md` · Cursor: `.cursor/rules/ponytail.mdc` · Claude Code: `.claude/skills/ponytail*/` (yerel, `.claude/` git'te yok sayılıyor).
+
 ## Karpathy Davranış Kuralları
 
 > Kaynak: [andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills)
