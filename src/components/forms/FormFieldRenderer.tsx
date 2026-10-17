@@ -1,5 +1,3 @@
-'use client'
-
 import { isFieldVisible } from '@/lib/form/condition-evaluator'
 import type { Field } from '@/types/form'
 import { useFormContext, useWatch } from 'react-hook-form'

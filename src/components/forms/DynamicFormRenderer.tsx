@@ -1,5 +1,3 @@
-'use client'
-
 import { isFieldVisible } from '@/lib/form/condition-evaluator'
 import {
   generateDefaultValues,

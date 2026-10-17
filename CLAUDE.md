@@ -17,16 +17,17 @@ Huseyin DOL'un modern portföy ve CMS sitesi. Next.js 16 Pages Router, React 19,
 
 ## Dizin Yapısı
 
-- `src/pages/` — Sayfalar (Pages Router). `api/` route handler'lar
-- `src/components/` — React componentleri. `ui/` shadcn, `forms/` formlar, `dynamic/` dinamik içerik
-- `src/lib/` — Yardımcı araçlar (env.ts, rate-limiter.ts, security.ts, utils.ts)
-- `src/services/` — API servisleri (auth, typicode)
+- `src/pages/` — Sayfalar (`_app.tsx`, `_document.tsx`, `404.tsx`, `500.tsx`) ve `api/` BFF route handler'ları (`NextApiRequest`, `NextApiResponse`)
+- `src/components/` — React componentleri. `ui/` shadcn, `forms/` formlar, `dynamic/` dinamik içerik, `layouts/` (`SiteLayout.tsx`)
+- `src/lib/` — Yardımcı araçlar (`env.ts`, `rate-limiter.ts`, `security.ts`, `seo.tsx`, `api-cookies.ts`, `mdx.ts`, `utils.ts`)
+- `src/services/` — API servisleri (auth, site, typicode)
 - `src/schemas/` — Zod validation şemaları
-- `src/actions/` — Server Actions
+- `src/actions/` — Client-side BFF API (`fetch('/api/auth/...')`) sarmalayıcıları
+- `src/styles/` — Global stiller (`globals.css`)
 - `src/types/` — TypeScript tip tanımları
-- `src/context/` — React Context
-- `src/providers/` — React Provider'lar
-- `tests/` — Vitest test dosyaları (components/, lib/, api/)
+- `src/context/` — React Context (`CookieContext`)
+- `src/providers/` — React Provider'lar (`Providers`, `ThemeProvider`, `HydrationProvider`)
+- `tests/` — Vitest test dosyaları (`components/`, `lib/`, `api/`, `pages/`)
 
 ## Kodlama Kuralları
 
@@ -36,9 +37,9 @@ Huseyin DOL'un modern portföy ve CMS sitesi. Next.js 16 Pages Router, React 19,
 - `console.log` production kodunda yasak
 - Tüm API rotaları rate limiting (`src/lib/rate-limiter.ts`) ve input sanitization içermeli
 - Validation: Zod ile, şemalar `src/schemas/` altında
-- Client component'ler için dosya başında `'use client'` direktifi
+- Pages Router mimarisi: veri çekme `getStaticProps` / `getServerSideProps` ile, SEO `<Seo />` (`src/lib/seo.tsx`, `next/head`) ile yapılır; proje bileşenlerinde `'use client'` direktifi kullanılmaz
 - Pre-commit hook `tsc --noEmit` çalıştırır — type error varsa commit engellenir
-- Cookie'ye yazılan `number` değerler `String()` ile dönüştürülmeli (`cookies.set` sadece `string` kabul eder)
+- Cookie'ye yazılan `number` değerler `String()` ile dönüştürülmeli (`resCookieStore(res).set` sadece `string` kabul eder)
 
 ## Test Kuralları
 
@@ -46,9 +47,10 @@ Huseyin DOL'un modern portföy ve CMS sitesi. Next.js 16 Pages Router, React 19,
 - Test dosyaları: `tests/` altında, source dizin yapısını yansıtır
   - `tests/components/` → `src/components/` için
   - `tests/lib/` → `src/lib/` için
-  - `tests/api/` → `src/app/api/` için
+  - `tests/api/` → `src/pages/api/` için (`createApiMocks` ile test edilir)
+  - `tests/pages/` → `src/pages/` için (`getStaticProps` / `getServerSideProps` ve sayfa render testleri)
 - Import path: `@/components/...` (path alias)
-- Mock pattern: `vi.mock(...)` dosya başında
+- Mock pattern: `vi.mock(...)` dosya başında (`next/router` mock'u `tests/setup.ts` içinde tanımlıdır)
 - Coverage threshold: %50 branch, %30 function, %10 line
 - Test çalıştırma: `bun run test:ci`
 
@@ -76,7 +78,9 @@ Huseyin DOL'un modern portföy ve CMS sitesi. Next.js 16 Pages Router, React 19,
 - `src/lib/env.ts` — Zod ile environment variable validasyonu
 - `src/lib/rate-limiter.ts` — IP bazlı rate limiting
 - `src/lib/security.ts` — Security header'ları ve yardımcı araçlar
-- `src/middleware.ts` — Next.js middleware
+- `src/lib/seo.tsx` — Pages Router `<Seo />` (`next/head`) bileşeni
+- `src/lib/api-cookies.ts` — `NextApiResponse` üzerinde `Set-Cookie` yöneticisi
+- `src/proxy.ts` — Next.js 16 proxy (eski middleware)
 - `next.config.ts` — Next.js konfigürasyonu
 - `vitest.config.ts` — Test konfigürasyonu
 

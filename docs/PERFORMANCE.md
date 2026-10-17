@@ -230,9 +230,15 @@ fetch('/api/analytics/vitals', {
 ### 1. Static Generation (SSG)
 
 ```tsx
-// Sayfa build time'da oluşturulur
-export default async function Page() {
+// src/pages/about.tsx — Sayfa build time'da oluşturulur
+import type { GetStaticProps } from 'next'
+
+export const getStaticProps: GetStaticProps = async () => {
   const data = await fetchData()
+  return { props: { data } }
+}
+
+export default function Page({ data }: { data: DataType }) {
   return <Component data={data} />
 }
 ```
@@ -240,21 +246,24 @@ export default async function Page() {
 ### 2. Incremental Static Regeneration (ISR)
 
 ```tsx
-// Her 60 saniyede yeniden oluştur
-async function getData() {
-  const res = await fetch('https://api.example.com/data', {
-    next: { revalidate: 60 },
-  })
-  return res.json()
+// src/pages/index.tsx — Her 3600 saniyede arka planda yeniden oluşturulur
+import type { GetStaticProps } from 'next'
+
+export const getStaticProps: GetStaticProps = async () => {
+  const data = await fetchData()
+  return {
+    props: { data },
+    revalidate: 3600,
+  }
 }
 ```
 
-### 3. Edge Functions
+### 3. Edge Proxy
 
 ```tsx
-// middleware.ts - Edge'de çalışır
+// src/proxy.ts - Next.js 16 proxy
 export const config = {
-  runtime: 'edge',
+  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 }
 ```
 
@@ -380,7 +389,7 @@ bun run load-test:quick
 
 ## 📚 Kaynaklar
 
-- [Next.js Performance Docs](https://nextjs.org/docs/app/building-your-application/optimizing)
+- [Next.js Performance Docs](https://nextjs.org/docs/pages/building-your-application/optimizing)
 - [Web Vitals](https://web.dev/vitals/)
 - [Lighthouse](https://developer.chrome.com/docs/lighthouse/)
 - [k6 Load Testing](https://k6.io/docs/)

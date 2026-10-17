@@ -8,9 +8,10 @@ import { buildApiUrl } from '../helpers/tenant'
  * domain'inde). Bu yüzden tarayıcıdan doğrudan cookie ile auth yapılmaz —
  * `credentials: 'include'` kaldırıldı.
  *
- * Authenticated çağrılar SSR'da yapılır: ilgili server component / route handler
- * cookie'den token'ı okuyup `Authorization: Bearer` ekler (server-to-server; CORS
- * yok). CSR'dan authenticated bir mutation gerekirse server action kullan.
+ * Authenticated çağrılar sunucu tarafında (`getServerSideProps` veya `pages/api/*`
+ * BFF route'ları) yapılır: ilgili handler cookie'den token'ı okuyup
+ * `Authorization: Bearer` ekler (server-to-server; CORS yok). CSR'dan authenticated
+ * bir işlem gerekirse `pages/api/*` BFF endpoint'leri (`src/actions/auth/*` sarmalayıcıları) kullanılır.
  */
 export const fetcher = async <T>(
   url: string,

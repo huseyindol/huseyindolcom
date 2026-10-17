@@ -25,11 +25,8 @@ src/
 │       ├── APost.tsx
 │       └── BPost.tsx
 │
-├── app/(admin)/admin/
-│   ├── _actions/
-│   │   └── templates.actions.ts  # Server Action
-│   └── _hooks/
-│       └── useTemplates.ts       # Custom Hook
+├── pages/api/
+│   └── templates.ts              # Pages Router API Route (GET /api/templates)
 │
 └── scripts/
     └── generate-templates.ts     # Alternatif: Statik dosya üretici
@@ -37,31 +34,24 @@ src/
 
 ## Nasıl Çalışır?
 
-### 1. Server Action (`templates.actions.ts`)
+### 1. API Route (`src/pages/api/templates.ts`)
 
-Server tarafında dosya sistemini okur ve template listesini döndürür:
+Sunucu tarafında `src/components/dynamic/` dizinini okur ve template listesini HTTP üzerinden döndürür:
 
 ```typescript
-'use server'
-
-export async function getPageTemplates(): Promise<TemplateOption[]> {
-  // src/components/dynamic/pages/ dizinini okur
-  // .tsx/.ts dosyalarını listeler
-  // { value: 'APage', label: 'APage' } formatında döndürür
-}
+// GET /api/templates?type=pages
+// src/components/dynamic/pages/ dizinini okur
+// .tsx/.ts dosyalarını listeler
+// [{ value: '', label: 'Template Seçin' }, { value: 'APage', label: 'APage' }] formatında döndürür
 ```
 
-### 2. Custom Hook (`useTemplates.ts`)
+### 2. Frontend'de Fetch ile Kullanım
 
-React component'lerde kullanım için hook:
+React component'lerde veya admin panelinde kullanım:
 
 ```typescript
-import { useTemplates } from '@/app/(admin)/admin/_hooks/useTemplates'
-
-function MyForm() {
-  const { templates, isLoading } = useTemplates('pages')
-  // templates: [{ value: '', label: 'Template Seçin' }, { value: 'APage', label: 'APage' }, ...]
-}
+const response = await fetch('/api/templates?type=pages')
+const pageTemplates = await response.json()
 ```
 
 **Desteklenen tipler:** `'pages' | 'components' | 'widgets' | 'posts'`
@@ -69,8 +59,6 @@ function MyForm() {
 ### 3. Form'da Kullanım
 
 ```tsx
-const { templates: pageTemplates } = useTemplates('pages')
-
 <select {...register('template')}>
   {pageTemplates.map(t => (
     <option key={t.value} value={t.value}>
@@ -107,22 +95,22 @@ Build-time statik liste oluşturmak için:
 bun scripts/generate-templates.ts
 ```
 
-Bu komut `src/app/(admin)/admin/_constants/templates.ts` dosyasını oluşturur.
+Bu komut `src/constants/templates.ts` dosyasını oluşturur.
 
-> **Not:** Dinamik Server Action kullanıldığı için bu script opsiyoneldir.
+> **Not:** `/api/templates` endpoint'i dinamik olarak dosya sistemini okuduğu için bu script opsiyoneldir.
 
 ## Akış Diyagramı
 
 ```
-┌──────────────────┐     ┌─────────────────────┐     ┌──────────────────┐
-│   Form Component │────▶│   useTemplates Hook │────▶│   Server Action  │
-└──────────────────┘     └─────────────────────┘     └─────────┬────────┘
-                                                               │
-                                                               ▼
-                                                     ┌──────────────────┐
-                                                     │  File System     │
-                                                     │  /dynamic/pages  │
-                                                     └──────────────────┘
+┌──────────────────┐     ┌─────────────────────┐     ┌────────────────────────┐
+│   Form Component │────▶│  fetch /api/...     │────▶│ src/pages/api/templates│
+└──────────────────┘     └─────────────────────┘     └───────────┬────────────┘
+                                                                 │
+                                                                 ▼
+                                                      ┌──────────────────┐
+                                                      │  File System     │
+                                                      │  /dynamic/pages  │
+                                                      └──────────────────┘
 ```
 
 ## Backend Entegrasyonu

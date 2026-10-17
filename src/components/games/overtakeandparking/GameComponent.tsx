@@ -1,4 +1,3 @@
-'use client'
 import Script from 'next/script'
 import { useEffect } from 'react'
 import { GAME_ASSET_CACHE_KEY } from '../../../lib/game-asset-version.generated'

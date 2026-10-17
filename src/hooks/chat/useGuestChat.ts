@@ -1,5 +1,3 @@
-'use client'
-
 import { CHAT_TENANT_ID, ELLY_API_URL } from '@/lib/chat-config'
 import { publicChatApi } from '@/services/chat/publicChatApi'
 import { ChatBanEvent, ChatMessage, ChatTyping } from '@/types/chat'

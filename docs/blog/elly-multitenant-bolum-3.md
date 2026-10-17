@@ -63,22 +63,16 @@ import { getGlobalCookies } from '@/context/CookieContext'
 import { CookieEnum } from '@/utils/constant/cookieConstant'
 
 /**
- * Cookie'den tenantId değerini okur.
- * SSR (Server Component) ve CSR (Client Component) ortamlarında çalışır.
- * Eğer tenantId yoksa env'deki NEXT_PUBLIC_DEFAULT_TENANT değerini döndürür.
+ * Tenant ID değerini döndürür.
+ * SSR/ISR (getStaticProps / getServerSideProps): yalnızca env okunur.
+ * CSR (Client): global cookie context'ten okur, yoksa NEXT_PUBLIC_DEFAULT_TENANT döndürür.
  */
 export async function getTenantId(): Promise<string> {
     const defaultTenant = process.env.NEXT_PUBLIC_DEFAULT_TENANT ?? 'default'
 
-    // SSR: next/headers ile cookie oku
+    // SSR/ISR: yalnızca env okunur (sayfaların statik/ISR kalmasını sağlar)
     if (globalThis.window === undefined) {
-        try {
-            const { cookies } = await import('next/headers')
-            const cookieStore = await cookies()
-            return cookieStore.get(CookieEnum.TENANT_ID)?.value ?? defaultTenant
-        } catch {
-            return defaultTenant
-        }
+        return defaultTenant
     }
 
     // CSR: global cookie context'ten oku
@@ -95,9 +89,7 @@ export async function buildApiUrl(path: string): Promise<string> {
 
 İki fonksiyon aslında tek bir şey yapıyor: **tenant bilgisini doğru runtime için doğru kaynaktan oku, sonra API URL'ine göm.**
 
-`getTenantId`'in dikkat çeken yanı `globalThis.window === undefined` kontrolü. Bu Next.js'te server-side mı yoksa client-side mı çalıştığımızı anlamanın güvenilir yolu. Server tarafında `next/headers` paketinin `cookies()` API'sini dinamik import ile çağırıyorum — çünkü bu API client component'lere dahil edilirse build hatası verir.
-
-Dinamik import + try/catch defansif bir tasarım. Eğer Next.js bir gün davranışını değiştirir ya da edge runtime gibi bir ortamda çalışırsak `defaultTenant`'a fallback ediyoruz, uygulama çökmüyor.
+`getTenantId`'in dikkat çeken yanı `globalThis.window === undefined` kontrolü. Bu Next.js Pages Router'da server-side (`getStaticProps` / `getServerSideProps`) mı yoksa client-side mı çalıştığımızı anlamanın güvenilir yolu. Server tarafında doğrudan `defaultTenant` döndürüyoruz — böylece `getStaticProps` ve ISR önbelleklemesi bozulmuyor.
 
 CSR tarafında ise `getGlobalCookies()` adında module-level bir singleton var. Bu singleton uygulama mount olduğunda cookie'leri okuyup tutuyor, sonraki her okuma O(1) erişim sağlıyor.
 

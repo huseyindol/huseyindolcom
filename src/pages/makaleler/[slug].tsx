@@ -233,8 +233,9 @@ export const getStaticProps: GetStaticProps<MakaleDetayProps> = async ({
       'Tailwind CSS',
       'SEO',
       'Performance',
-      'App Router',
-      'Server Components',
+      'Pages Router',
+      'SSG',
+      'ISR',
     ],
     AI: [
       'MCP',

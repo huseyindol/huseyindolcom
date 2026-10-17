@@ -5,7 +5,9 @@ import {
 import { loadGameDoc } from '@/lib/game-docs'
 import type { GetStaticProps } from 'next'
 
-export default function HyperDriftArcadeDestekPage(props: Readonly<GameDocPageProps>) {
+export default function HyperDriftArcadeDestekPage(
+  props: Readonly<GameDocPageProps>,
+) {
   return <GameDocPage {...props} />
 }
 

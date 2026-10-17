@@ -1,5 +1,3 @@
-'use client'
-
 import Image from 'next/image'
 import { ImageOffIcon } from 'lucide-react'
 import { useState } from 'react'

@@ -1,5 +1,3 @@
-'use client'
-
 import { publicChatApi } from '@/services/chat/publicChatApi'
 import { ChatGroup } from '@/types/chat'
 import { useEffect, useState } from 'react'

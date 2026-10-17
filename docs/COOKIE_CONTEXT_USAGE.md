@@ -2,61 +2,66 @@
 
 ## Genel Bakış
 
-Bu proje, Next.js App Router ile server-side cookie'leri client component'lerde kullanabilmek için bir Cookie Context yapısı kullanır.
+Bu proje, Next.js Pages Router mimarisinde client-side (non-`httpOnly`) cookie'leri (`USERNAME`, `USER_CODE`, `EXPIRES_AT` vb.) React bileşenlerinde reaktif ve hydration-safe olarak okumak için `CookieContext` (`src/context/CookieContext.tsx`) ve `useSyncExternalStore` tabanlı `Providers` (`src/providers/Providers.tsx`) yapısını kullanır. Hassas oturum token'ları (`ACCESS_TOKEN`, `REFRESH_TOKEN`) ise `httpOnly` olarak yalnızca `src/pages/api/auth/*` BFF route'larında (`src/lib/api-cookies.ts` üzerinden) işlenir.
 
 ## Nasıl Çalışır?
 
-### 1. Server-Side (layout.tsx)
+### 1. Root App (`src/pages/_app.tsx`)
 
-`layout.tsx` dosyası bir server component'tir ve `next/headers` paketinden `cookies()` fonksiyonunu kullanarak cookie'lere erişir:
+`_app.tsx`, tüm uygulamayı `Providers` ile sarar ve SSR anında boş `cookiesData={{}}` snapshot'ı geçirir (böylece statik/ISR sayfalar request-time cookie okumasına zorlanmaz):
 
 ```tsx
-import { cookies } from 'next/headers'
+import Providers from '@/providers/Providers'
+import type { AppProps } from 'next/app'
 
-export default async function RootLayout({ children }) {
-  const cookiesStore = await cookies()
-
-  return <Providers cookiesStore={cookiesStore}>{children}</Providers>
+export default function App({ Component, pageProps }: AppProps) {
+  return (
+    <Providers cookiesData={{}}>
+      <Component {...pageProps} />
+    </Providers>
+  )
 }
 ```
 
-### 2. Provider (Providers.tsx)
+### 2. Provider (`src/providers/Providers.tsx`)
 
-`Providers.tsx` bir client component'tir ve cookie'leri Context'e aktarır:
+`Providers.tsx`, `useSyncExternalStore` kullanarak sunucuda `cookiesData`, tarayıcıda ise `document.cookie` snapshot'ını hydration mismatch olmadan okur:
 
 ```tsx
-'use client'
-
-import CookieContext from '../context/CookieContext'
-import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies'
+import { useSyncExternalStore } from 'react'
+import CookieContext, { initGlobalCookieStore } from '../context/CookieContext'
 
 export default function Providers({
   children,
-  cookiesStore,
-}: {
+  cookiesData,
+}: Readonly<{
   children: React.ReactNode
-  cookiesStore: ReadonlyRequestCookies
-}) {
+  cookiesData: Record<string, string>
+}>) {
+  const baseCookies = useSyncExternalStore(
+    subscribeToCookies,
+    parseDocumentCookies,
+    () => cookiesData,
+  )
+  // ...
   return (
-    <CookieContext.Provider value={{ cookiesStore }}>
+    <CookieContext.Provider value={{ cookies, updateCookie }}>
       {children}
     </CookieContext.Provider>
   )
 }
 ```
 
-### 3. Context (CookieContext.tsx)
+### 3. Context (`src/context/CookieContext.tsx`)
 
-Context tanımı ve custom hook:
+Context tanımı, custom hook ve global yardımcılar:
 
 ```tsx
-'use client'
-
-import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies'
 import { createContext, useContext } from 'react'
 
-interface CookieContextType {
-  cookiesStore: ReadonlyRequestCookies
+export interface CookieContextType {
+  cookies: Record<string, string>
+  updateCookie: (name: string, value: string) => void
 }
 
 const CookieContext = createContext<CookieContextType | undefined>(undefined)
@@ -74,216 +79,57 @@ export default CookieContext
 
 ## Kullanım Örnekleri
 
-### Client Component'te Cookie Okuma
+### Bileşende Cookie Okuma
 
 ```tsx
-'use client'
-
 import { useCookie } from '@/context/CookieContext'
+import { CookieEnum } from '@/utils/constant/cookieConstant'
 
-export default function MyComponent() {
-  const { cookiesStore } = useCookie()
+export default function UserBadge() {
+  const { cookies } = useCookie()
 
-  // Cookie değerini oku
-  const userToken = cookiesStore.get('userToken')?.value
-  const userId = cookiesStore.get('userId')?.value
+  const username = cookies[CookieEnum.USERNAME]
+  const userCode = cookies[CookieEnum.USER_CODE]
 
-  // Tüm cookie'leri listele
-  const allCookies = cookiesStore.getAll()
-
-  console.log('User Token:', userToken)
-  console.log('User ID:', userId)
-  console.log('All Cookies:', allCookies)
+  if (!username) return null
 
   return (
     <div>
-      <h1>Cookie Bilgileri</h1>
-      <p>Token: {userToken}</p>
-      <p>User ID: {userId}</p>
+      <span>Kullanıcı: {username}</span>
+      <span>Kod: {userCode}</span>
     </div>
   )
 }
 ```
 
-### API İsteğinde Cookie Kullanma
+### Sunucu Tarafında (`pages/api/*`) `httpOnly` Cookie Yazma / Silme
 
-```tsx
-'use client'
+Pages Router BFF route'larında (`src/pages/api/auth/*`) cookie işlemleri `src/lib/api-cookies.ts` içindeki `resCookieStore(res)` adaptörü ile yapılır:
 
-import { useCookie } from '@/context/CookieContext'
-import { Button } from '@/components/ui/button'
+```typescript
+// src/pages/api/auth/login.ts
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { resCookieStore } from '@/lib/api-cookies'
+import { setAuthCookies } from '@/services/auth/cookies'
 
-export default function DashboardPage() {
-  const { cookiesStore } = useCookie()
-
-  const fetchUserData = async () => {
-    // Cookie'den token al
-    const accessToken = cookiesStore.get('accessToken')?.value
-
-    // API isteğinde kullan
-    const response = await fetch('/api/user/profile', {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-    })
-
-    const data = await response.json()
-    console.log(data)
-  }
-
-  return (
-    <div>
-      <Button onClick={fetchUserData}>Kullanıcı Bilgilerini Getir</Button>
-    </div>
-  )
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
+  const cookieStore = resCookieStore(res)
+  setAuthCookies(cookieStore, authData)
+  return res.status(200).json({ result: true })
 }
 ```
 
-### Refresh Token Örneği
+### Logout Anında In-Memory Cookie Temizliği
+
+Çıkış yapıldığında `router.replace` / `reload` tamamlanana kadar UI flash'ını önlemek için `removeGlobalCookie` kullanılır:
 
 ```tsx
-'use client'
+import { removeGlobalCookie } from '@/context/CookieContext'
+import { CookieEnum } from '@/utils/constant/cookieConstant'
 
-import { useCookie } from '@/context/CookieContext'
-
-export default function AuthComponent() {
-  const { cookiesStore } = useCookie()
-
-  const refreshAccessToken = async () => {
-    const refreshToken = cookiesStore.get('refreshToken')?.value
-
-    if (!refreshToken) {
-      console.error('Refresh token bulunamadı')
-      return
-    }
-
-    try {
-      const response = await fetch('/api/auth/refresh', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ refreshToken }),
-      })
-
-      const data = await response.json()
-      console.log('Yeni access token:', data.accessToken)
-
-      // Yeni token'ı kullan
-      // Not: Cookie'yi güncellemek için server-side action kullanmalısınız
-    } catch (error) {
-      console.error('Token yenileme hatası:', error)
-    }
-  }
-
-  return <button onClick={refreshAccessToken}>Token'ı Yenile</button>
-}
-```
-
-## Önemli Notlar
-
-### ⚠️ Read-Only
-
-`ReadonlyRequestCookies` sadece **okuma** için kullanılabilir. Cookie değerlerini değiştirmek için Server Actions kullanmalısınız:
-
-```tsx
-// app/actions/cookies.ts
-'use server'
-
-import { cookies } from 'next/headers'
-
-export async function setAuthCookie(token: string) {
-  const cookieStore = await cookies()
-  cookieStore.set('authToken', token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    maxAge: 60 * 60 * 24 * 7, // 7 gün
-  })
-}
-
-export async function deleteAuthCookie() {
-  const cookieStore = await cookies()
-  cookieStore.delete('authToken')
-}
-```
-
-Client component'ten kullanım:
-
-```tsx
-'use client'
-
-import { setAuthCookie, deleteAuthCookie } from '@/app/actions/cookies'
-
-export default function LoginButton() {
-  const handleLogin = async () => {
-    // Login işlemi
-    const token = 'your-auth-token'
-
-    // Server action ile cookie'yi set et
-    await setAuthCookie(token)
-  }
-
-  const handleLogout = async () => {
-    // Server action ile cookie'yi sil
-    await deleteAuthCookie()
-  }
-
-  return (
-    <>
-      <button onClick={handleLogin}>Giriş Yap</button>
-      <button onClick={handleLogout}>Çıkış Yap</button>
-    </>
-  )
-}
-```
-
-### ✅ Type Safety
-
-`useCookie()` hook'u TypeScript tip güvenliği sağlar:
-
-```tsx
-const { cookiesStore } = useCookie() // cookiesStore otomatik olarak ReadonlyRequestCookies tipindedir
-```
-
-### ✅ Error Handling
-
-Hook, Context dışında kullanılırsa hata fırlatır:
-
-```tsx
-export const useCookie = () => {
-  const context = useContext(CookieContext)
-  if (context === undefined) {
-    throw new Error('useCookie must be used within a CookieProvider')
-  }
-  return context
-}
-```
-
-## Mevcut Kullanım
-
-Şu anda `src/app/(admin)/admin/dashboard/page.client.tsx` dosyasında cookie context kullanılmaktadır:
-
-```tsx
-const { cookiesStore } = useCookie()
-const refreshToken = cookiesStore.get('userCode')?.value
-```
-
-## Faydalı Cookie Metodları
-
-```tsx
-const { cookiesStore } = useCookie()
-
-// Tek bir cookie al
-const value = cookiesStore.get('cookieName')?.value
-
-// Tüm cookie'leri al
-const allCookies = cookiesStore.getAll()
-
-// Cookie var mı kontrol et
-const hasCookie = cookiesStore.has('cookieName')
-
-// Cookie size
-const size = cookiesStore.size
+removeGlobalCookie(CookieEnum.USERNAME)
+removeGlobalCookie(CookieEnum.USER_CODE)
 ```

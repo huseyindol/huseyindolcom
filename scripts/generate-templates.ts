@@ -2,7 +2,7 @@
 /**
  * Script to generate static template constants from components/dynamic directories
  *
- * Bu script artık opsiyoneldir. Template'ler Server Action ile dinamik olarak yükleniyor.
+ * Bu script artık opsiyoneldir. Template'ler `/api/templates` (`src/pages/api/templates.ts`) ile dinamik olarak yükleniyor.
  * Ancak build-time statik liste oluşturmak isterseniz kullanabilirsiniz.
  *
  * Kullanım: bun scripts/generate-templates.ts
@@ -16,10 +16,7 @@ const DYNAMIC_COMPONENTS_PATH = path.join(
   'src/components/dynamic',
 )
 
-const OUTPUT_PATH = path.join(
-  process.cwd(),
-  'src/app/(admin)/admin/_constants/templates.ts',
-)
+const OUTPUT_PATH = path.join(process.cwd(), 'src/constants/templates.ts')
 
 type TemplateOption = {
   value: string

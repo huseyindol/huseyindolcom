@@ -1,5 +1,3 @@
-'use client'
-
 import { useCookie } from '@/context/CookieContext'
 import { useAuthChatToken } from '@/hooks/chat/useAuthChatToken'
 import { useGuestToken } from '@/hooks/chat/useGuestToken'

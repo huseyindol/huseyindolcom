@@ -487,8 +487,8 @@ export function ChatComposer({ onSubmit }: { onSubmit: (content: string) => Prom
 ### Layout'a ekleme
 
 ```typescript
-// app/layout.tsx — login şartı YOK (anonim ziyaretçi)
-<body>{children}<ChatWidget /></body>
+// src/components/layouts/SiteLayout.tsx — login şartı YOK (anonim ziyaretçi)
+<div className="min-h-screen">{children}<ChatWidget /></div>
 ```
 
 ### .env
@@ -503,8 +503,8 @@ NEXT_PUBLIC_DEFAULT_TENANT=tenant1
 ### Kütüphaneler
 
 ```bash
-npm i @stomp/stompjs sockjs-client
-npm i -D @types/sockjs-client
+bun add @stomp/stompjs sockjs-client
+bun add -D @types/sockjs-client
 ```
 
 ### Doğrulama
@@ -517,7 +517,7 @@ npm i -D @types/sockjs-client
 - Admin panelden (Prompt 7+9) bu gruba yazınca widget'ta "Destek" rozetiyle anında görünür.
 - `xhr_send` çağrıları **204** döner — bu SockJS'in normal davranışı (hata değil).
 - Panel kapanıp açılınca geçmiş yeniden GET ile gelir (token sessionStorage'da kalır).
-- `npm run build` hatasız.
+- `bun run build` hatasız.
 
 ### Notlar
 

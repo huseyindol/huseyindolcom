@@ -1,6 +1,6 @@
 ---
 title: 'Next.js Backend as a Frontend: API Routes'
-description: 'Route Handlers ile Next.js içerisinde proxy oluşturarak mikroservislere köprü yapmak ve webhook dinl...'
+description: 'Pages Router API Routes (pages/api/*) ile Next.js içerisinde BFF proxy katmanı oluşturmak, httpOnly cookie yönetimi ve on-demand ISR revalidate süreçleri.'
 publishedAt: '2026-04-17'
 category: 'Frontend'
 author: 'Hüseyin DOL'
@@ -13,56 +13,67 @@ Bu makale **Frontend** alanındaki deneyimlerimi ve yazılım geliştirme metodo
 
 ## Genel Bakış
 
-> Route Handlers ile Next.js içerisinde proxy oluşturarak mikroservislere köprü yapmak ve webhook dinleyicilerini konumlandırmak. Cache konfigürasyonları ve Revalidate süreçleri.
+> Pages Router API Routes (`src/pages/api/*`) ile Next.js içerisinde BFF proxy oluşturarak mikroservislere köprü yapmak ve webhook/revalidate dinleyicilerini konumlandırmak. Cache konfigürasyonları ve `res.revalidate()` süreçleri.
 
-Modern mikro-servis mimarilerinde frontend uygulamasının doğrudan backend API'lerine istek yapması, CORS sorunları, güvenlik açıkları ve API anahtarlarının tarayıcıya sızma riski gibi ciddi problemlere yol açıyor. Elly CMS altyapısında Java Spring Boot backend'imiz Kubernetes cluster içinde private ağda çalışıyor — tarayıcıdan direkt erişilebilir olmaması gerekiyor. Next.js Route Handlers ile bu problemi "Backend for Frontend" (BFF) pattern'iyle çözdük.
+Modern mikro-servis mimarilerinde frontend uygulamasının doğrudan backend API'lerine istek yapması, CORS sorunları, güvenlik açıkları ve API anahtarlarının tarayıcıya sızma riski gibi ciddi problemlere yol açıyor. Elly CMS altyapısında Java Spring Boot backend'imiz ile tenant sitesi arasında Next.js Pages Router API Routes (`src/pages/api/*`) kullanarak "Backend for Frontend" (BFF) pattern'ini uyguladık.
 
-Route Handlers, Next.js sunucusu üzerinde çalışan server-side endpoint'lerdir. İstemciden gelen istekler önce Next.js sunucusuna gelir, burada JWT token validasyonu, rate limiting ve tenant bazlı yetkilendirme yapılır, ardından istek internal API'ye iletilir. Bu katman aynı zamanda response'ları frontend'in ihtiyacına göre şekillendirme (data transformation) imkanı da verir.
+Pages Router API rotaları (`NextApiRequest`, `NextApiResponse`), Next.js sunucusu üzerinde çalışan server-side endpoint'lerdir. İstemciden gelen istekler önce Next.js sunucusuna gelir, burada `httpOnly` cookie'den JWT token okuma/yenileme, rate limiting ve Zod validasyonu yapılır, ardından istek backend API'sine iletilir. Bu katman aynı zamanda response'ları frontend'in ihtiyacına göre şekillendirme (data transformation) imkanı da verir.
 
 ```ts
-// app/api/contents/route.ts
-import { NextRequest, NextResponse } from 'next/server'
-import { verifyToken } from '@/lib/auth'
-import { rateLimit } from '@/lib/rate-limiter'
+// src/pages/api/contents.ts
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { apiRateLimiter } from '@/lib/rate-limiter'
+import { getClientIp } from '@/lib/security'
 
-export async function GET(request: NextRequest) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
+  if (req.method !== 'GET') {
+    return res.status(405).json({ error: 'Method not allowed' })
+  }
+
   // 1. Rate limiting kontrolü
-  const rateLimitResult = await rateLimit(request)
+  const ip = getClientIp(new Headers(req.headers as Record<string, string>))
+  const rateLimitResult = await apiRateLimiter.check(ip)
   if (!rateLimitResult.success) {
-    return NextResponse.json({ error: 'Too many requests' }, { status: 429 })
+    return res.status(429).json({ error: 'Too many requests' })
   }
 
-  // 2. JWT token doğrulama
-  const token = request.cookies.get('auth-token')?.value
-  if (!token || !verifyToken(token)) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  // 2. httpOnly cookie'den JWT token okuma
+  const token = req.cookies['accessToken']
+  if (!token) {
+    return res.status(401).json({ error: 'Unauthorized' })
   }
 
-  // 3. Internal API'ye proxy
-  const backendUrl = process.env.BACKEND_API_URL // Private network
-  const res = await fetch(`${backendUrl}/api/v1/contents/list`, {
+  // 3. Backend API'ye proxy
+  const backendUrl = process.env.NEXT_PUBLIC_API
+  const upstream = await fetch(`${backendUrl}/contents/list`, {
     headers: {
       Authorization: `Bearer ${token}`,
-      'X-Tenant-ID': request.headers.get('x-tenant-id') || '',
+      'X-Tenant-ID': String(req.headers['x-tenant-id'] ?? ''),
     },
-    next: { revalidate: 60 }, // 60 saniye cache
   })
 
-  return NextResponse.json(await res.json())
+  res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=60, stale-while-revalidate=300',
+  )
+  return res.status(upstream.status).json(await upstream.json())
 }
 ```
 
-Bu yapının en güçlü yanlarından biri cache (önbellek) stratejisidir. `next: { revalidate: N }` ile ISR (Incremental Static Regeneration) benzeri bir davranış elde ediyoruz. Sık değişmeyen veriler (kategori listesi, site ayarları) uzun süreli cache'lenir; içerik güncellemelerinde ise `revalidateTag` ile anında invalidate edilir.
+Bu yapının en güçlü yanlarından biri önbellek (cache) ve **On-Demand ISR** stratejisidir. Sayfalarda `getStaticProps` + `revalidate` ile ISR kullanılırken, CMS'te bir içerik güncellendiğinde `src/pages/api/revalidate.ts` endpoint'ine gelen POST isteği `await res.revalidate(path)` çağrısıyla ilgili sayfaları anında yeniler.
 
-Webhook dinleyicileri de Route Handlers ile konumlandırılıyor. Örneğin Resend email servisi bir email bounce olduğunda webhook ile bize bildirim gönderiyor, bu bildirimi `app/api/webhooks/resend/route.ts` endpoint'inde yakalayıp veritabanını güncelliyoruz. Backend sunucularımızı tamamen izole bir private ağa çekebiliyor ve yalnızca Next.js sunucusunun onlara ulaşabilmesine izin vererek çok katmanlı bir güvenlik mimarisi elde ediyoruz.
+Webhook dinleyicileri de `src/pages/api/` altında konumlandırılıyor. Örneğin üçüncü parti bir servis bildirim gönderdiğinde ilgili `pages/api/webhooks/*` endpoint'inde yakalayıp işliyoruz. BFF katmanı sayesinde `httpOnly` token'lar tarayıcı JavaScript'ine hiç açılmadan güvenle yönetiliyor.
 
-## Route Handler Sınırları
+## API Route Sınırları
 
-App Router’da `route.ts` dosyaları sunucuda çalışır; uzun süren işleri worker veya kuyruğa delege etmek zaman aşımı riskini azaltır. Edge runtime seçildiğinde Node-API uyumluluğu sınırlıdır — doğrulama kütüphaneleri seçimini etkiler.
+Pages Router'da `src/pages/api/*.ts` dosyaları Node.js runtime üzerinde çalışır; uzun süren işleri worker veya kuyruğa delege etmek zaman aşımı riskini azaltır.
 
 ## Dinamik Segment ve Webhook İmzası
 
-Webhook uçlarında imza başlığı (ör. HMAC) doğrulaması, sahte istekleri erken keser. Dinamik `app/api/.../[id]/route.ts` yapısı REST benzeri ince yüzeyler için uygundur.
+Webhook uçlarında imza başlığı (ör. HMAC) doğrulaması, sahte istekleri erken keser. Dinamik `src/pages/api/.../[id].ts` yapısı REST benzeri ince yüzeyler için uygundur.
 
 ## Günlükleme ve Gözleminlik
 

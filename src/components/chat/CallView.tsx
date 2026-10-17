@@ -1,5 +1,3 @@
-'use client'
-
 import type { TenantCallPhase } from '@/types/call'
 import { Mic, MicOff, PhoneOff, Video, VideoOff } from 'lucide-react'
 import { useEffect, useRef } from 'react'

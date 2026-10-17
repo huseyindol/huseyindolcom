@@ -100,11 +100,11 @@ Yeni makale blog listesinde **1. sıraya** alınır. Mevcut makalelerin `order` 
 
 > Skill dosyasını oku: `.agents/skills/sitemap-priority.md`
 
-`src/app/sitemap.ts` içindeki `highPrioritySlugs` Set'ine ekle — eğer makale özellikle önemli/derin ise (kriter: 3+ puan).
+`src/pages/sitemap.xml.tsx` içindeki `HIGH_PRIORITY_SLUGS` Set'ine ekle — eğer makale özellikle önemli/derin ise (kriter: 3+ puan).
 
 ### 6. SEO Optimizasyonu
 
-Blog post sayfası `src/app/(site)/blog/[slug]/page.tsx` zaten category-aware keywords kullanıyor.
+Blog post sayfası `src/pages/blog/[slug].tsx` zaten category-aware keywords kullanıyor.
 Frontmatter `description` alanı 150-160 karakter olmalı.
 
 ### 7. Validasyon
@@ -118,7 +118,7 @@ bun run format:check   # Tüm dosyalar temiz mi?
 ### 8. Commit & Push
 
 ```bash
-git add src/data/blog/{slug}.mdx src/data/blog/*.mdx public/llms.txt public/llms-full.txt src/app/sitemap.ts
+git add src/data/blog/{slug}.mdx src/data/blog/*.mdx public/llms.txt public/llms-full.txt src/pages/sitemap.xml.tsx
 git commit -m "feat(blog): add '{başlık}' article
 
 - {kategori} kategorisi

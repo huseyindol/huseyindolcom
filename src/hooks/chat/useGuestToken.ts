@@ -1,5 +1,3 @@
-'use client'
-
 import { publicChatApi } from '@/services/chat/publicChatApi'
 import { GuestTokenResponse } from '@/types/chat'
 import { useCallback, useState } from 'react'

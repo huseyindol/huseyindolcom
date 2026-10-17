@@ -1,6 +1,6 @@
 # Template API Endpoint Kullanımı (`/api/templates`)
 
-`src/app/api/templates/route.ts` dosyasında yer alan servis, projede bulunan dinamik şablonların (sayfa, bileşen, widget, post) listesini HTTP üzerinden sağlayan bir REST API endpointidir.
+`src/pages/api/templates.ts` dosyasında yer alan servis, projede bulunan dinamik şablonların (sayfa, bileşen, widget, post) listesini HTTP üzerinden sağlayan bir REST API endpointidir.
 
 ## Özellikler ve Güvenlik
 

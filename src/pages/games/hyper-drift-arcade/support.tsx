@@ -19,6 +19,7 @@ export const getStaticProps: GetStaticProps<GameDocPageProps> = async () => ({
     alternatePath: '/games/hyper-drift-arcade/destek',
     gameTitle: 'Hyper Drift: Arcade',
     gamePath: '/games/hyper-drift-arcade',
-    description: 'Support and FAQ for Dough Master: Color Mix (Hyper Drift: Arcade).',
+    description:
+      'Support and FAQ for Dough Master: Color Mix (Hyper Drift: Arcade).',
   },
 })

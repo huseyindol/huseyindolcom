@@ -2,12 +2,12 @@
 
 ## Amaç
 
-Derin teknik makaleleri `src/app/sitemap.ts` içindeki `highPrioritySlugs` Set'ine ekleyerek
+Derin teknik makaleleri `src/pages/sitemap.xml.tsx` içindeki `HIGH_PRIORITY_SLUGS` Set'ine ekleyerek
 Google'a `priority: 0.9` sinyali gönder (normal makaleler: `0.8`).
 
 ## Karar Kriterleri
 
-Makale aşağıdaki kriterleri karşılıyorsa `highPrioritySlugs`'a ekle:
+Makale aşağıdaki kriterleri karşılıyorsa `HIGH_PRIORITY_SLUGS`'a ekle:
 
 | Kriter          | Açıklama                                 |
 | --------------- | ---------------------------------------- |
@@ -17,7 +17,7 @@ Makale aşağıdaki kriterleri karşılıyorsa `highPrioritySlugs`'a ekle:
 | Teknik doğruluk | Resmi dokümana dayanan içerik            |
 | Bağlantı değeri | Diğer makaleler veya projelerle bağlantı |
 
-Herhangi **3+** kriter sağlanıyorsa → `highPrioritySlugs`'a ekle.
+Herhangi **3+** kriter sağlanıyorsa → `HIGH_PRIORITY_SLUGS`'a ekle.
 
 ## Adımlar
 
@@ -25,12 +25,12 @@ Herhangi **3+** kriter sağlanıyorsa → `highPrioritySlugs`'a ekle.
 
 Yazan makaleyi yukarıdaki kriterlere göre puanla.
 
-### 2. Gerekiyorsa sitemap.ts güncelle
+### 2. Gerekiyorsa sitemap.xml.tsx güncelle
 
-`src/app/sitemap.ts` içindeki `highPrioritySlugs` Set'ine slug ekle:
+`src/pages/sitemap.xml.tsx` içindeki `HIGH_PRIORITY_SLUGS` Set'ine slug ekle:
 
 ```typescript
-const highPrioritySlugs = new Set([
+export const HIGH_PRIORITY_SLUGS = new Set([
   'backend-java-elly',
   'devops-kubernetes-master',
   'devops-docker-postgresql',
@@ -43,11 +43,11 @@ const highPrioritySlugs = new Set([
 ### 3. Doğrulama
 
 ```bash
-grep "yeni-slug" src/app/sitemap.ts
+grep "yeni-slug" src/pages/sitemap.xml.tsx
 ```
 
 ## Kural
 
-- Basit/kısa makaleler (< 1000 kelime) `highPrioritySlugs`'a eklenmez
+- Basit/kısa makaleler (< 1000 kelime) `HIGH_PRIORITY_SLUGS`'a eklenmez
 - Her kategori için 2-4 makale ideal sayıdır
-- `highPrioritySlugs` büyümesi: +1 makale / commit
+- `HIGH_PRIORITY_SLUGS` büyümesi: +1 makale / commit

@@ -9,9 +9,8 @@ Bu projede uygulanan güvenlik önlemleri ve best practices.
 **Dosyalar:**
 
 - `src/components/ErrorBoundary.tsx` - React Error Boundary component
-- `src/app/error.tsx` - Next.js route-level error handler
-- `src/app/global-error.tsx` - Global error handler
-- `src/app/not-found.tsx` - 404 sayfası
+- `src/pages/404.tsx` - 404 sayfası
+- `src/pages/500.tsx` - 500 sunucu hata sayfası
 
 **Özellikler:**
 
@@ -44,7 +43,7 @@ Bu projede uygulanan güvenlik önlemleri ve best practices.
 
 ### 3. Security Headers
 
-**Dosya:** `src/middleware.ts`
+**Dosya:** `src/proxy.ts`
 
 **Uygulanan Headers:**
 
@@ -207,7 +206,7 @@ export async function register() {
 ### 3. Additional Security Headers
 
 ```typescript
-// middleware.ts'e eklenebilir
+// src/proxy.ts'e eklenebilir
 response.headers.set('Cross-Origin-Embedder-Policy', 'require-corp')
 response.headers.set('Cross-Origin-Opener-Policy', 'same-origin')
 response.headers.set('Cross-Origin-Resource-Policy', 'same-origin')
@@ -216,14 +215,18 @@ response.headers.set('Cross-Origin-Resource-Policy', 'same-origin')
 ### 4. CSRF Protection
 
 ```typescript
-// API route'larında CSRF token kontrolü
+// API route'larında (src/pages/api/*) CSRF token kontrolü
+import type { NextApiRequest, NextApiResponse } from 'next'
 import { validateCSRFToken } from '@/lib/security'
 
-export async function POST(request: Request) {
-  const token = request.headers.get('x-csrf-token')
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
+  const token = req.headers['x-csrf-token'] as string | undefined
 
-  if (!validateCSRFToken(token, expectedToken)) {
-    return new Response('Forbidden', { status: 403 })
+  if (!validateCSRFToken(token ?? '', expectedToken)) {
+    return res.status(403).json({ error: 'Forbidden' })
   }
 
   // ... rest of the logic
@@ -251,7 +254,7 @@ export async function POST(request: Request) {
 ## 📚 Kaynaklar
 
 - [OWASP Top 10](https://owasp.org/www-project-top-ten/)
-- [Next.js Security](https://nextjs.org/docs/app/building-your-application/configuring/security)
+- [Next.js Security](https://nextjs.org/docs/pages/building-your-application/configuring)
 - [MDN Security](https://developer.mozilla.org/en-US/docs/Web/Security)
 - [Content Security Policy](https://content-security-policy.com/)
 

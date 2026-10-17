@@ -19,6 +19,7 @@ export const getStaticProps: GetStaticProps<GameDocPageProps> = async () => ({
     alternatePath: '/games/hyper-drift-arcade/gizlilik-politikasi',
     gameTitle: 'Hyper Drift: Arcade',
     gamePath: '/games/hyper-drift-arcade',
-    description: 'Privacy policy for Dough Master: Color Mix (Hyper Drift: Arcade).',
+    description:
+      'Privacy policy for Dough Master: Color Mix (Hyper Drift: Arcade).',
   },
 })

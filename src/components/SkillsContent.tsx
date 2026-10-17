@@ -1,4 +1,3 @@
-'use client'
 import type { SkillType } from '@/schemas/dynamic'
 import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'

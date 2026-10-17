@@ -1,5 +1,3 @@
-'use client'
-
 import { HydrationBoundary, type DehydratedState } from '@tanstack/react-query'
 
 interface HydrationProviderProps {

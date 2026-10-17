@@ -1,4 +1,3 @@
-'use client'
 import { motion, useInView } from 'framer-motion'
 import { Heart, Mail } from 'lucide-react'
 import { FaGithub as Github, FaLinkedin as Linkedin } from 'react-icons/fa'

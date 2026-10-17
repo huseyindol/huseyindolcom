@@ -8,7 +8,7 @@ Bu projede kullanılan error handling stratejileri ve best practices.
 2. [Next.js Error Pages](#nextjs-error-pages)
 3. [API Error Handling](#api-error-handling)
 4. [Client-Side Error Handling](#client-side-error-handling)
-5. [Server Actions Error Handling](#server-actions-error-handling)
+5. [BFF Action Error Handling](#bff-action-error-handling)
 
 ---
 
@@ -58,105 +58,59 @@ export default function Page() {
 
 ---
 
-## Next.js Error Pages
+## Next.js Error Pages (Pages Router)
 
-### 1. Route-Level Error (error.tsx)
+### 1. 404 Not Found (`src/pages/404.tsx`)
 
-**Dosya:** `src/app/error.tsx`
+**Dosya:** `src/pages/404.tsx`
 
-Route segment'lerde oluşan hataları yakalar.
-
-```tsx
-'use client'
-
-export default function Error({
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string }
-  reset: () => void
-}) {
-  return (
-    <div>
-      <h2>Something went wrong!</h2>
-      <button onClick={reset}>Try again</button>
-    </div>
-  )
-}
-```
-
-**Ne zaman çalışır:**
-
-- ✅ Component render hataları
-- ✅ Data fetching hataları
-- ✅ Server Component hataları
-- ❌ Root layout hataları (global-error.tsx kullan)
-
-### 2. Global Error (global-error.tsx)
-
-**Dosya:** `src/app/global-error.tsx`
-
-Root layout dahil tüm hataları yakalar.
-
-```tsx
-'use client'
-
-export default function GlobalError({
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string }
-  reset: () => void
-}) {
-  return (
-    <html>
-      <body>
-        <h2>Critical Error!</h2>
-        <button onClick={reset}>Try again</button>
-      </body>
-    </html>
-  )
-}
-```
-
-**Özellikler:**
-
-- ✅ En üst seviye error handler
-- ✅ Kendi `<html>` ve `<body>` tag'lerini içermeli
-- ✅ Root layout hatalarını yakalar
-
-### 3. Not Found (not-found.tsx)
-
-**Dosya:** `src/app/not-found.tsx`
-
-404 sayfası için custom UI.
+Bulunamayan rotalar veya `getStaticProps` / `getServerSideProps` içinden `{ notFound: true }` döndürüldüğünde gösterilen özel 404 sayfası.
 
 ```tsx
 import Link from 'next/link'
 
-export default function NotFound() {
+export default function NotFoundPage() {
   return (
     <div>
-      <h2>Not Found</h2>
-      <Link href="/">Return Home</Link>
+      <h2>Sayfa Bulunamadı</h2>
+      <Link href="/">Ana Sayfaya Dön</Link>
     </div>
   )
 }
 ```
 
-**Kullanım:**
+**Veri Çekme Sırasında 404 Döndürme:**
 
 ```tsx
-import { notFound } from 'next/navigation'
+import type { GetServerSideProps } from 'next'
 
-export default async function Page({ params }: { params: { id: string } }) {
-  const data = await fetchData(params.id)
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const data = await fetchData(String(params?.id))
 
   if (!data) {
-    notFound()
+    return { notFound: true }
   }
 
-  return <div>{data.title}</div>
+  return { props: { data } }
+}
+```
+
+### 2. 500 Server Error (`src/pages/500.tsx`)
+
+**Dosya:** `src/pages/500.tsx`
+
+Sunucu tarafında yakalanamayan hatalarda gösterilen statik 500 hata sayfası.
+
+```tsx
+import Link from 'next/link'
+
+export default function ServerErrorPage() {
+  return (
+    <div>
+      <h2>Sunucu Hatası (500)</h2>
+      <Link href="/">Ana Sayfaya Dön</Link>
+    </div>
+  )
 }
 ```
 
@@ -176,38 +130,41 @@ export type APIResponseErrorType = {
 }
 ```
 
-### API Route Error Handling
+### API Route Error Handling (`src/pages/api/`)
 
 ```typescript
-// src/app/api/example/route.ts
-import { NextRequest, NextResponse } from 'next/server'
+// src/pages/api/example.ts
+import type { NextApiRequest, NextApiResponse } from 'next'
 
-export async function POST(request: NextRequest) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ success: false, error: 'Method not allowed' })
+  }
+
   try {
-    const body = await request.json()
+    const body = req.body
 
     // Validation
-    if (!body.email) {
-      return NextResponse.json(
-        { success: false, error: 'Email is required' },
-        { status: 400 },
-      )
+    if (!body?.email) {
+      return res
+        .status(400)
+        .json({ success: false, error: 'Email is required' })
     }
 
     // Business logic
     const result = await doSomething(body)
 
-    return NextResponse.json({ success: true, data: result }, { status: 200 })
+    return res.status(200).json({ success: true, data: result })
   } catch (error) {
     console.error('API Error:', error)
 
-    return NextResponse.json(
-      {
-        success: false,
-        error: error instanceof Error ? error.message : 'Unknown error',
-      },
-      { status: 500 },
-    )
+    return res.status(500).json({
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    })
   }
 }
 ```
@@ -327,67 +284,23 @@ function ContactForm() {
 
 ---
 
-## Server Actions Error Handling
+## BFF Action Error Handling
 
-### Basic Server Action Error
+### Client BFF Wrapper (`src/actions/auth/`)
 
-```typescript
-// src/actions/posts.ts
-'use server'
-
-export async function createPost(title: string, body: string) {
-  try {
-    const response = await fetch('https://api.example.com/posts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, body }),
-    })
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
-
-    return response.json()
-  } catch (error) {
-    console.error('Server Action Error:', error)
-    throw new Error('Failed to create post')
-  }
-}
-```
-
-### Using useTransition for Error Handling
+Pages Router'da auth aksiyonları `src/pages/api/auth/*` BFF endpoint'lerini çağıran istemci sarmalayıcılarıdır ve hataları standart `BaseSimpleResponse` formatında döndürür:
 
 ```typescript
-'use client'
-
-import { useTransition } from 'react'
-import { createPost } from '@/actions/posts'
-
-function PostForm() {
-  const [isPending, startTransition] = useTransition()
-  const [error, setError] = useState<string | null>(null)
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setError(null)
-
-    startTransition(async () => {
-      try {
-        await createPost(title, body)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed')
-      }
-    })
-  }
-
-  return (
-    <form onSubmit={handleSubmit}>
-      {error && <div className="error">{error}</div>}
-      <button disabled={isPending}>
-        {isPending ? 'Submitting...' : 'Submit'}
-      </button>
-    </form>
-  )
+// src/actions/auth/login.ts
+export const loginAction = async (
+  payload: LoginRequest,
+): Promise<LoginResponse> => {
+  const res = await fetch('/api/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+  return res.json()
 }
 ```
 
@@ -515,17 +428,6 @@ for i in {1..65}; do
 done
 ```
 
-### Server Action Error Test
-
-```typescript
-// In your test file
-import { createPost } from '@/actions/posts'
-
-test('handles server action error', async () => {
-  await expect(createPost('', '')).rejects.toThrow('Failed to create post')
-})
-```
-
 ---
 
 ## Monitoring & Alerts
@@ -553,20 +455,19 @@ export async function register() {
 
 ## Özet
 
-| Error Type       | Handler                  | Dosya                              |
-| ---------------- | ------------------------ | ---------------------------------- |
-| Component Errors | ErrorBoundary            | `src/components/ErrorBoundary.tsx` |
-| Route Errors     | error.tsx                | `src/app/error.tsx`                |
-| Global Errors    | global-error.tsx         | `src/app/global-error.tsx`         |
-| 404 Errors       | not-found.tsx            | `src/app/not-found.tsx`            |
-| API Errors       | try/catch + NextResponse | `src/app/api/*/route.ts`           |
-| Server Actions   | try/catch + throw        | `src/actions/*.ts`                 |
-| Client Fetch     | try/catch + state        | Components                         |
+| Error Type       | Handler                       | Dosya                              |
+| ---------------- | ----------------------------- | ---------------------------------- |
+| Component Errors | ErrorBoundary                 | `src/components/ErrorBoundary.tsx` |
+| 404 Errors       | Custom 404 Page               | `src/pages/404.tsx`                |
+| 500 Errors       | Custom 500 Page               | `src/pages/500.tsx`                |
+| API Errors       | try/catch + `NextApiResponse` | `src/pages/api/*.ts`               |
+| BFF Actions      | fetch `/api/auth/*`           | `src/actions/auth/*.ts`            |
+| Client Fetch     | try/catch + state             | Components                         |
 
 ---
 
 ## Kaynaklar
 
-- [Next.js Error Handling](https://nextjs.org/docs/app/building-your-application/routing/error-handling)
+- [Next.js Pages Router Error Handling](https://nextjs.org/docs/pages/building-your-application/routing/custom-error)
 - [React Error Boundaries](https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary)
 - [MDN Error Handling](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Control_flow_and_error_handling)

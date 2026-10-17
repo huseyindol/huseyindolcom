@@ -1,6 +1,6 @@
 ---
 title: 'Next.js ile Kusursuz SEO ve Metadata Yönetimi'
-description: 'Dynamic Content içeren uygulamalardaki metadata dinamik atamaları (generateMetadata) ve robots.txt e...'
+description: 'Pages Router tabanlı Next.js uygulamalarında next/head (<Seo />), getStaticProps ve dinamik sitemap.xml / robots.txt yönetimi.'
 publishedAt: '2026-04-17'
 category: 'Frontend'
 author: 'Hüseyin DOL'
@@ -13,50 +13,66 @@ Bu makale **Frontend** alanındaki deneyimlerimi ve yazılım geliştirme metodo
 
 ## Genel Bakış
 
-> Dynamic Content içeren uygulamalardaki metadata dinamik atamaları (generateMetadata) ve robots.txt entegrasyonu. Sitemap.xml jenerasyonları ile Google indeks sürelerini minimize ediyoruz.
+> Pages Router tabanlı Next.js uygulamalarında `<Seo />` (`next/head`), `getStaticProps` ve `robots.txt.tsx` / `sitemap.xml.tsx` entegrasyonu ile Google indeks sürelerini minimize ediyoruz.
 
-Ziyaretçiye statik göründüğü halde içeriklerini dinamik veri tabanlarından alan sitelerde Arama Motoru Optimizasyonu (SEO) en büyük mücadele alanıdır. Klasik React SPA'larda arama motorları boş bir `<div id="root">` görür — içerik JavaScript yüklendikten sonra render edildiği için botlar sayfayı boş algılar. Next.js bu problemi SSR ve SSG ile kökünden çözüyor.
+Ziyaretçiye statik göründüğü halde içeriklerini dinamik veri tabanlarından alan sitelerde Arama Motoru Optimizasyonu (SEO) en büyük mücadele alanıdır. Klasik React SPA'larda arama motorları boş bir `<div id="root">` görür — içerik JavaScript yüklendikten sonra render edildiği için botlar sayfayı boş algılar. Next.js Pages Router bu problemi SSG (`getStaticProps` + ISR) ve SSR (`getServerSideProps`) ile kökünden çözüyor.
 
-Öncelikle Next.js 14+ ile gelen `generateMetadata` fonksiyonu, her sayfa için dinamik meta tag üretimini mümkün kılıyor. Blog makalelerimizde slug parametresine göre veritabanından içerik çekip, başlık, açıklama, OpenGraph görseli ve canonical URL'yi sunucu tarafında Head'e basıyoruz. Bu sayede Twitter/LinkedIn'de paylaşıldığında zengin önizleme kartları eksiksiz görünüyor.
+Öncelikle `next/head` üzerine inşa ettiğimiz merkezi `<Seo />` (`src/lib/seo.tsx`) bileşeni, her sayfa için dinamik meta tag üretimini ve `key` bazlı deduplication'ı mümkün kılıyor. Blog makalelerimizde `getStaticProps` ile slug parametresine göre içeriği çekip, başlık, açıklama, OpenGraph görseli ve canonical URL'yi sunucu tarafında `<head>` içine basıyoruz. Bu sayede Twitter/LinkedIn'de paylaşıldığında zengin önizleme kartları eksiksiz görünüyor.
 
 ```tsx
-// app/blog/[slug]/page.tsx
-export async function generateMetadata({ params }): Promise<Metadata> {
-  const post = await getPostBySlug(params.slug)
-  const url = `https://www.huseyindol.com/blog/${post.slug}`
+// src/pages/blog/[slug].tsx
+import { Seo } from '@/lib/seo'
+import type { GetStaticProps } from 'next'
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const post = getPostBySlug(String(params?.slug))
+  if (!post) return { notFound: true }
 
   return {
-    title: `${post.title} | Hüseyin DOL`,
-    description: post.description,
-    alternates: { canonical: url },
-    openGraph: {
-      title: post.title,
-      type: 'article',
-      publishedTime: post.publishedAt,
-      authors: [post.author],
-      images: [{ url: post.coverImage, width: 1200, height: 630 }],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      images: [post.coverImage],
-    },
+    props: { post },
+    revalidate: 86400,
   }
+}
+
+export default function BlogPostPage({ post }: { post: BlogPost }) {
+  return (
+    <>
+      <Seo
+        title={post.title}
+        description={post.description}
+        canonical={`/blog/${post.slug}`}
+        ogType="article"
+        ogImage={post.coverImage}
+        article={{
+          publishedTime: post.publishedAt,
+          authors: [post.author],
+        }}
+      />
+      {/* Makale içeriği */}
+    </>
+  )
 }
 ```
 
-SEO'nun ikinci kritik ayağı **sitemap.xml** ve **robots.txt** entegrasyonudur. Next.js'in `sitemap.ts` ve `robots.ts` convention dosyalarıyla bunları kodla yönetiyoruz. Sitemap'i dinamik tutarak her yeni makale eklendiğinde otomatik olarak Google'a bildirim yapılmasını sağlıyoruz.
+SEO'nun ikinci kritik ayağı **sitemap.xml** ve **robots.txt** entegrasyonudur. Next.js Pages Router'da `src/pages/sitemap.xml.tsx` ve `src/pages/robots.txt.tsx` sayfalarında `getServerSideProps` üzerinden XML/text yanıtı üreterek bunları kodla yönetiyoruz. Sitemap'i dinamik tutarak her yeni makale eklendiğinde otomatik olarak Google'a bildirim yapılmasını sağlıyoruz.
 
 ```tsx
-// app/sitemap.ts
-export default async function sitemap() {
-  const posts = await getAllPosts()
-  const blogRoutes = posts.map(post => ({
-    url: `https://www.huseyindol.com/blog/${post.slug}`,
-    lastModified: new Date(post.publishedAt),
-    changeFrequency: 'monthly',
-    priority: 0.8,
-  }))
-  return [...staticRoutes, ...blogRoutes]
+// src/pages/sitemap.xml.tsx
+import type { GetServerSideProps } from 'next'
+
+export const getServerSideProps: GetServerSideProps = async ({ res }) => {
+  const posts = getAllPosts()
+  const xml = buildSitemapXml(posts)
+
+  res.setHeader('Content-Type', 'application/xml; charset=utf-8')
+  res.write(xml)
+  res.end()
+
+  return { props: {} }
+}
+
+export default function SitemapXml() {
+  return null
 }
 ```
 
@@ -66,7 +82,7 @@ Son olarak AI crawler'ları (GPTBot, ClaudeBot, PerplexityBot) için `robots.txt
 
 ## Core Web Vitals ve İçerik Kalitesi
 
-SEO yalnızca meta tag değildir: LCP, CLS ve INP metrikleri sıralama sinyalleriyle bağlantılıdır. Sunucu render + görsel boyutlandırma + font stratejisi, `generateMetadata` kadar kritik bir “organik görünürlük” katmanıdır.
+SEO yalnızca meta tag değildir: LCP, CLS ve INP metrikleri sıralama sinyalleriyle bağlantılıdır. Sunucu render + görsel boyutlandırma + font stratejisi, `<Seo />` meta etiketleri kadar kritik bir “organik görünürlük” katmanıdır.
 
 ## hreflang ve Çoklu Dil
 

@@ -3,8 +3,8 @@
 **Hedef:** Website Next.js projesine kullanıcı kaydı ve tenant login akışı ekle.
 E-posta doğrulama zorunludur; doğrulanmamış kullanıcılar giriş yapamaz.
 
-**Stack:** Next.js 16 App Router, React 19, TypeScript 5.9, Tailwind CSS 4, shadcn/ui, Bun.
-API çağrıları `fetcher` utility ile yapılır (token otomatik eklenir).
+**Stack:** Next.js 16 Pages Router, React 19, TypeScript 5.9, Tailwind CSS 4, shadcn/ui, Bun.
+API çağrıları `src/pages/api/auth/*` BFF endpoint'leri ve `src/actions/auth/*` sarmalayıcıları ile yapılır.
 Tenant kimliği: her sayfada `tenantId` sabit olarak kodlanır veya `.env.local`'dan alınır.
 
 ---
@@ -20,7 +20,7 @@ Response: { result: true, data: { userId, username, email, message: "Kayıt baş
 POST /api/v1/auth/login
 Body: { usernameOrEmail, password, tenantId, loginType: "tenant" }
 Response: { result: true, data: { token, refreshToken, userId, username, email, roles, permissions } }
-Cookie: accessToken, refreshToken, userCode, expiredDate (backend set eder)
+Cookie: accessToken, refreshToken, userCode, expiredDate (BFF API route set eder)
 → E-posta doğrulanmamışsa 400 döner: "E-posta adresiniz henüz doğrulanmamış."
 
 GET /api/v1/auth/verify?token={token}&tenantId={tenantId}
@@ -50,7 +50,7 @@ NEXT_PUBLIC_DEFAULT_TENANT=tenant1
 
 ## 1. Servis Fonksiyonları
 
-`src/app/_services/auth.services.ts` dosyasına ekle (yoksa oluştur):
+`src/services/auth/index.ts` dosyasında yer alır:
 
 ```typescript
 import { fetcher } from '@/utils/services/fetcher'
@@ -140,14 +140,12 @@ export const verifyEmailService = async (
 
 ## 2. Kayıt Sayfası
 
-`src/app/(website)/register/page.tsx` (veya projenin route yapısına uygun path):
+`src/pages/register/index.tsx`:
 
 ```typescript
-'use client'
-
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { registerService } from '@/app/_services/auth.services'
+import { useRouter } from 'next/router'
+import { registerAction } from '@/actions/auth/register'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -196,13 +194,12 @@ export default function RegisterPage() {
 
     setLoading(true)
     try {
-      await registerService({
+      await registerAction({
         username: form.username.trim(),
         email: form.email.trim(),
         password: form.password,
         firstName: form.firstName.trim() || undefined,
         lastName: form.lastName.trim() || undefined,
-        tenantId: TENANT_ID,
       })
       setSuccess(true)
     } catch (e: unknown) {
@@ -343,41 +340,42 @@ export default function RegisterPage() {
 
 ## 3. E-posta Doğrulama Sayfası
 
-`src/app/(website)/verify-email/page.tsx`:
+`src/pages/verify-email/index.tsx`:
 
 ```typescript
-'use client'
-
 import { useEffect, useState } from 'react'
-import { useSearchParams, useRouter } from 'next/navigation'
-import { verifyEmailService } from '@/app/_services/auth.services'
+import { useRouter } from 'next/router'
+import { verifyEmailAction } from '@/actions/auth/verify'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { CheckCircle, AlertCircle, Loader2 } from 'lucide-react'
 
 export default function VerifyEmailPage() {
-  const searchParams = useSearchParams()
   const router = useRouter()
-  const token = searchParams.get('token') ?? ''
-  const tenantId = searchParams.get('tenantId') ?? process.env.NEXT_PUBLIC_DEFAULT_TENANT ?? 'tenant1'
+  const token = typeof router.query.token === 'string' ? router.query.token : ''
+  const tenantId =
+    typeof router.query.tenantId === 'string'
+      ? router.query.tenantId
+      : (process.env.NEXT_PUBLIC_DEFAULT_TENANT ?? 'tenant1')
 
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading')
   const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
+    if (!router.isReady) return
     if (!token) {
       setStatus('error')
       setErrorMessage('Doğrulama bağlantısı geçersiz.')
       return
     }
 
-    verifyEmailService(token, tenantId)
+    verifyEmailAction(token)
       .then(() => setStatus('success'))
       .catch((e: unknown) => {
         setStatus('error')
         setErrorMessage(e instanceof Error ? e.message : 'Doğrulama başarısız.')
       })
-  }, [token, tenantId])
+  }, [router.isReady, token, tenantId])
 
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
@@ -430,14 +428,12 @@ export default function VerifyEmailPage() {
 
 ## 4. Giriş Sayfası
 
-`src/app/(website)/login/page.tsx`:
+`src/pages/login/index.tsx`:
 
 ```typescript
-'use client'
-
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { loginService } from '@/app/_services/auth.services'
+import { useRouter } from 'next/router'
+import { loginAction } from '@/actions/auth/login'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'

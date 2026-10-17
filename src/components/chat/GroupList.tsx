@@ -1,5 +1,3 @@
-'use client'
-
 import { useVisitorGroups } from '@/hooks/chat/useVisitorGroups'
 import { ChatGroup } from '@/types/chat'
 import { MessageCircle } from 'lucide-react'

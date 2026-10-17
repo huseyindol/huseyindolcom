@@ -1,5 +1,3 @@
-'use client'
-
 import { sendGTMEvent } from '@next/third-parties/google'
 import { usePathname } from 'next/navigation'
 import { useLayoutEffect, useRef } from 'react'

@@ -11,16 +11,16 @@ görülmüştü; en büyük kazanç sayfayı istek başına render etmemekten ge
 
 ## Faz Durumu
 
-| Faz | Kapsam                                                                        | Durum                     |
-| --- | ----------------------------------------------------------------------------- | ------------------------- |
-| 1   | İskelet: `_app`, `_document`, `SiteLayout`, `Seo`, fonts, globals.css taşındı | ✅                        |
-| 2   | Statik içerik sayfaları                                                       | 🔄 `/about`, `/skills` ✅ |
-| 3   | Blog + MDX (`/blog`, `/blog/[slug]`) + `/makaleler`                           | ⏳                        |
-| 4   | Auth/BFF: server action'lar → `pages/api` + cookie adaptörü                   | ⏳                        |
-| 5   | Dinamik: `/[pages]`, `/projects/[slug]`, `/forms/[id]`, `/arcade`             | ⏳                        |
-| 6   | Özel dosyalar: `robots`, `sitemap`, `manifest`, `404`, `500`                  | ⏳                        |
-| 7   | Chat / WebRTC / sosyal giriş route'ları                                       | ⏳                        |
-| 8   | `src/app` tamamen kaldırılır + doğrulama                                      | ⏳                        |
+| Faz | Kapsam                                                                         | Durum |
+| --- | ------------------------------------------------------------------------------ | ----- |
+| 1   | İskelet: `_app`, `_document`, `SiteLayout`, `Seo`, fonts, globals.css taşındı  | ✅    |
+| 2   | Statik içerik sayfaları (`/`, `/about`, `/skills`, `/experience`, `/projects`) | ✅    |
+| 3   | Blog + MDX (`/blog`, `/blog/[slug]`) + `/makaleler`                            | ✅    |
+| 4   | Auth/BFF: server action'lar → `pages/api` + cookie adaptörü                    | ✅    |
+| 5   | Dinamik: `/[pages]`, `/projects/[slug]`, `/forms/[id]`, `/arcade`              | ✅    |
+| 6   | Özel dosyalar: `robots`, `sitemap`, `manifest`, `404`, `500`                   | ✅    |
+| 7   | Chat / WebRTC / sosyal giriş route'ları                                        | ✅    |
+| 8   | `src/app` tamamen kaldırılır + kural/dokümantasyon doğrulaması                 | ✅    |
 
 ## Taşıma Karşılıkları
 

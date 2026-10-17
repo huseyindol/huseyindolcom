@@ -1,5 +1,3 @@
-'use client'
-
 import { refreshSession } from '@/actions/auth/refreshSession'
 import { useCookie } from '@/context/CookieContext'
 import { CookieEnum } from '@/utils/constant/cookieConstant'

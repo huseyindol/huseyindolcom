@@ -1,5 +1,3 @@
-'use client'
-
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'

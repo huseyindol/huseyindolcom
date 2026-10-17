@@ -60,7 +60,7 @@ Hüseyin DOL is a Senior Frontend Developer with more than 10 years of professio
 
 ## Current Tech Stack (This Portfolio)
 
-- Framework: Next.js 16 (App Router, Server Components, Server Actions)
+- Framework: Next.js 16 (Pages Router, SSG/ISR, BFF API Routes)
 - UI: Tailwind CSS 4, Shadcn UI, Framer Motion
 - Forms: React Hook Form + Zod 4
 - Data Fetching: TanStack Query 5
@@ -95,7 +95,7 @@ Hüseyin DOL is a Senior Frontend Developer with more than 10 years of professio
 ### Frontend
 
 - [JavaScript Event Loop: Asenkron Dünyanın Motoru](https://www.huseyindol.com/blog/frontend-js-event-loop): Call Stack, Web APIs, Macrotask ve Microtask Queue mekanizmaları; Promise sırası, async/await davranışı, queueMicrotask, requestAnimationFrame ve Node.js libuv faz mimarisi.
-- [Next.js ile Kusursuz SEO ve Metadata Yönetimi](https://www.huseyindol.com/blog/frontend-nextjs-seo): Dynamic Content için generateMetadata, robots.txt ve Sitemap.xml ile Google indeks sürelerini minimize etme stratejileri.
+- [Next.js ile Kusursuz SEO ve Metadata Yönetimi](https://www.huseyindol.com/blog/frontend-nextjs-seo): Pages Router'da next/head tabanlı <Seo /> bileşeni, getStaticProps/getServerSideProps, robots.txt.tsx ve sitemap.xml.tsx ile Google indeks sürelerini minimize etme stratejileri.
 - [Elly Admin Panel Mimarisi: Next.js App Router](https://www.huseyindol.com/blog/frontend-nextjs-elly-admin): SSR, Layout pattern ile yetkilendirme katmanları ve Server Actions üzerinden data mutasyonları.
 - [React Render Performans Optimizasyonu](https://www.huseyindol.com/blog/frontend-react-performance): React Suspense, Lazy Loading ve RSC konseptleri ile gereksiz re-render problemlerini önleme.
 - [GitHub Actions ile NPM Paket Dağıtımı](https://www.huseyindol.com/blog/frontend-npmjs-ci-cd): Main branch'e birleşen kodun otomatik olarak NPM Registry'ye push edilmesi üzerine CI/CD otomasyon deneyimi.
@@ -118,5 +118,5 @@ Hüseyin DOL is a Senior Frontend Developer with more than 10 years of professio
 ## Open Source Projects
 
 - [elly](https://github.com/huseyindol/elly): Spring Boot 3.5 + Java 21 CMS backend. Multitenancy, RBAC, Redis, RabbitMQ, Kubernetes, GitHub Actions CI/CD.
-- [huseyindolcom](https://github.com/huseyindol/huseyindolcom): This portfolio — Next.js 16 App Router, TypeScript, Tailwind CSS 4, blog system, SEO.
+- [huseyindolcom](https://github.com/huseyindol/huseyindolcom): This portfolio — Next.js 16 Pages Router, TypeScript, Tailwind CSS 4, blog system, SEO.
 - [McpProjectScaffold](https://github.com/huseyindol/McpProjectScaffold): Open-source MCP server for project scaffolding.

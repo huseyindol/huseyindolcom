@@ -1,5 +1,3 @@
-'use client'
-
 import { useUrlQueryParam } from '@/hooks/useUrlQueryParam'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'

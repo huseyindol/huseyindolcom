@@ -1,5 +1,3 @@
-'use client'
-
 import { useGuestChat } from '@/hooks/chat/useGuestChat'
 import { ChatGroup } from '@/types/chat'
 import { useEffect, useRef } from 'react'

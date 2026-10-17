@@ -1,5 +1,3 @@
-'use client'
-
 import { useReportWebVitals } from 'next/web-vitals'
 import { useCallback } from 'react'
 

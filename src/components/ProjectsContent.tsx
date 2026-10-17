@@ -1,4 +1,3 @@
-'use client'
 import AdSenseAd from '@/components/AdSenseAd'
 import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
@@ -121,7 +120,7 @@ const projects: Project[] = [
     title: 'Portfolio Site',
     subtitle: 'Kişisel Portföy & Blog',
     description:
-      "Şu an gezdiğiniz site. Elly CMS'den beslenen dinamik sayfa sistemi, MDX tabanlı teknik blog, Framer Motion animasyonları ve Next.js App Router mimarisi ile inşa edilmiş modern bir portföy sitesi.",
+      "Şu an gezdiğiniz site. Elly CMS'den beslenen dinamik sayfa sistemi, MDX tabanlı teknik blog, Framer Motion animasyonları ve Next.js Pages Router mimarisi ile inşa edilmiş modern bir portföy sitesi.",
     icon: GlobeIcon,
     gradient: 'from-violet-500 to-purple-600',
     status: 'live',
@@ -139,7 +138,7 @@ const projects: Project[] = [
     highlights: [
       "Elly CMS'den beslenen dinamik sayfa sistemi",
       'MDX tabanlı teknik blog (24 makale)',
-      'unstable_cache ile 24 saatlik blog cache',
+      'getStaticProps & ISR ile 24 saatlik blog önbellekleme',
       'Framer Motion scroll animasyonları',
     ],
     githubUrl: 'https://github.com/huseyindol/huseyindolcom',
@@ -181,7 +180,7 @@ const projects: Project[] = [
     engine: 'Phaser 3',
     subtitle: 'Klasik 2D Oyunlar (Web)',
     description:
-      'Next.js App Router içerisine entegre edilmiş, Phaser oyun motoru ve Vite ile geliştirilmiş klasik 2D arcade oyunları. Akıcı 60fps oyun deneyimi ve modern web teknolojileri ile tarayıcıda doğrudan oynanabilir.',
+      'Next.js Pages Router içerisine entegre edilmiş, Phaser oyun motoru ve Vite ile geliştirilmiş klasik 2D arcade oyunları. Akıcı 60fps oyun deneyimi ve modern web teknolojileri ile tarayıcıda doğrudan oynanabilir.',
     icon: GamepadIcon,
     gradient: 'from-orange-500 to-amber-600',
     status: 'live',

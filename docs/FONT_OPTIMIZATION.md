@@ -98,18 +98,18 @@ mkdir -p public/fonts
 ```
 
 ```typescript
-// src/app/layout.tsx
+// src/pages/_app.tsx
 import localFont from 'next/font/local'
 
 const geistSans = localFont({
   src: [
     {
-      path: '../public/fonts/Geist-Regular.woff2',
+      path: '../../public/fonts/Geist-Regular.woff2',
       weight: '400',
       style: 'normal',
     },
     {
-      path: '../public/fonts/Geist-Bold.woff2',
+      path: '../../public/fonts/Geist-Bold.woff2',
       weight: '700',
       style: 'normal',
     },
@@ -326,7 +326,7 @@ display: 'swap' // 'block' veya 'optional' yerine
 
 ## 📚 **Kaynaklar**
 
-- [Next.js Font Optimization](https://nextjs.org/docs/app/building-your-application/optimizing/fonts)
+- [Next.js Font Optimization](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts)
 - [Web.dev Font Best Practices](https://web.dev/font-best-practices/)
 - [Google Fonts Helper](https://gwfh.mranftl.com/fonts)
 - [Font Squirrel](https://www.fontsquirrel.com/)
@@ -336,7 +336,8 @@ display: 'swap' // 'block' veya 'optional' yerine
 ## 🎨 **Örnek: Komple Self-Hosted Font Setup**
 
 ```typescript
-// src/app/fonts.ts
+// src/pages/_app.tsx
+import type { AppProps } from 'next/app'
 import localFont from 'next/font/local'
 
 export const geistSans = localFont({
@@ -368,14 +369,11 @@ export const geistSans = localFont({
   fallback: ['system-ui', '-apple-system', 'sans-serif'],
 })
 
-// src/app/layout.tsx
-import { geistSans } from './fonts'
-
-export default function RootLayout({ children }) {
+export default function App({ Component, pageProps }: AppProps) {
   return (
-    <html className={geistSans.variable}>
-      <body className="font-sans">{children}</body>
-    </html>
+    <div className={`${geistSans.variable} font-sans`}>
+      <Component {...pageProps} />
+    </div>
   )
 }
 ```

@@ -1,4 +1,3 @@
-'use client'
 import { useUrlQueryParam } from '@/hooks/useUrlQueryParam'
 import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'

@@ -1,5 +1,3 @@
-'use client'
-
 import { CHAT_TENANT_ID, ELLY_API_URL, ICE_SERVERS } from '@/lib/chat-config'
 import type { CallSignal, TenantCallPhase } from '@/types/call'
 import { Client } from '@stomp/stompjs'

@@ -1,5 +1,3 @@
-'use client'
-
 import React from 'react'
 import { motion } from 'framer-motion'
 import { ZapIcon, GlobeIcon, CheckCircle2Icon, LockIcon } from 'lucide-react'

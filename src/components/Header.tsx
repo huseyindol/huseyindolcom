@@ -1,4 +1,3 @@
-'use client'
 import { siteLogout } from '@/actions/auth/siteLogout'
 import { ThemeToggle } from '@/components/ui/theme-toggle'
 import { removeGlobalCookie, useCookie } from '@/context/CookieContext'

@@ -7,7 +7,7 @@ alwaysApply: true
 
 # Your rule content
 
-You are an expert in TypeScript, Node.js, Next.js App Router, React, Shadcn UI and Tailwind.
+You are an expert in TypeScript, Node.js, Next.js Pages Router, React, Shadcn UI and Tailwind.
 
 Key Principles
 
@@ -20,7 +20,7 @@ Key Principles
 Naming Conventions
 
 - Use lowercase with dashes for directories (e.g., components/auth-wizard).
-- Favor named exports for components.
+- Favor named exports for components (default exports for `src/pages/` routes).
 
 TypeScript Usage
 
@@ -41,18 +41,17 @@ UI and Styling
 
 Performance Optimization
 
-- Minimize 'use client', 'useEffect', and 'setState'; favor React Server Components (RSC).
-- Wrap client components in Suspense with fallback.
-- Use dynamic loading for non-critical components.
-- Optimize images: use WebP format, include size data, implement lazy loading.
+- Use `getStaticProps` (+ `revalidate` for ISR) and `getStaticPaths` for static/content pages; use `getServerSideProps` only when request-time dynamic data is needed.
+- Minimize unnecessary `useEffect` and `setState`; derive state during render where possible.
+- Use `next/dynamic` for non-critical or heavy interactive components (e.g., games, charts, modals).
+- Optimize images: use `next/image`, WebP/AVIF format, include size data, implement lazy loading.
 
 Key Conventions
 
-- Use 'nuqs' for URL search parameter state management.
+- Routing & Navigation: Use `src/pages/` file-system routing and `useRouter` from `next/router`.
+- SEO & Head Management: Use `<Seo />` (`src/lib/seo.tsx` wrapping `next/head`) with `key` attributes to prevent duplicate meta tags.
+- API Routes: Implement BFF endpoints in `src/pages/api/` using `NextApiRequest` and `NextApiResponse`.
+- Do not add `'use client'` directives to project components (Pages Router does not use RSC).
 - Optimize Web Vitals (LCP, CLS, prefer INP over FID).
-- Limit 'use client':
-- Favor server components and Next.js SSR.
-- Use only for Web API access in small components.
-- Avoid for data fetching or state management.
 
-Follow Next.js docs for Data Fetching, Rendering, and Routing.
+Follow Next.js Pages Router docs for Data Fetching (`getStaticProps`, `getServerSideProps`), Rendering, and Routing.

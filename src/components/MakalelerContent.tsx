@@ -1,4 +1,3 @@
-'use client'
 import { useUrlQueryParam } from '@/hooks/useUrlQueryParam'
 import AdSenseAd from '@/components/AdSenseAd'
 import { Badge } from '@/components/ui/badge'

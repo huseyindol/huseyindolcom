@@ -97,25 +97,25 @@ if (globalThis.window === undefined) {
 
 Mantık şuydu: "tenant bilgisi cookie'de olabilir, o zaman her ortamda cookie'yi kontrol edeyim." Kulağa titiz geliyor.
 
-Sorun şu ki Next.js App Router'da `cookies()` çağırmak bir **karar** anlamına geliyor: _"Bu render isteğe özgüdür."_ Cookie'ye dokunan her sayfa otomatik olarak **dinamik render**'a düşüyor — statik üretim ve ISR devre dışı kalıyor.
+Sorun şu ki Next.js'te sunucu tarafında her istekte cookie okumaya çalışmak (`getServerSideProps` veya App Router dönemindeki `cookies()`) bir **karar** anlamına geliyor: _"Bu render isteğe özgüdür."_ Cookie'ye dokunan her sayfa otomatik olarak **dinamik render**'a düşüyor — statik üretim (`getStaticProps`) ve ISR devre dışı kalıyor.
 
-Bu helper `fetcher`'ın içinde olduğu için etkisi zincirleme oldu: veri çeken **her sayfa** dinamikleşti. Build çıktısında sayfaların yanındaki işaret `○` (static) yerine `ƒ` (dynamic) olarak görünmeye başladı. Blog listesi, hakkımda, yetenekler — hepsi her istekte yeniden render ediliyordu. Sunucuda gereksiz iş, ziyaretçide daha yavaş ilk byte.
+Bu helper `fetcher`'ın içinde olduğu için etkisi zincirleme oldu: veri çeken **her sayfa** dinamikleşti. Build çıktısında sayfaların yanındaki işaret `○` / `●` (static/SSG) yerine `ƒ` (dynamic) olarak görünmeye başladı. Blog listesi, hakkımda, yetenekler — hepsi her istekte yeniden render ediliyordu. Sunucuda gereksiz iş, ziyaretçide daha yavaş ilk byte (nitekim RPS tavanını yükseltmek için `elly-tenant` projesini tamamen **Pages Router + `getStaticProps`/ISR** mimarisine taşıdık).
 
-Çözüm, aslında ürünün doğasını kabul etmekti: **tenant sitesi tek bir tenant'a hizmet ediyor.** Her deployment'ın hedefi zaten `NEXT_PUBLIC_DEFAULT_TENANT` ile sabit. Server tarafında cookie'ye bakmanın hiçbir bilgi kazancı yok — tenant zaten belli.
+Çözüm, aslında ürünün doğasını kabul etmekti: **tenant sitesi tek bir tenant'a hizmet ediyor.** Her deployment'ın hedefi zaten `NEXT_PUBLIC_DEFAULT_TENANT` ile sabit. Server tarafında (`getStaticProps` / `getServerSideProps`) cookie'ye bakmanın hiçbir bilgi kazancı yok — tenant zaten belli.
 
-Bu yüzden SSR dalını tek satıra indirdim ve yorumu koda yazdım ki gelecekte biri (muhtemelen ben) "iyileştireyim" diye geri eklemesin:
+Bu yüzden SSR/ISR dalını tek satıra indirdim ve yorumu koda yazdım ki gelecekte biri (muhtemelen ben) "iyileştireyim" diye geri eklemesin:
 
 ```typescript
 /**
- * SSR/ISR (server): yalnızca env okunur. `cookies()` BURADA ÇAĞRILMAZ — çağrılırsa
- * fetcher'ı kullanan her sayfa dinamik render'a (ƒ) zorlanır ve ISR/static bozulur.
+ * SSR/ISR (server): yalnızca env okunur. Sunucuda request cookie'si BURADA OKUNMAZ —
+ * böylece getStaticProps + ISR sayfaları statik önbellekte kalır.
  * Public site tek tenant'a hizmet ettiği için tenant cookie'si zaten set edilmez.
  */
 ```
 
 Runtime override hâlâ mümkün — ama yalnız client tarafında, gerçekten gerektiğinde.
 
-**Ders:** Framework'lerde bazı API çağrıları sadece veri okumaz, **render stratejisini de değiştirir.** Next.js'te `cookies()`, `headers()`, `searchParams` bu gruptan. "Her ihtimale karşı okuyayım" refleksi, farkında olmadan tüm sitenin önbelleklenebilirliğini feda edebilir.
+**Ders:** Framework'lerde bazı API çağrıları sadece veri okumaz, **render stratejisini de değiştirir.** Next.js'te istek anı cookie/header okumaları bu gruptan. "Her ihtimale karşı okuyayım" refleksi, farkında olmadan tüm sitenin önbelleklenebilirliğini feda edebilir.
 
 ## Üç Senaryo, Tek Kural
 

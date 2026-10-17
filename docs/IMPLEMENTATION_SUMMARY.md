@@ -10,15 +10,14 @@ Bu dokümanda projeye eklenen kritik güvenlik ve hata yönetimi özelliklerinin
 
 ```
 src/components/ErrorBoundary.tsx      - React Error Boundary component
-src/app/error.tsx                     - Route-level error handler
-src/app/global-error.tsx              - Global error handler (root layout)
-src/app/not-found.tsx                 - 404 sayfası
+src/pages/404.tsx                     - 404 sayfası
+src/pages/500.tsx                     - 500 sunucu hata sayfası
 ```
 
 #### Özellikler:
 
 - ✅ React component hatalarını yakalama
-- ✅ Next.js App Router error handling
+- ✅ Next.js Pages Router error handling (`404.tsx`, `500.tsx`)
 - ✅ Development vs Production error messages
 - ✅ Kullanıcı dostu error UI
 - ✅ Error recovery (reset) fonksiyonu
@@ -79,12 +78,12 @@ X-RateLimit-Reset: 2024-12-15T10:30:00Z
 
 ---
 
-### ✅ 3. Security Headers & Middleware
+### ✅ 3. Security Headers & Proxy
 
 #### Güncellenen Dosya:
 
 ```
-src/middleware.ts                    - Security headers & rate limiting
+src/proxy.ts                         - Security headers & rate limiting (Next.js 16 proxy)
 ```
 
 #### Uygulanan Security Headers:
@@ -100,7 +99,7 @@ src/middleware.ts                    - Security headers & rate limiting
 ✅ X-DNS-Prefetch-Control          // DNS prefetching kontrolü
 ```
 
-#### Middleware Özellikleri:
+#### Proxy Özellikleri:
 
 - ✅ Route-based rate limiting (API vs regular routes)
 - ✅ Automatic rate limit headers
@@ -169,17 +168,16 @@ SENTRY_DSN // Monitoring (optional)
 ```
 huseyindolcom/
 ├── src/
-│   ├── app/
-│   │   ├── error.tsx                    ✨ NEW - Route error handler
-│   │   ├── global-error.tsx             ✨ NEW - Global error handler
-│   │   └── not-found.tsx                ✨ NEW - 404 page
+│   ├── pages/
+│   │   ├── 404.tsx                      ✨ NEW - 404 page
+│   │   └── 500.tsx                      ✨ NEW - 500 error page
 │   ├── components/
 │   │   └── ErrorBoundary.tsx            ✨ NEW - Error Boundary
 │   ├── lib/
 │   │   ├── env.ts                       ✨ NEW - Env validation
 │   │   ├── rate-limiter.ts              ✨ NEW - Rate limiting
 │   │   └── security.ts                  ✨ NEW - Security utils
-│   └── middleware.ts                    🔄 UPDATED - Security headers
+│   └── proxy.ts                         🔄 UPDATED - Security headers
 ├── docs/
 │   ├── SECURITY.md                      ✨ NEW - Security guide
 │   ├── ERROR_HANDLING.md                ✨ NEW - Error handling guide
@@ -252,7 +250,7 @@ NEXT_PUBLIC_RESEND_FROM_EMAIL=invalid bun build
 ### Rate Limiting Ayarları
 
 ```typescript
-// src/middleware.ts
+// src/proxy.ts
 const apiRateLimiter = new RateLimiter({
   windowMs: 1 * 60 * 1000, // 1 minute
   max: 60, // 60 requests
@@ -287,7 +285,7 @@ NEXT_PUBLIC_REVALIDATE_SECRET=your-secret-min-16-chars
 ### Rate Limiter Stats
 
 ```typescript
-import { apiRateLimiter } from '@/middleware'
+import { apiRateLimiter } from '@/proxy'
 
 const stats = apiRateLimiter.getStats()
 console.log({
@@ -299,7 +297,7 @@ console.log({
 ### Error Logging
 
 ```typescript
-// Error boundary'de veya error.tsx'de
+// Error boundary'de
 if (process.env.NODE_ENV === 'production') {
   // Send to monitoring service
   Sentry.captureException(error)
@@ -318,11 +316,11 @@ if (process.env.NODE_ENV === 'production') {
   <YourComponent />
 </ErrorBoundary>
 
-// API route'larında
+// API route'larında (src/pages/api/*)
 try {
   // logic
 } catch (error) {
-  return NextResponse.json({ error }, { status: 500 })
+  return res.status(500).json({ error: 'Internal server error' })
 }
 ```
 
@@ -340,7 +338,7 @@ const apiKey = env.NEXT_PUBLIC_RESEND_API_KEY
 ### 3. ✅ Rate Limiting İçin IP Kullan
 
 ```typescript
-// Middleware'de
+// Proxy'de
 const clientIp = getClientIp(request.headers)
 const rateLimitResult = await rateLimiter.check(clientIp)
 ```
@@ -417,9 +415,6 @@ diff .env.local .env.example
 ### Error Boundary Çalışmıyor
 
 ```tsx
-// Client component olduğundan emin ol
-'use client'
-
 // Doğru import
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 ```
@@ -430,7 +425,7 @@ import { ErrorBoundary } from '@/components/ErrorBoundary'
 
 - [ ] Rate limiting çalışıyor (429 response)
 - [ ] Error boundaries component hatalarını yakalıyor
-- [ ] Error pages doğru görünüyor (error.tsx, not-found.tsx)
+- [ ] Error pages doğru görünüyor (`src/pages/404.tsx`, `src/pages/500.tsx`)
 - [ ] Security headers response'da mevcut
 - [ ] Environment validation build'de çalışıyor
 - [ ] Development ve production modları doğru çalışıyor

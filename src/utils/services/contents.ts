@@ -7,7 +7,7 @@ import {
 import { fetcher } from '@/utils/services/fetcher'
 
 /**
- * Site-side content fetcher - Server Component'lerde kullanılır
+ * Site-side content fetcher - getStaticProps / getServerSideProps içinde kullanılır
  * API'den section key'e göre içerikleri çeker
  */
 export async function getContentsBySectionKey<T = Record<string, unknown>>(
@@ -18,7 +18,6 @@ export async function getContentsBySectionKey<T = Record<string, unknown>>(
       `/contents/section/${sectionKey}`,
       {
         method: 'GET',
-        next: { revalidate: 60 },
       },
     )
 
@@ -52,7 +51,6 @@ export async function getContentItemsBySectionKey<T = Record<string, unknown>>(
       `/contents/section/${sectionKey}`,
       {
         method: 'GET',
-        next: { revalidate: 60 },
       },
     )
 
@@ -73,7 +71,7 @@ export async function getContentItemsBySectionKey<T = Record<string, unknown>>(
 }
 
 /**
- * Site-side section data fetcher - Server Component'lerde kullanılır
+ * Site-side section data fetcher - getStaticProps / getServerSideProps içinde kullanılır
  * Section bilgisi (title, description) + item listesi döndürür
  * İlk aktif item'dan title ve description alınır
  */
@@ -91,7 +89,6 @@ export async function getSectionDataBySectionKey<T = Record<string, unknown>>(
       `/contents/section/${sectionKey}`,
       {
         method: 'GET',
-        next: { revalidate: 60 },
       },
     )
 

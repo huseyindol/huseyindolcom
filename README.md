@@ -34,8 +34,8 @@ Bu proje, Next.js ve Tailwind CSS kullanılarak geliştirilmiş modern bir portf
 
 ### ⚡ Performance
 
-- ✅ Server Components
-- ✅ Server Actions
+- ✅ Pages Router SSG & ISR (`getStaticProps` / `revalidate`)
+- ✅ BFF API Routes (`pages/api/*`)
 - ✅ Image optimization
 - ✅ Bundle optimization
 - ✅ Vercel Analytics
@@ -155,10 +155,8 @@ Bu proje, modern **Scalar UI** ile otomatik API dokümantasyonu kullanır:
 
 ### 1. Error Boundaries
 
-- React Error Boundary component
-- Next.js route-level error handlers
-- Global error handler
-- 404 sayfası
+- React Error Boundary component (`src/components/ErrorBoundary.tsx`)
+- Next.js Pages Router custom error pages (`src/pages/404.tsx`, `src/pages/500.tsx`)
 
 ### 2. Rate Limiting
 
@@ -223,28 +221,33 @@ huseyindolcom/
 │   └── IMPLEMENTATION_SUMMARY.md
 ├── public/                 # Statik dosyalar
 ├── src/
-│   ├── app/               # Next.js App Router
-│   │   ├── api/          # API routes
-│   │   ├── (site)/       # Public pages
-│   │   ├── (admin)/      # Admin pages
-│   │   ├── error.tsx     # Error handler
-│   │   ├── global-error.tsx
-│   │   └── not-found.tsx
+│   ├── pages/             # Next.js Pages Router
+│   │   ├── api/           # BFF API routes (NextApiRequest/Response)
+│   │   ├── _app.tsx       # Root App wrapper & Providers
+│   │   ├── _document.tsx  # Custom HTML Document
+│   │   ├── 404.tsx        # 404 Not Found page
+│   │   ├── 500.tsx        # 500 Server Error page
+│   │   └── ...            # Site, blog, games, auth, dynamic CMS pages
 │   ├── components/        # React components
-│   │   ├── ui/           # Shadcn UI components
+│   │   ├── ui/            # Shadcn UI components
+│   │   ├── layouts/       # SiteLayout
 │   │   └── ErrorBoundary.tsx
-│   ├── lib/              # Utilities & configs
-│   │   ├── env.ts        # Environment validation
+│   ├── lib/               # Utilities & configs
+│   │   ├── env.ts         # Environment validation
+│   │   ├── seo.tsx        # Pages Router <Seo /> (next/head)
+│   │   ├── api-cookies.ts # API Set-Cookie helper
 │   │   ├── rate-limiter.ts
 │   │   └── security.ts
-│   ├── types/            # TypeScript types
-│   ├── schemas/          # Zod schemas
-│   └── middleware.ts     # Next.js middleware
-├── tests/                # Test files
+│   ├── styles/            # Global CSS (globals.css)
+│   ├── types/             # TypeScript types
+│   ├── schemas/           # Zod schemas
+│   └── proxy.ts           # Next.js 16 proxy
+├── tests/                 # Test files
 │   ├── components/
 │   ├── lib/
-│   └── api/
-├── vitest.config.ts      # Vitest configuration
+│   ├── api/
+│   └── pages/
+├── vitest.config.ts       # Vitest configuration
 └── package.json
 ```
 

@@ -156,27 +156,27 @@ describe('RateLimiter', () => {
 })
 ```
 
-### API Route Tests
+### API Route Tests (`src/pages/api/`)
 
 ```typescript
 // tests/api/contact.test.ts
-import { POST } from '@/app/api/contact/route'
-import { createMockRequest } from '@tests/utils/test-utils'
+import handler from '@/pages/api/contact'
+import { createApiMocks } from '@tests/utils/test-utils'
 import { describe, expect, it } from 'vitest'
 
 describe('Contact API', () => {
   it('should return 400 for missing fields', async () => {
-    const request = createMockRequest({
+    const { req, res, state } = createApiMocks({
       method: 'POST',
       body: {},
     })
 
-    const response = await POST(request)
-    expect(response.status).toBe(400)
+    await handler(req, res)
+    expect(state.statusCode).toBe(400)
   })
 
   it('should return 200 for valid request', async () => {
-    const request = createMockRequest({
+    const { req, res, state } = createApiMocks({
       method: 'POST',
       body: {
         name: 'John Doe',
@@ -185,8 +185,8 @@ describe('Contact API', () => {
       },
     })
 
-    const response = await POST(request)
-    expect(response.status).toBe(200)
+    await handler(req, res)
+    expect(state.statusCode).toBe(200)
   })
 })
 ```
@@ -367,11 +367,14 @@ export { customRender as render }
 ### 5. ✅ Mock External Dependencies
 
 ```typescript
-// Mock Next.js navigation
-vi.mock('next/navigation', () => ({
+// Mock Next.js Pages Router
+vi.mock('next/router', () => ({
   useRouter: () => ({
     push: vi.fn(),
     replace: vi.fn(),
+    pathname: '/',
+    asPath: '/',
+    query: {},
   }),
 }))
 
@@ -409,7 +412,7 @@ describe('Input Validation', () => {
 tests/
 ├── setup.ts                    # Test setup and global mocks
 ├── utils/
-│   └── test-utils.tsx         # Custom render and utilities
+│   └── test-utils.tsx         # Custom render and utilities (createApiMocks)
 ├── components/
 │   ├── ErrorBoundary.test.tsx
 │   ├── Hero.test.tsx
@@ -420,6 +423,9 @@ tests/
 ├── api/
 │   ├── contact.test.ts
 │   └── revalidate.test.ts
+├── pages/
+│   ├── about.test.tsx
+│   └── blog-slug.test.tsx
 └── hooks/
     └── useScrollHeader.test.ts
 ```
@@ -475,8 +481,8 @@ it('should render', () => {
 
 ```typescript
 // tests/setup.ts
-vi.mock('next/navigation', () => ({
-  useRouter: () => ({ push: vi.fn() }),
+vi.mock('next/router', () => ({
+  useRouter: () => ({ push: vi.fn(), pathname: '/', asPath: '/', query: {} }),
 }))
 ```
 

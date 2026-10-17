@@ -1,5 +1,3 @@
-'use client'
-
 import { refreshSession } from '@/actions/auth/refreshSession'
 import { useCallback, useEffect, useState } from 'react'
 
