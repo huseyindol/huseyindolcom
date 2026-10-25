@@ -19,27 +19,17 @@ const BLOG_LIST_AD_SLOTS = [
 const BLOG_LIST_LAYOUT_KEY = '-6t+ed+2i-1n-4w'
 
 const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const },
+    transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] as const },
   },
 }
 
 const stagger = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.07 } },
-}
-
-const cardCategoryColors: Record<string, string> = {
-  Frontend: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
-  Backend:
-    'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300',
-  DevOps:
-    'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300',
-  AI: 'bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300',
-  Mobile: 'bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300',
+  visible: { transition: { staggerChildren: 0.06 } },
 }
 
 interface BlogContentProps {
@@ -47,19 +37,11 @@ interface BlogContentProps {
   categories: string[]
 }
 
-/**
- * Filtre seçimini URL'e yansıtır — ROUTER KULLANMADAN.
- *
- * Router'a bağlanmak taşımada sorun çıkardı: App Router'ın useRouter'ı Pages
- * Router'da mount değil, çağrısı handler içinde patlayınca React aynı handler'daki
- * setState'i de düşürüyor ve filtre hiç çalışmıyordu. Filtrelemenin URL'e ihtiyacı
- * yok; adres yalnız paylaşılabilirlik için güncelleniyor.
- */
 function syncFilterUrl(url: string) {
   try {
     window.history.replaceState(window.history.state, '', url)
   } catch {
-    // URL güncellenemezse filtre yine çalışır — sessiz geç.
+    // URL güncellenemezse filtre yine çalışır
   }
 }
 
@@ -67,10 +49,6 @@ export default function BlogContent({ posts, categories }: BlogContentProps) {
   const gridRef = useRef(null)
   const gridInView = useInView(gridRef, { once: true, margin: '-60px' })
 
-  // Kategori filtresi tamamen client-side (server searchParams okunmuyor → sayfa static).
-  // Tüm postlar prerender edilir; seçim sadece görüneni süzer, URL'i de paylaşılabilir tutar.
-  // İlk yük: adresteki ?category= uygulanır (paylaşılan link filtreli açılsın).
-  // Sonrası: kullanıcı seçimi (selected) URL'i ezer. null = henüz seçim yapılmadı.
   const urlCategory = useUrlQueryParam('category')
   const [selected, setSelected] = useState<string | undefined | null>(null)
   const categoryFilter = selected === null ? urlCategory : selected
@@ -87,102 +65,95 @@ export default function BlogContent({ posts, categories }: BlogContentProps) {
     : posts
 
   return (
-    <div className="min-h-screen">
-      {/* Hero */}
-      <section className="relative -mt-20 overflow-hidden bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 py-32 pt-32 text-white md:py-40 md:pt-40">
-        <div className="animate-orb-1 pointer-events-none absolute -left-40 -top-40 h-96 w-96 rounded-full bg-blue-600/15 blur-3xl" />
-        <div className="animate-orb-2 pointer-events-none absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-emerald-600/15 blur-3xl" />
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.06]"
-          style={{
-            backgroundImage:
-              'radial-gradient(circle, rgba(255,255,255,1) 1px, transparent 1px)',
-            backgroundSize: '40px 40px',
-          }}
-        />
-
-        <div className="container relative mx-auto px-6">
-          <div className="mx-auto max-w-3xl text-center">
-            <Badge className="mb-6 border border-emerald-400/30 bg-emerald-500/20 px-4 py-1.5 text-sm font-medium text-emerald-200">
-              Teknik Makaleler
-            </Badge>
-            <h1 className="mb-5 text-4xl font-extrabold md:text-6xl">
-              Makalelerim
-            </h1>
-            <p className="text-lg text-slate-300 md:text-xl">
+    <div className="min-h-svh px-2 pb-2 md:px-3">
+      <div className="mx-auto flex max-w-[1680px] flex-col gap-2">
+        {/* Top Board Header + Filter Tiles */}
+        <section className="grid grid-cols-12 gap-2">
+          <div className="col-span-12 flex flex-col justify-between rounded-md bg-card p-6 md:p-8 lg:col-span-5">
+            <div>
+              <Badge className="mb-4 rounded-sm border-0 bg-primary px-3 py-1 text-xs font-extrabold text-primary-foreground">
+                Teknik Makaleler
+              </Badge>
+              <h1
+                className="mb-2 font-extrabold tracking-tight text-foreground"
+                style={{ fontSize: 'clamp(2.25rem, 1.2rem + 3.5vw, 4.25rem)' }}
+              >
+                Makalelerim
+              </h1>
+            </div>
+            <p className="text-base leading-relaxed text-muted-foreground">
               Yazılım geliştirme süreçleri, kariyer deneyimlerim ve modern
               teknolojiler üzerine teknik notlarım.
             </p>
+          </div>
 
-            {/* Stats */}
-            <div className="mt-10 flex justify-center gap-8 text-sm text-slate-400">
-              <div className="text-center">
-                <p className="text-2xl font-bold text-white">{posts.length}</p>
-                <p>Makale</p>
+          <div className="col-span-12 flex flex-col justify-between gap-2 lg:col-span-7">
+            <div className="grid grid-cols-2 gap-2">
+              <div className="rounded-md bg-primary p-5 text-primary-foreground">
+                <p className="text-3xl font-extrabold leading-none">
+                  {posts.length}
+                </p>
+                <p className="mt-2 text-xs font-bold">Yayınlanan Makale</p>
               </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-white">
+              <div className="rounded-md bg-foreground p-5 text-background">
+                <p className="text-3xl font-extrabold leading-none text-primary">
                   {categories.length}
                 </p>
-                <p>Kategori</p>
+                <p className="text-background/80 mt-2 text-xs font-bold">
+                  Teknik Kategori
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-1 flex-col justify-between rounded-md bg-card p-5">
+              <span className="mb-3 text-xs font-bold text-muted-foreground">
+                Kategoriye Göre Filtrele
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => selectCategory(undefined)}
+                  className={`rounded-sm px-3.5 py-2 text-xs font-extrabold transition-colors ${
+                    categoryFilter === undefined
+                      ? 'bg-primary text-primary-foreground'
+                      : 'bg-secondary text-foreground hover:bg-foreground hover:text-background'
+                  }`}
+                >
+                  Tümü ({posts.length})
+                </button>
+                {categories.map(category => (
+                  <button
+                    key={category}
+                    type="button"
+                    onClick={() => selectCategory(category)}
+                    className={`rounded-sm px-3.5 py-2 text-xs font-extrabold transition-colors ${
+                      categoryFilter === category
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-secondary text-foreground hover:bg-foreground hover:text-background'
+                    }`}
+                  >
+                    {category}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Category Filter */}
-      <div className="bg-background/80 sticky top-[65px] z-40 border-b border-border backdrop-blur-sm">
-        <div className="container mx-auto px-6">
-          <div className="scrollbar-hide flex items-center gap-2 overflow-x-auto py-4">
-            <button
-              type="button"
-              onClick={() => selectCategory(undefined)}
-              className={`inline-flex shrink-0 cursor-pointer items-center rounded-full border px-4 py-1.5 text-sm font-medium transition-all ${
-                categoryFilter === undefined
-                  ? 'border-primary bg-primary text-primary-foreground'
-                  : 'border-border bg-muted text-muted-foreground hover:bg-accent hover:text-foreground'
-              }`}
-            >
-              Tümü
-            </button>
-            {categories.map(category => (
-              <button
-                key={category}
-                type="button"
-                onClick={() => selectCategory(category)}
-                className={`inline-flex shrink-0 cursor-pointer items-center rounded-full border px-4 py-1.5 text-sm font-medium transition-all ${
-                  categoryFilter === category
-                    ? 'border-primary bg-primary text-primary-foreground'
-                    : 'border-border bg-muted text-muted-foreground hover:bg-accent hover:text-foreground'
-                }`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Posts grid */}
-      <main className="bg-muted/20 min-h-[60vh] py-16">
-        <div className="container mx-auto px-6">
+        {/* Posts Bento Grid */}
+        <main className="min-h-[60svh]">
           {visiblePosts.length === 0 ? (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="py-24 text-center text-muted-foreground"
-            >
+            <div className="rounded-md bg-card py-24 text-center text-muted-foreground">
               <BookOpenIcon className="mx-auto mb-4 h-12 w-12 opacity-30" />
               <p className="text-lg">Bu kategoride henüz makale yok.</p>
-            </motion.div>
+            </div>
           ) : (
             <motion.div
               ref={gridRef}
               initial="hidden"
               animate={gridInView ? 'visible' : 'hidden'}
               variants={stagger}
-              className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+              className="grid gap-2 md:grid-cols-2 lg:grid-cols-3"
             >
               {(() => {
                 const adPositions = BLOG_LIST_AD_SLOTS.map((_, k) =>
@@ -198,7 +169,10 @@ export default function BlogContent({ posts, categories }: BlogContentProps) {
                   const adIdx = adPositions.indexOf(i + 1)
                   if (showListAds && adIdx !== -1) {
                     items.push(
-                      <div key={`ad-${adIdx}`} className="col-span-full">
+                      <div
+                        key={`ad-${adIdx}`}
+                        className="col-span-full rounded-md bg-card px-4"
+                      >
                         <AdSenseAd
                           slot={BLOG_LIST_AD_SLOTS[adIdx]}
                           layoutKey={BLOG_LIST_LAYOUT_KEY}
@@ -211,57 +185,53 @@ export default function BlogContent({ posts, categories }: BlogContentProps) {
               })()}
             </motion.div>
           )}
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   )
 }
 
 function PostCard({ post }: { post: BlogPost }) {
   const category = post.frontmatter.category
-  const badgeColor =
-    cardCategoryColors[category] ??
-    'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
 
   return (
     <motion.div variants={fadeInUp}>
-      <Link href={`/blog/${post.slug}`}>
-        <Card className="group flex h-full flex-col overflow-hidden border-0 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-          {post.frontmatter.coverImage && (
-            <div className="relative h-52 w-full overflow-hidden">
+      <Link href={`/blog/${post.slug}`} className="block h-full">
+        <Card className="group flex h-full flex-col overflow-hidden rounded-md border-0 bg-card transition-colors duration-200 hover:bg-secondary">
+          {post.frontmatter.coverImage ? (
+            <div className="relative h-52 w-full overflow-hidden bg-secondary">
               <Image
                 src={post.frontmatter.coverImage}
                 alt={post.frontmatter.title}
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-              <Badge
-                className={`absolute bottom-3 left-3 border-0 text-xs font-semibold ${badgeColor}`}
-              >
+              <Badge className="absolute bottom-3 left-3 rounded-sm border-0 bg-primary px-2.5 py-1 text-xs font-extrabold text-primary-foreground">
                 {category}
               </Badge>
             </div>
-          )}
-
-          {!post.frontmatter.coverImage && (
-            <div className="to-muted/50 flex h-52 items-center justify-center bg-gradient-to-br from-muted">
-              <Badge className={`border-0 text-xs font-semibold ${badgeColor}`}>
+          ) : (
+            <div className="flex h-36 items-end justify-between bg-foreground p-5 text-background">
+              <Badge className="rounded-sm border-0 bg-primary px-2.5 py-1 text-xs font-extrabold text-primary-foreground">
                 {category}
               </Badge>
+              <span className="text-background/65 text-xs font-bold">MDX</span>
             </div>
           )}
 
-          <div className="flex flex-1 flex-col p-6">
-            <h2 className="mb-3 text-lg font-bold leading-snug text-foreground transition-colors group-hover:text-primary">
-              {post.frontmatter.title}
-            </h2>
-            <p className="mb-6 line-clamp-3 flex-1 text-sm text-muted-foreground">
-              {post.frontmatter.description}
-            </p>
-            <div className="flex items-center gap-4 text-xs text-muted-foreground">
+          <div className="flex flex-1 flex-col justify-between p-6">
+            <div>
+              <h2 className="mb-3 text-lg font-extrabold leading-snug text-foreground transition-colors group-hover:text-primary">
+                {post.frontmatter.title}
+              </h2>
+              <p className="mb-6 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
+                {post.frontmatter.description}
+              </p>
+            </div>
+
+            <div className="flex items-center justify-between gap-4 text-xs font-semibold text-muted-foreground">
               <span className="flex items-center gap-1.5">
-                <CalendarIcon className="h-3.5 w-3.5" />
+                <CalendarIcon className="h-3.5 w-3.5 text-primary" />
                 <time dateTime={post.frontmatter.publishedAt}>
                   {new Date(post.frontmatter.publishedAt).toLocaleDateString(
                     'tr-TR',
@@ -271,7 +241,7 @@ function PostCard({ post }: { post: BlogPost }) {
               </span>
               {post.frontmatter.readingTime && (
                 <span className="flex items-center gap-1.5">
-                  <ClockIcon className="h-3.5 w-3.5" />
+                  <ClockIcon className="h-3.5 w-3.5 text-primary" />
                   {post.frontmatter.readingTime} dk
                 </span>
               )}

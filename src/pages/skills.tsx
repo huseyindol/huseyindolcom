@@ -31,7 +31,7 @@ export default function SkillsPage({
           'Web Geliştirme',
         ]}
       />
-      <main className="min-h-screen">
+      <main className="min-h-svh">
         <ErrorBoundary>
           <SkillsContent
             skills={skills}

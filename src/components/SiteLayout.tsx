@@ -12,7 +12,7 @@ export default function SiteLayout({
   return (
     <>
       <Header />
-      <main className="flex-1 pt-20">{children}</main>
+      <main className="flex-1 pt-[72px]">{children}</main>
       <Footer />
     </>
   )

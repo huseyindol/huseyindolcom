@@ -8,7 +8,7 @@ import { LogOut, Menu, X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useEffect, useState, useTransition } from 'react'
+import { useState, useTransition } from 'react'
 
 const mainNavLinks = [
   { href: '/about', label: 'Hakkında' },
@@ -34,12 +34,9 @@ const authCookies = [
 ] as const
 
 export default function Header() {
-  // usePathname HER İKİ router'da da çalışır (useRouter'ın aksine) — Header
-  // taşıma sürerken hem app/ hem pages/ layout'unda render ediliyor.
   const pathname = usePathname() ?? ''
   const isEllyPage = pathname.startsWith('/projects/elly')
   const navLinksToUse = isEllyPage ? ellyNavLinks : mainNavLinks
-  const [scrolled, setScrolled] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [isPending, startTransition] = useTransition()
   const { cookies } = useCookie()
@@ -50,19 +47,10 @@ export default function Header() {
       await siteLogout()
       authCookies.forEach(removeGlobalCookie)
       removeGlobalCookie(CookieEnum.USERNAME)
-      // Chat guest kimliğini de temizle → tekrar girişte eski guest adı kalmasın
       clearGuestStorage()
-      // Router'dan bağımsız tam gezinme: çıkışta zaten tüm istemci durumu
-      // sıfırlanmalı (cookie'ler temizlendi), ayrıca iki router'da da çalışır.
       window.location.assign('/login')
     })
   }
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
 
   function isActive(href: string) {
     if (href === '/projects/elly') return pathname === '/projects/elly'
@@ -70,106 +58,125 @@ export default function Header() {
   }
 
   return (
-    <header
-      className={`fixed top-0 z-50 w-full transition-colors duration-200 ${
-        scrolled ? 'bg-card text-foreground' : 'bg-background text-foreground'
-      }`}
-    >
-      <div className="container mx-auto flex items-center justify-between px-6 py-4">
-        {/* Wordmark */}
-        <Link
-          href="/"
-          className="group flex items-center gap-3"
-          onClick={() =>
-            sendGTMEvent({ virtual: '/', event: 'buttonClick', target: 'home' })
-          }
-        >
-          <div className="relative h-9 w-9 shrink-0 overflow-hidden bg-card">
-            <Image
-              src="/assets/img/huseyindol.png"
-              alt="Hüseyin DOL"
-              width={36}
-              height={36}
-              className="h-full w-full object-cover"
-            />
-          </div>
-          <span className="text-base font-extrabold tracking-tight text-foreground transition-colors group-hover:text-primary">
-            Hüseyin DOL
-          </span>
-        </Link>
+    <header className="fixed top-0 z-50 w-full bg-background px-2 pt-2 md:px-3">
+      <div className="mx-auto max-w-[1680px]">
+        <div className="grid grid-cols-12 gap-2">
+          {/* Tile 1: Brand & Status */}
+          <Link
+            href="/"
+            onClick={() =>
+              sendGTMEvent({
+                virtual: '/',
+                event: 'buttonClick',
+                target: 'home',
+              })
+            }
+            className="group col-span-7 flex h-14 items-center justify-between rounded-md bg-card px-4 transition-colors hover:bg-secondary md:col-span-3"
+          >
+            <div className="flex items-center gap-3">
+              <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-sm bg-secondary">
+                <Image
+                  src="/assets/img/huseyindol.png"
+                  alt="Hüseyin DOL"
+                  width={32}
+                  height={32}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <span className="text-sm font-extrabold tracking-tight text-foreground transition-colors group-hover:text-primary md:text-base">
+                Hüseyin DOL
+              </span>
+            </div>
+            <span className="hidden items-center gap-1.5 rounded-sm bg-secondary px-2 py-0.5 text-xs font-semibold text-muted-foreground lg:inline-flex">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+              IST
+            </span>
+          </Link>
 
-        {/* Desktop nav */}
-        <nav className="hidden items-center gap-1 md:flex">
-          {navLinksToUse.map(link => {
-            const active = isActive(link.href)
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() =>
-                  sendGTMEvent({
-                    virtual: link.href,
-                    event: 'buttonClick',
-                    target: link.href.startsWith('/projects/elly')
-                      ? link.href
-                      : link.href.slice(1),
-                  })
-                }
-                className={`inline-flex items-center gap-2 px-3.5 py-2 text-sm transition-colors ${
-                  active
-                    ? 'font-bold text-foreground'
-                    : 'font-medium text-muted-foreground hover:text-foreground'
-                }`}
-              >
-                {active && (
-                  <span
-                    aria-hidden="true"
-                    className="h-1.5 w-1.5 shrink-0 bg-primary"
-                  />
-                )}
-                {link.label}
-              </Link>
-            )
-          })}
+          {/* Tiles 2–6: Desktop Navigation Board */}
+          <nav
+            aria-label="Ana Menü"
+            className="hidden md:col-span-6 md:grid md:grid-cols-5 md:gap-2"
+          >
+            {navLinksToUse.map(link => {
+              const active = isActive(link.href)
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() =>
+                    sendGTMEvent({
+                      virtual: link.href,
+                      event: 'buttonClick',
+                      target: link.href.startsWith('/projects/elly')
+                        ? link.href
+                        : link.href.slice(1),
+                    })
+                  }
+                  className={`flex h-14 items-center justify-between rounded-md px-3.5 text-sm font-semibold transition-colors ${
+                    active
+                      ? 'bg-foreground text-background'
+                      : 'bg-card text-muted-foreground hover:bg-secondary hover:text-foreground'
+                  }`}
+                >
+                  <span className="truncate">{link.label}</span>
+                  {active && (
+                    <span
+                      aria-hidden="true"
+                      className="h-2 w-2 shrink-0 rounded-full bg-primary"
+                    />
+                  )}
+                </Link>
+              )
+            })}
+          </nav>
 
-          <div className="ml-3 flex items-center gap-2">
-            <ThemeToggle />
+          {/* Tile 7: Desktop Theme + Primary CTA + Logout */}
+          <div className="hidden md:col-span-3 md:flex md:gap-2">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-md bg-card">
+              <ThemeToggle />
+            </div>
             <Link
               href="mailto:huseyindol@gmail.com"
-              className="ml-1 bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-foreground hover:text-background"
+              className="flex h-14 flex-1 items-center justify-between rounded-md bg-primary px-4 text-sm font-extrabold text-primary-foreground transition-colors hover:bg-foreground hover:text-background"
             >
-              İletişime Geç
+              <span>İletişime Geç</span>
+              <span aria-hidden="true">↗</span>
             </Link>
             {isLoggedIn && (
               <button
                 onClick={handleLogout}
                 disabled={isPending}
                 title="Çıkış Yap"
-                className="bg-destructive/15 flex h-9 w-9 items-center justify-center text-destructive transition-colors hover:bg-destructive hover:text-destructive-foreground disabled:opacity-50"
+                className="flex h-14 w-14 shrink-0 items-center justify-center rounded-md bg-card text-destructive transition-colors hover:bg-destructive hover:text-destructive-foreground disabled:opacity-50"
               >
                 <LogOut className="h-4 w-4" />
               </button>
             )}
           </div>
-        </nav>
 
-        {/* Mobile controls */}
-        <div className="flex items-center gap-2 md:hidden">
-          <ThemeToggle />
-          <button
-            onClick={() => setIsOpen(v => !v)}
-            aria-label="Menü"
-            className="flex h-9 w-9 items-center justify-center bg-card text-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
-          >
-            {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+          {/* Mobile Controls Tile */}
+          <div className="col-span-5 flex justify-end gap-2 md:hidden">
+            <div className="flex h-14 w-14 items-center justify-center rounded-md bg-card">
+              <ThemeToggle />
+            </div>
+            <button
+              onClick={() => setIsOpen(v => !v)}
+              aria-label="Menü"
+              className="flex h-14 w-14 items-center justify-center rounded-md bg-primary text-primary-foreground transition-colors hover:bg-foreground hover:text-background"
+            >
+              {isOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
+            </button>
+          </div>
         </div>
-      </div>
 
-      {/* Mobile menu — flat surface, zero runtime overhead */}
-      {isOpen && (
-        <div className="animate-mobile-menu bg-card px-6 pb-6 pt-2 md:hidden">
-          <nav className="flex flex-col gap-1">
+        {/* Mobile Tile Board Menu */}
+        {isOpen && (
+          <div className="animate-mobile-menu mt-2 grid grid-cols-2 gap-2 pb-2 md:hidden">
             {navLinksToUse.map(link => {
               const active = isActive(link.href)
               return (
@@ -177,47 +184,47 @@ export default function Header() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setIsOpen(false)}
-                  className={`flex items-center gap-2.5 px-4 py-3 text-sm transition-colors ${
+                  className={`flex h-12 items-center justify-between rounded-md px-4 text-sm font-semibold transition-colors ${
                     active
-                      ? 'bg-background font-bold text-foreground'
-                      : 'font-medium text-muted-foreground hover:bg-background hover:text-foreground'
+                      ? 'bg-foreground text-background'
+                      : 'bg-card text-foreground hover:bg-secondary'
                   }`}
                 >
+                  <span>{link.label}</span>
                   {active && (
                     <span
                       aria-hidden="true"
-                      className="h-1.5 w-1.5 shrink-0 bg-primary"
+                      className="h-2 w-2 rounded-full bg-primary"
                     />
                   )}
-                  {link.label}
                 </Link>
               )
             })}
-            <div className="mt-3 flex items-center gap-2">
-              <Link
-                href="mailto:huseyindol@gmail.com"
-                onClick={() => setIsOpen(false)}
-                className="flex-1 bg-primary px-4 py-3 text-center text-sm font-semibold text-primary-foreground transition-colors hover:bg-foreground hover:text-background"
+            <Link
+              href="mailto:huseyindol@gmail.com"
+              onClick={() => setIsOpen(false)}
+              className="col-span-2 flex h-12 items-center justify-between rounded-md bg-primary px-4 text-sm font-extrabold text-primary-foreground"
+            >
+              <span>İletişime Geç</span>
+              <span aria-hidden="true">↗</span>
+            </Link>
+            {isLoggedIn && (
+              <button
+                onClick={() => {
+                  setIsOpen(false)
+                  handleLogout()
+                }}
+                disabled={isPending}
+                title="Çıkış Yap"
+                className="col-span-2 flex h-12 items-center justify-center gap-2 rounded-md bg-card text-sm font-semibold text-destructive"
               >
-                İletişime Geç
-              </Link>
-              {isLoggedIn && (
-                <button
-                  onClick={() => {
-                    setIsOpen(false)
-                    handleLogout()
-                  }}
-                  disabled={isPending}
-                  title="Çıkış Yap"
-                  className="bg-destructive/15 flex h-11 w-11 shrink-0 items-center justify-center text-destructive transition-colors hover:bg-destructive hover:text-destructive-foreground disabled:opacity-50"
-                >
-                  <LogOut className="h-5 w-5" />
-                </button>
-              )}
-            </div>
-          </nav>
-        </div>
-      )}
+                <LogOut className="h-4 w-4" />
+                <span>Çıkış Yap</span>
+              </button>
+            )}
+          </div>
+        )}
+      </div>
     </header>
   )
 }

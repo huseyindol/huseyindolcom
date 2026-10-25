@@ -46,50 +46,101 @@ const socialLinks = [
 
 export default function Footer() {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-60px' })
+  const isInView = useInView(ref, { once: true, margin: '-40px' })
 
   return (
-    <footer ref={ref} className="bg-foreground text-background">
-      <div className="container mx-auto flex min-h-[75svh] flex-col justify-between px-6 py-16 md:py-24">
-        {/* Top Row: 4 Editorial Columns */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-          className="grid gap-12 md:grid-cols-12"
-        >
-          {/* Column 1: Identity */}
-          <div className="md:col-span-4">
-            <Link href="/" className="mb-5 flex items-center gap-3">
-              <div className="bg-background/10 relative h-10 w-10 shrink-0 overflow-hidden">
+    <footer ref={ref} className="px-2 pb-2 md:px-3">
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className="mx-auto flex max-w-[1680px] flex-col gap-2"
+      >
+        {/* Row 1: Action Tile Band (dense-tiles §7.3 CTA row) */}
+        <div className="grid grid-cols-12 gap-2">
+          <div className="col-span-12 flex flex-col justify-between rounded-md bg-card p-6 md:col-span-3">
+            <span className="text-xs font-extrabold text-primary">
+              Yeni Proje & Danışmanlık
+            </span>
+            <p className="mt-4 text-sm font-semibold text-foreground">
+              Kurumsal mimari, ekip liderliği ve uçtan uca ürün geliştirme için
+              iletişime geçin.
+            </p>
+          </div>
+
+          <div className="col-span-12 flex flex-col justify-between gap-6 rounded-md bg-primary p-6 text-primary-foreground md:col-span-6 md:flex-row md:items-center md:p-8">
+            <div>
+              <h2 className="mb-1 text-2xl font-extrabold tracking-tight md:text-3xl">
+                Birlikte Üretelim
+              </h2>
+              <p className="text-primary-foreground/90 text-sm font-medium">
+                huseyindol@gmail.com üzerinden doğrudan ulaşabilirsiniz.
+              </p>
+            </div>
+            <a
+              href="mailto:huseyindol@gmail.com"
+              className="inline-flex h-12 shrink-0 items-center justify-center rounded-sm bg-foreground px-6 text-sm font-extrabold text-background transition-colors hover:bg-background hover:text-foreground"
+            >
+              E-posta Gönder ↗
+            </a>
+          </div>
+
+          <div className="col-span-12 flex flex-col justify-between rounded-md bg-foreground p-6 text-background md:col-span-3">
+            <span className="text-xs font-extrabold text-primary">
+              Özgeçmiş (2026)
+            </span>
+            <div className="mt-4 flex items-end justify-between">
+              <span className="text-background/85 text-sm font-bold">
+                Hüseyin DOL · PDF
+              </span>
+              <a
+                href="/assets/files/Huseyin_DOL_CV_2026.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-sm bg-primary px-3.5 py-2 text-xs font-extrabold text-primary-foreground transition-colors hover:bg-background hover:text-foreground"
+              >
+                CV İndir →
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Row 2: 4 Info Tiles + Monumental Block Wordmark Tile */}
+        <div className="grid grid-cols-12 gap-2">
+          {/* Identity Tile */}
+          <div className="col-span-12 flex flex-col justify-between rounded-md bg-card p-6 md:col-span-4">
+            <Link href="/" className="mb-4 flex items-center gap-3">
+              <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-sm bg-secondary">
                 <Image
                   src="/assets/img/huseyindol.png"
                   alt="Hüseyin DOL"
-                  width={40}
-                  height={40}
+                  width={36}
+                  height={36}
                   className="h-full w-full object-cover"
                 />
               </div>
-              <span className="text-base font-extrabold tracking-tight text-background">
+              <span className="text-base font-extrabold tracking-tight text-foreground">
                 Hüseyin DOL
               </span>
             </Link>
-            <p className="text-background/70 max-w-sm text-sm leading-relaxed">
+            <p className="text-sm leading-relaxed text-muted-foreground">
               Software Developer. React, Next.js ve TypeScript ile frontend,
               Java ve Spring Boot ile backend; uçtan uca web uygulamaları
               geliştiriyorum.
             </p>
           </div>
 
-          {/* Column 2: Navigation */}
-          <div className="md:col-span-2">
-            <h3 className="mb-4 text-sm font-bold text-background">Sayfalar</h3>
-            <ul className="space-y-2.5">
+          {/* Navigation Tile */}
+          <div className="col-span-6 rounded-md bg-card p-6 md:col-span-2">
+            <h3 className="mb-3 text-sm font-extrabold text-foreground">
+              Sayfalar
+            </h3>
+            <ul className="space-y-2">
               {navLinks.map(link => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-background/70 text-sm transition-colors hover:text-primary"
+                    className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
                   >
                     {link.label}
                   </Link>
@@ -98,95 +149,71 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 3: Architecture & Stack */}
-          <div className="md:col-span-3">
-            <h3 className="mb-4 text-sm font-bold text-background">Bu Site</h3>
-            <div className="flex flex-wrap gap-1.5">
-              {techStack.map(tech => (
-                <span
-                  key={tech}
-                  className="bg-background/10 text-background/80 px-2.5 py-1 text-xs font-medium"
-                >
-                  {tech}
-                </span>
-              ))}
+          {/* Tech Stack Tile */}
+          <div className="col-span-6 flex flex-col justify-between rounded-md bg-card p-6 md:col-span-3">
+            <div>
+              <h3 className="mb-3 text-sm font-extrabold text-foreground">
+                Bu Site
+              </h3>
+              <div className="flex flex-wrap gap-1.5">
+                {techStack.map(tech => (
+                  <span
+                    key={tech}
+                    className="rounded-sm bg-secondary px-2.5 py-1 text-xs font-bold text-foreground"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
             </div>
-            <div className="mt-5">
-              <Link
-                href="https://github.com/huseyindol/huseyindolcom"
-                target="_blank"
-                className="text-background/75 inline-flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary"
-              >
-                <Github className="h-4 w-4" />
-                Açık kaynak kodları
-              </Link>
-            </div>
+            <Link
+              href="https://github.com/huseyindol/huseyindolcom"
+              target="_blank"
+              className="mt-4 inline-flex items-center gap-2 text-xs font-extrabold text-primary transition-colors hover:text-foreground"
+            >
+              <Github className="h-4 w-4" />
+              Açık Kaynak Kodları ↗
+            </Link>
           </div>
 
-          {/* Column 4: Direct Contact & Social */}
-          <div className="md:col-span-3">
-            <h3 className="mb-4 text-sm font-bold text-background">İletişim</h3>
-            <div className="mb-6">
-              <a
-                href="mailto:huseyindol@gmail.com"
-                className="text-background/80 inline-flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary"
-              >
-                <Mail className="h-4 w-4 shrink-0 text-primary" />
-                huseyindol@gmail.com
-              </a>
+          {/* Social & Copyright Tile */}
+          <div className="col-span-12 flex flex-col justify-between rounded-md bg-card p-6 md:col-span-3">
+            <div>
+              <h3 className="mb-3 text-sm font-extrabold text-foreground">
+                Bağlantılar
+              </h3>
+              <div className="flex gap-2">
+                {socialLinks.map(s => (
+                  <Link
+                    key={s.label}
+                    href={s.href}
+                    target={s.href.startsWith('mailto') ? undefined : '_blank'}
+                    aria-label={s.label}
+                    title={s.label}
+                    className="flex h-10 flex-1 items-center justify-center rounded-sm bg-secondary text-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
+                  >
+                    <s.icon className="h-4 w-4" />
+                  </Link>
+                ))}
+              </div>
             </div>
-
-            <h4 className="mb-3 text-sm font-bold text-background">
-              Bağlantılar
-            </h4>
-            <div className="flex gap-2">
-              {socialLinks.map(s => (
-                <Link
-                  key={s.label}
-                  href={s.href}
-                  target={s.href.startsWith('mailto') ? undefined : '_blank'}
-                  aria-label={s.label}
-                  title={s.label}
-                  className="bg-background/10 text-background/80 flex h-10 w-10 items-center justify-center transition-colors hover:bg-primary hover:text-primary-foreground"
-                >
-                  <s.icon className="h-4 w-4" />
-                </Link>
-              ))}
-            </div>
+            <p className="mt-6 text-xs font-semibold text-muted-foreground">
+              © {currentYear} Hüseyin DOL · İstanbul
+            </p>
           </div>
-        </motion.div>
+        </div>
 
-        {/* Bottom Row: Full-width Statement Wordmark + Colophon */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.15 }}
-          className="mt-20 pt-8"
-        >
+        {/* Row 3: Monumental Block Wordmark Tile (dense-tiles §7.4) */}
+        <div className="overflow-hidden rounded-md bg-foreground px-4 py-4 text-background md:px-6 md:py-5">
           <div
             aria-hidden="true"
-            className="mb-6 select-none font-extrabold leading-[0.86] tracking-[-0.045em] text-background"
-            style={{ fontSize: 'clamp(3rem, 11.2vw, 10.5rem)' }}
+            className="select-none text-center font-extrabold leading-[0.84] tracking-[-0.045em] text-background"
+            style={{ fontSize: 'clamp(2.8rem, 11.4vw, 11.5rem)' }}
           >
             HÜSEYİN DOL
           </div>
-
-          <div className="text-background/65 flex flex-col items-start justify-between gap-4 text-sm sm:flex-row sm:items-center">
-            <p>
-              © {currentYear} Hüseyin DOL. React, Next.js & TypeScript ile inşa
-              edildi.
-            </p>
-            <a
-              href="/assets/files/Huseyin_DOL_CV_2026.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-semibold text-background transition-colors hover:text-primary"
-            >
-              CV İndir →
-            </a>
-          </div>
-        </motion.div>
-      </div>
+        </div>
+      </motion.div>
     </footer>
   )
 }

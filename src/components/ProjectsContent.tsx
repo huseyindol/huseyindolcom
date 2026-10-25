@@ -17,17 +17,17 @@ import Link from 'next/link'
 import { useRef } from 'react'
 
 const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] as const },
+    transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] as const },
   },
 }
 
 const stagger = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.1 } },
+  visible: { transition: { staggerChildren: 0.06 } },
 }
 
 interface Project {
@@ -36,7 +36,6 @@ interface Project {
   subtitle: string
   description: string
   icon: React.ElementType
-  gradient: string
   status: 'live' | 'beta' | 'soon'
   statusLabel: string
   techStack: string[]
@@ -57,7 +56,6 @@ const projects: Project[] = [
     description:
       'Spring Boot 3.5 + Java 21 üzerine kurulu multitenant headless CMS API. Database-per-tenant mimarisi, RBAC yetkilendirme, Redis cache ve RabbitMQ ile kurumsal ölçekte içerik yönetimi altyapısı.',
     icon: ServerIcon,
-    gradient: 'from-emerald-500 to-teal-600',
     status: 'live',
     statusLabel: 'Canlı',
     techStack: [
@@ -90,7 +88,6 @@ const projects: Project[] = [
     description:
       "Elly CMS'in tüm içeriklerini yöneten modern admin paneli. Sayfalar, bileşenler, widget'lar, banner'lar, yazılar ve formları tek arayüzden yönetin. Google Gemini AI entegrasyonu ile içerik üretimi.",
     icon: LayoutDashboardIcon,
-    gradient: 'from-blue-500 to-indigo-600',
     status: 'live',
     statusLabel: 'Canlı',
     techStack: [
@@ -122,7 +119,6 @@ const projects: Project[] = [
     description:
       "Şu an gezdiğiniz site. Elly CMS'den beslenen dinamik sayfa sistemi, MDX tabanlı teknik blog, Framer Motion animasyonları ve Next.js Pages Router mimarisi ile inşa edilmiş modern bir portföy sitesi.",
     icon: GlobeIcon,
-    gradient: 'from-violet-500 to-purple-600',
     status: 'live',
     statusLabel: 'Canlı',
     techStack: [
@@ -153,7 +149,6 @@ const projects: Project[] = [
     description:
       'Elly ekosisteminin mobil ayağı. Feature-based mimarisi, type-safe navigation, tam karanlık mod desteği ve React Native Reanimated 3 ile native hissiyatlı animasyonlar.',
     icon: SmartphoneIcon,
-    gradient: 'from-pink-500 to-rose-600',
     status: 'soon',
     statusLabel: 'Flight Test',
     techStack: [
@@ -182,7 +177,6 @@ const projects: Project[] = [
     description:
       'Next.js Pages Router içerisine entegre edilmiş, Phaser oyun motoru ve Vite ile geliştirilmiş klasik 2D arcade oyunları. Akıcı 60fps oyun deneyimi ve modern web teknolojileri ile tarayıcıda doğrudan oynanabilir.',
     icon: GamepadIcon,
-    gradient: 'from-orange-500 to-amber-600',
     status: 'live',
     statusLabel: 'Oyna',
     techStack: ['Phaser', 'Next.js 16', 'React', 'TypeScript', 'Vite'],
@@ -205,7 +199,6 @@ const projects: Project[] = [
     description:
       'Godot 4.x ile geliştirilmiş, WebAssembly export üzerinde çalışan eğitici eşleştirme oyunu. 24 seviyede renk, hayvan ve meyve eşleştirme; oturum metrikleri ve final ekranındaki ebeveyn paneli ile öğrenme özetleri.',
     icon: JoystickIcon,
-    gradient: 'from-cyan-500 to-sky-600',
     status: 'live',
     statusLabel: 'Oyna',
     techStack: [
@@ -234,7 +227,6 @@ const projects: Project[] = [
     description:
       'Godot 4 ile geliştirilmiş vinç (crane) operatörü simülasyon oyunu. Vinç kontrolü ve yük taşıma dinamikleri. Tarayıcıda tam ekran oynanabilir.',
     icon: JoystickIcon,
-    gradient: 'from-violet-400 to-fuchsia-600',
     status: 'live',
     statusLabel: 'Oyna',
     techStack: ['Godot 4', 'GDScript', 'WebAssembly', 'Next.js 16'],
@@ -255,7 +247,6 @@ const projects: Project[] = [
     description:
       'Tumble Trail 4x4: sonsuz dağ yolunda 2.5D 4x4 macera. Süspansiyonu ayarla, kayaların üstünden tırman, devrilmeden ve yakıtı bitirmeden ilerle; jetonlarla garajda aracını geliştir. Flutter Web ile tarayıcıda doğrudan oynanabilir.',
     icon: GamepadIcon,
-    gradient: 'from-blue-400 to-cyan-600',
     status: 'live',
     statusLabel: 'Oyna',
     techStack: ['Flutter', 'Dart', 'WebAssembly', 'Next.js 16'],
@@ -276,7 +267,6 @@ const projects: Project[] = [
     description:
       'Flutter Web ile geliştirilmiş Hyper Drift: Arcade oyunu. Harika fizikler ve drift mekanikleri. Tarayıcıda tam ekran oynanabilir.',
     icon: GamepadIcon,
-    gradient: 'from-orange-400 to-red-600',
     status: 'live',
     statusLabel: 'Oyna',
     techStack: ['Flutter', 'Dart', 'WebAssembly', 'Next.js 16'],
@@ -297,7 +287,6 @@ const projects: Project[] = [
     description:
       'Flutter Web ile geliştirilmiş futbol frikik atış oyunu. Akıcı top fiziği, baraj mekanikleri ve hedef vurma heyecanı. Tarayıcıda tam ekran oynanabilir.',
     icon: GamepadIcon,
-    gradient: 'from-green-400 to-emerald-600',
     status: 'live',
     statusLabel: 'Oyna',
     techStack: ['Flutter', 'Dart', 'WebAssembly', 'Next.js 16'],
@@ -318,7 +307,6 @@ const projects: Project[] = [
     description:
       'Flutter Web ile geliştirilmiş eğlenceli boyama ve bulmaca oyunu. Renkleri karıştırma ve yaratıcılığınızı konuşturma fırsatı. Tarayıcıda tam ekran oynanabilir.',
     icon: GamepadIcon,
-    gradient: 'from-pink-400 to-rose-600',
     status: 'live',
     statusLabel: 'Oyna',
     techStack: ['Flutter', 'Dart', 'WebAssembly', 'Next.js 16'],
@@ -339,7 +327,6 @@ const projects: Project[] = [
     description:
       'Flutter ve Flame ile geliştirilmiş renk karıştırma oyunu. Kavanozlardan hamur topu al, kasede parmağınla yoğur, hedef rengi yap ve hikâye kitabını renklendir. Web demosunda ilk 3 seviye oynanır; tam oyun yakında App Store’da.',
     icon: GamepadIcon,
-    gradient: 'from-emerald-400 to-teal-600',
     status: 'live',
     statusLabel: 'Oyna',
     techStack: ['Flutter', 'Flame', 'Dart', 'Next.js 16'],
@@ -354,9 +341,9 @@ const projects: Project[] = [
 ]
 
 const statusConfig = {
-  live: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300',
-  beta: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
-  soon: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300',
+  live: 'bg-primary text-primary-foreground',
+  beta: 'bg-foreground text-background',
+  soon: 'bg-secondary text-foreground',
 }
 
 export default function ProjectsContent() {
@@ -364,280 +351,247 @@ export default function ProjectsContent() {
   const gridInView = useInView(gridRef, { once: true, margin: '-60px' })
 
   return (
-    <div className="min-h-screen">
-      {/* Hero */}
-      <section className="relative -mt-20 overflow-hidden bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 py-32 pt-32 text-white md:py-40 md:pt-40">
-        <div className="animate-orb-1 pointer-events-none absolute -left-40 -top-40 h-96 w-96 rounded-full bg-violet-600/15 blur-3xl" />
-        <div className="animate-orb-2 pointer-events-none absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-emerald-600/15 blur-3xl" />
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.06]"
-          style={{
-            backgroundImage:
-              'radial-gradient(circle, rgba(255,255,255,1) 1px, transparent 1px)',
-            backgroundSize: '40px 40px',
-          }}
-        />
-
-        <div className="container relative mx-auto px-6">
-          <div className="mx-auto max-w-3xl text-center">
-            <Badge className="mb-6 border border-violet-400/30 bg-violet-500/20 px-4 py-1.5 text-sm font-medium text-violet-200">
-              Açık Kaynak
-            </Badge>
-            <h1 className="mb-5 text-4xl font-extrabold md:text-6xl">
-              Projelerim
-            </h1>
-            <p className="text-lg text-slate-300 md:text-xl">
-              Elly ekosistemi ve kişisel projelerim. Backend'den mobil'e, admin
-              panelinden portföy sitesine kadar uçtan uca bir yazılım ailesi.
+    <div className="min-h-svh px-2 pb-2 md:px-3">
+      <div className="mx-auto flex max-w-[1680px] flex-col gap-2">
+        {/* Top Board Header Row */}
+        <section className="grid grid-cols-12 gap-2">
+          <div className="col-span-12 flex flex-col justify-between rounded-md bg-card p-6 md:p-8 lg:col-span-6">
+            <div>
+              <Badge className="mb-4 rounded-sm border-0 bg-primary px-3 py-1 text-xs font-extrabold text-primary-foreground">
+                Açık Kaynak & Ürün Ailesi
+              </Badge>
+              <h1
+                className="mb-3 font-extrabold tracking-tight text-foreground"
+                style={{ fontSize: 'clamp(2.25rem, 1.2rem + 3.5vw, 4.25rem)' }}
+              >
+                Projelerim
+              </h1>
+            </div>
+            <p className="max-w-[60ch] text-base leading-relaxed text-muted-foreground md:text-lg">
+              Elly ekosistemi ve kişisel projelerim. Backend&apos;den
+              mobil&apos;e, admin panelinden portföy sitesine ve WebAssembly
+              oyunlarına kadar uçtan uca bir yazılım ailesi.
             </p>
+          </div>
 
-            <div className="mt-10 flex justify-center gap-8 text-sm text-slate-400">
-              <div className="text-center">
-                <p className="text-2xl font-bold text-white">9</p>
-                <p>Proje</p>
+          <div className="col-span-12 flex flex-col justify-between gap-2 lg:col-span-6">
+            <div className="grid grid-cols-3 gap-2">
+              <div className="rounded-md bg-primary p-5 text-primary-foreground">
+                <p className="text-3xl font-extrabold leading-none">
+                  {projects.length}
+                </p>
+                <p className="mt-2 text-xs font-bold">Toplam Proje</p>
               </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-white">8</p>
-                <p>Canlı</p>
+              <div className="rounded-md bg-foreground p-5 text-background">
+                <p className="text-3xl font-extrabold leading-none text-primary">
+                  11
+                </p>
+                <p className="text-background/80 mt-2 text-xs font-bold">
+                  Canlı Sistem
+                </p>
               </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-white">1</p>
-                <p>Flight Test</p>
+              <div className="rounded-md bg-card p-5 text-foreground">
+                <p className="text-3xl font-extrabold leading-none text-primary">
+                  1
+                </p>
+                <p className="mt-2 text-xs font-bold text-muted-foreground">
+                  Flight Test
+                </p>
               </div>
             </div>
 
-            {/* Project Inline Tags */}
-            <div className="mt-12 flex flex-wrap items-center justify-center gap-2 md:gap-3">
-              {[
-                {
-                  label: 'Elly Backend',
-                  color: 'emerald',
-                  icon: ServerIcon,
-                  target: 'elly-backend',
-                },
-                {
-                  label: 'Admin Panel',
-                  color: 'blue',
-                  icon: LayoutDashboardIcon,
-                  target: 'elly-admin',
-                },
-                {
-                  label: 'Portfolio Site',
-                  color: 'violet',
-                  icon: GlobeIcon,
-                  target: 'portfolio',
-                },
-                {
-                  label: 'Mobile App',
-                  color: 'pink',
-                  icon: SmartphoneIcon,
-                  target: 'elly-mobile',
-                },
-                {
-                  label: 'Arcade Games',
-                  color: 'orange',
-                  icon: GamepadIcon,
-                  target: 'arcade-games',
-                },
-                {
-                  label: 'Godot Games',
-                  color: 'cyan',
-                  icon: JoystickIcon,
-                  target: 'godot-engine-games',
-                },
-                {
-                  label: 'Flutter Games',
-                  color: 'blue',
-                  icon: GamepadIcon,
-                  target: 'flutter-games',
-                },
-              ].map((item, idx, items) => (
-                <div
-                  key={item.target}
-                  className="flex items-center gap-2 md:gap-3"
-                >
-                  <div
+            <div className="flex flex-1 flex-col justify-between rounded-md bg-card p-5">
+              <span className="mb-3 text-xs font-bold text-muted-foreground">
+                Hızlı Atlama Panosu
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {[
+                  { label: 'Elly Backend', target: 'elly-backend' },
+                  { label: 'Admin Panel', target: 'elly-admin' },
+                  { label: 'Portfolio Site', target: 'portfolio' },
+                  { label: 'Mobile App', target: 'elly-mobile' },
+                  { label: 'Arcade Games', target: 'arcade-games' },
+                  { label: 'Godot Games', target: 'godot-engine-games' },
+                  { label: 'Flutter Games', target: 'flutter-games' },
+                ].map(item => (
+                  <button
+                    key={item.target}
+                    type="button"
                     onClick={() => {
                       document
                         .getElementById(item.target)
                         ?.scrollIntoView({ behavior: 'smooth' })
                     }}
-                    className={`flex cursor-pointer items-center gap-2 rounded-full border px-4 py-2 text-[11px] font-bold backdrop-blur-md transition-all hover:scale-105 md:text-xs ${
-                      item.color === 'emerald'
-                        ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300'
-                        : item.color === 'blue'
-                          ? 'border-blue-500/30 bg-blue-500/10 text-blue-300'
-                          : item.color === 'violet'
-                            ? 'border-violet-500/30 bg-violet-500/10 text-violet-300'
-                            : item.color === 'pink'
-                              ? 'border-pink-500/30 bg-pink-500/10 text-pink-300'
-                              : item.color === 'cyan'
-                                ? 'border-cyan-500/35 bg-cyan-500/10 text-cyan-200'
-                                : 'border-orange-500/50 bg-orange-500/20 text-orange-300 shadow-[0_0_15px_rgba(249,115,22,0.4)] ring-1 ring-orange-500/40'
-                    }`}
+                    className="rounded-sm bg-secondary px-3 py-2 text-xs font-extrabold text-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
                   >
-                    <item.icon
-                      className={`h-4 w-4 ${item.color === 'orange' ? 'animate-pulse' : ''}`}
-                    />
                     {item.label}
-                  </div>
-                  {idx !== items.length - 1 && (
-                    <div className="hidden h-px w-3 bg-slate-700/50 xl:block" />
-                  )}
-                </div>
-              ))}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
+        </section>
+
+        <div className="rounded-md bg-card px-4">
+          <AdSenseAd slot="1535119733" />
         </div>
-      </section>
 
-      {/* Ad — ekosistem bölümü sonrası (üst) */}
-
-      {/* Ad — ekosistem bölümü sonrası (üst) */}
-      <div className="container mx-auto max-w-5xl px-6">
-        <AdSenseAd slot="1535119733" />
-      </div>
-
-      {/* Project cards */}
-      <section className="bg-muted/20 py-20">
-        <div className="container mx-auto px-6">
+        {/* Project Board Strips */}
+        <section>
           <motion.div
             ref={gridRef}
             initial="hidden"
             animate={gridInView ? 'visible' : 'hidden'}
             variants={stagger}
-            className="mx-auto max-w-5xl space-y-8"
+            className="flex flex-col gap-2"
           >
             {projects.map((project, index) => (
-              <>
-                <ProjectCard key={project.id} project={project} />
+              <div key={project.id} className="flex flex-col gap-2">
+                <ProjectCard project={project} index={index} />
                 {index === 1 && (
-                  <div key="ad-mid">
+                  <div className="rounded-md bg-card px-4">
                     <AdSenseAd slot="5199032579" />
                   </div>
                 )}
                 {index === 3 && (
-                  <div key="ad-bottom">
+                  <div className="rounded-md bg-card px-4">
                     <AdSenseAd slot="8283314736" />
                   </div>
                 )}
-              </>
+              </div>
             ))}
           </motion.div>
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   )
 }
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard({ project, index }: { project: Project; index: number }) {
   const Icon = project.icon
+  const invertLead = index % 2 === 0
 
   return (
-    <motion.div variants={fadeInUp} id={project.id} className="scroll-mt-24">
-      <Card className="overflow-hidden border-0 shadow-sm transition-shadow duration-300 hover:shadow-lg">
-        <div className="flex flex-col md:flex-row">
-          {/* Left accent */}
-          <div
-            className={`flex w-full items-center justify-center bg-gradient-to-br p-8 md:w-52 md:shrink-0 ${project.gradient}`}
+    <motion.div
+      variants={fadeInUp}
+      id={project.id}
+      className="grid scroll-mt-24 grid-cols-12 gap-2"
+    >
+      {/* Left Identity Tile (Cols 1-4) */}
+      <div
+        className={`col-span-12 flex flex-col justify-between rounded-md p-6 md:col-span-4 md:p-8 ${
+          invertLead
+            ? 'bg-foreground text-background'
+            : 'bg-secondary text-foreground'
+        }`}
+      >
+        <div>
+          <div className="mb-5 flex items-center justify-between gap-2">
+            <div
+              className={`inline-flex h-12 w-12 items-center justify-center rounded-sm ${
+                invertLead
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-card text-primary'
+              }`}
+            >
+              <Icon className="h-6 w-6" />
+            </div>
+            <div className="flex items-center gap-1.5">
+              {project.engine && (
+                <Badge className="rounded-sm border-0 bg-card px-2.5 py-0.5 text-xs font-extrabold text-foreground">
+                  {project.engine}
+                </Badge>
+              )}
+              <Badge
+                className={`rounded-sm border-0 px-2.5 py-0.5 text-xs font-extrabold ${statusConfig[project.status]}`}
+              >
+                {project.statusLabel}
+              </Badge>
+            </div>
+          </div>
+
+          <h2 className="mb-1 text-2xl font-extrabold tracking-tight">
+            {project.title}
+          </h2>
+          <p
+            className={`text-sm font-semibold ${
+              invertLead ? 'text-background/70' : 'text-muted-foreground'
+            }`}
           >
-            <Icon className="h-16 w-16 text-white/90" />
-          </div>
+            {project.subtitle}
+          </p>
+        </div>
 
-          {/* Content */}
-          <div className="flex flex-1 flex-col p-6 md:p-8">
-            <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
-              <div>
-                <div className="mb-1 flex flex-wrap items-center gap-2">
-                  <h3 className="text-xl font-extrabold">{project.title}</h3>
-                  <Badge
-                    className={`border-0 text-xs font-semibold ${statusConfig[project.status]}`}
-                  >
-                    {project.statusLabel}
-                  </Badge>
-                  {project.engine && (
-                    <Badge className="border-0 bg-slate-200/50 text-xs font-semibold text-slate-700 ring-1 ring-slate-300 dark:bg-slate-800/50 dark:text-slate-300 dark:ring-slate-700">
-                      {project.engine}
-                    </Badge>
-                  )}
-                </div>
-                <p className="text-sm font-medium text-muted-foreground">
-                  {project.subtitle}
-                </p>
-              </div>
+        <div className="mt-6 flex flex-wrap items-center gap-2">
+          {project.appIcon && (
+            /* eslint-disable-next-line @next/next/no-img-element */
+            <img
+              src={project.appIcon}
+              alt={project.title}
+              className="h-9 w-9 rounded-sm object-cover"
+            />
+          )}
+          {project.githubUrl && (
+            <Link
+              href={project.githubUrl}
+              target="_blank"
+              aria-label="GitHub"
+              className="flex h-9 w-9 items-center justify-center rounded-sm bg-card text-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
+            >
+              <Github className="h-4 w-4" />
+            </Link>
+          )}
+          {project.liveUrl && (
+            <Link
+              href={project.liveUrl}
+              target="_blank"
+              className="inline-flex h-9 items-center gap-1.5 rounded-sm bg-card px-3.5 text-xs font-extrabold text-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
+            >
+              <ExternalLinkIcon className="h-3.5 w-3.5" />
+              {project.liveLabel}
+            </Link>
+          )}
+          {project.ecosystemUrl && (
+            <Link
+              href={project.ecosystemUrl}
+              className="inline-flex h-9 items-center gap-1.5 rounded-sm bg-primary px-3.5 text-xs font-extrabold text-primary-foreground transition-colors hover:bg-card hover:text-foreground"
+            >
+              <LayersIcon className="h-3.5 w-3.5" />
+              Ekosistem
+            </Link>
+          )}
+        </div>
+      </div>
 
-              <div className="flex items-center gap-4">
-                {project.appIcon && (
-                  /* eslint-disable-next-line @next/next/no-img-element */
-                  <img
-                    src={project.appIcon}
-                    alt="App Icon"
-                    className="ring-border/50 h-10 w-10 rounded-xl object-cover shadow-sm ring-1"
-                  />
-                )}
-                <div className="flex gap-2">
-                  {project.githubUrl && (
-                    <Link
-                      href={project.githubUrl}
-                      target="_blank"
-                      aria-label="GitHub"
-                      className="hover:border-foreground/30 flex h-9 w-9 items-center justify-center rounded-full border border-border bg-muted text-muted-foreground transition-colors hover:text-foreground"
-                    >
-                      <Github className="h-4 w-4" />
-                    </Link>
-                  )}
-                  {project.liveUrl && (
-                    <Link
-                      href={project.liveUrl}
-                      target="_blank"
-                      className="hover:border-foreground/30 inline-flex h-9 items-center gap-1.5 rounded-full border border-border bg-muted px-4 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
-                    >
-                      <ExternalLinkIcon className="h-3.5 w-3.5" />
-                      {project.liveLabel}
-                    </Link>
-                  )}
-                  {project.ecosystemUrl && (
-                    <Link
-                      href={project.ecosystemUrl}
-                      className="flex h-9 items-center gap-1.5 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 px-4 text-xs font-bold text-white shadow-md shadow-emerald-500/20 transition-all hover:scale-105 hover:shadow-emerald-500/40"
-                    >
-                      <LayersIcon className="h-3.5 w-3.5" />
-                      Ekosistem
-                    </Link>
-                  )}
-                </div>
-              </div>
-            </div>
+      {/* Right Detail Tile (Cols 5-12) */}
+      <Card className="col-span-12 flex flex-col justify-between rounded-md border-0 bg-card p-6 md:col-span-8 md:p-8">
+        <div>
+          <p className="mb-6 max-w-[68ch] text-base leading-relaxed text-muted-foreground">
+            {project.description}
+          </p>
 
-            <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
-              {project.description}
-            </p>
+          <ul className="mb-6 grid gap-2 sm:grid-cols-2">
+            {project.highlights.map(h => (
+              <li
+                key={h}
+                className="flex items-start gap-2 rounded-sm bg-secondary p-3 text-xs font-semibold text-foreground md:text-sm"
+              >
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                <span>{h}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-            {/* Highlights */}
-            <ul className="mb-5 space-y-1.5">
-              {project.highlights.map(h => (
-                <li
-                  key={h}
-                  className="flex items-start gap-2 text-sm text-foreground"
-                >
-                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                  {h}
-                </li>
-              ))}
-            </ul>
-
-            {/* Tech stack */}
-            <div className="flex flex-wrap gap-1.5">
-              {project.techStack.map(tech => (
-                <span
-                  key={tech}
-                  className="rounded-md border border-border bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </div>
+        <div className="flex flex-wrap gap-1.5">
+          {project.techStack.map(tech => (
+            <span
+              key={tech}
+              className="rounded-sm bg-secondary px-2.5 py-1 text-xs font-bold text-muted-foreground"
+            >
+              {tech}
+            </span>
+          ))}
         </div>
       </Card>
     </motion.div>
