@@ -19,17 +19,27 @@ const AD_SLOTS = [
 const AD_LAYOUT_KEY = '-6t+ed+2i-1n-4w'
 
 const fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] as const },
+    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const },
   },
 }
 
 const stagger = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.06 } },
+  visible: { transition: { staggerChildren: 0.07 } },
+}
+
+const cardCategoryColors: Record<string, string> = {
+  Frontend: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
+  Backend:
+    'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300',
+  DevOps:
+    'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300',
+  AI: 'bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300',
+  Mobile: 'bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300',
 }
 
 interface MakalelerContentProps {
@@ -37,11 +47,19 @@ interface MakalelerContentProps {
   categories: string[]
 }
 
+/**
+ * Filtre seçimini URL'e yansıtır — ROUTER KULLANMADAN.
+ *
+ * Router'a bağlanmak taşımada sorun çıkardı: App Router'ın useRouter'ı Pages
+ * Router'da mount değil, çağrısı handler içinde patlayınca React aynı handler'daki
+ * setState'i de düşürüyor ve filtre hiç çalışmıyordu. Filtrelemenin URL'e ihtiyacı
+ * yok; adres yalnız paylaşılabilirlik için güncelleniyor.
+ */
 function syncFilterUrl(url: string) {
   try {
     window.history.replaceState(window.history.state, '', url)
   } catch {
-    // URL güncellenemezse filtre yine çalışır
+    // URL güncellenemezse filtre yine çalışır — sessiz geç.
   }
 }
 
@@ -52,6 +70,9 @@ export default function MakalelerContent({
   const gridRef = useRef(null)
   const gridInView = useInView(gridRef, { once: true, margin: '-60px' })
 
+  // Kategori filtresi tamamen client-side (server searchParams okunmuyor → sayfa statik).
+  // Tüm makaleler prerender edilir; seçim yalnız görüneni süzer, URL'i paylaşılabilir tutar.
+  // İlk yük: adresteki ?category= uygulanır; sonrası kullanıcı seçimi ezer.
   const urlCategory = useUrlQueryParam('category')
   const [selected, setSelected] = useState<string | undefined | null>(null)
   const categoryFilter = selected === null ? urlCategory : selected
@@ -70,90 +91,97 @@ export default function MakalelerContent({
     : allPosts
 
   return (
-    <div className="min-h-svh px-4 pb-16 sm:px-6 lg:px-8">
-      <div className="mx-auto flex max-w-6xl flex-col gap-10">
-        {/* Radial Spotlight Glass Header + Category Filter Pills */}
-        <section className="glass-panel relative overflow-hidden p-6 sm:p-8 lg:p-10">
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -top-28 left-1/2 h-64 w-[620px] -translate-x-1/2 rounded-full bg-gradient-to-r from-cyan-500/20 via-sky-400/15 to-emerald-500/20 blur-3xl"
-          />
+    <div className="min-h-screen">
+      {/* Hero */}
+      <section className="relative -mt-20 overflow-hidden bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 py-32 pt-32 text-white md:py-40 md:pt-40">
+        <div className="animate-orb-1 pointer-events-none absolute -left-40 -top-40 h-96 w-96 rounded-full bg-blue-600/15 blur-3xl" />
+        <div className="animate-orb-2 pointer-events-none absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-emerald-600/15 blur-3xl" />
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.06]"
+          style={{
+            backgroundImage:
+              'radial-gradient(circle, rgba(255,255,255,1) 1px, transparent 1px)',
+            backgroundSize: '40px 40px',
+          }}
+        />
 
-          <div className="relative grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-end">
-            <div className="lg:col-span-5">
-              <Badge className="mb-4 rounded-full border border-cyan-500/30 bg-cyan-500/15 px-3.5 py-1 text-xs font-bold text-cyan-700 dark:text-cyan-300">
-                Teknik Makaleler
-              </Badge>
-              <h1
-                className="mb-2 font-extrabold tracking-tight text-slate-900 dark:text-white"
-                style={{ fontSize: 'clamp(2.25rem, 1.2rem + 3.5vw, 4rem)' }}
-              >
-                Makalelerim
-              </h1>
-              <p className="text-base leading-relaxed text-slate-600 dark:text-slate-300">
-                Yazılım geliştirme süreçleri, kariyer deneyimlerim ve modern
-                teknolojiler üzerine teknik notlarım.
-              </p>
-            </div>
+        <div className="container relative mx-auto px-6">
+          <div className="mx-auto max-w-3xl text-center">
+            <Badge className="mb-6 border border-emerald-400/30 bg-emerald-500/20 px-4 py-1.5 text-sm font-medium text-emerald-200">
+              Teknik Makaleler
+            </Badge>
+            <h1 className="mb-5 text-4xl font-extrabold md:text-6xl">
+              Makalelerim
+            </h1>
+            <p className="text-lg text-slate-300 md:text-xl">
+              Yazılım geliştirme süreçleri, kariyer deneyimlerim ve modern
+              teknolojiler üzerine teknik notlarım.
+            </p>
 
-            <div className="flex flex-col gap-4 lg:col-span-7">
-              <div className="grid grid-cols-2 gap-3">
-                <div className="rounded-2xl border border-slate-200/80 bg-white/70 p-4 backdrop-blur-xl dark:border-white/[0.08] dark:bg-white/[0.04]">
-                  <p className="bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-3xl font-extrabold leading-none text-transparent">
-                    {posts.length}
-                  </p>
-                  <p className="mt-2 text-xs font-bold text-slate-600 dark:text-slate-300">
-                    Makale
-                  </p>
-                </div>
-                <div className="rounded-2xl border border-slate-200/80 bg-white/70 p-4 backdrop-blur-xl dark:border-white/[0.08] dark:bg-white/[0.04]">
-                  <p className="bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-3xl font-extrabold leading-none text-transparent">
-                    {categories.length}
-                  </p>
-                  <p className="mt-2 text-xs font-bold text-slate-600 dark:text-slate-300">
-                    Kategori
-                  </p>
-                </div>
+            <div className="mt-10 flex justify-center gap-8 text-sm text-slate-400">
+              <div className="text-center">
+                <p className="text-2xl font-bold text-white">{posts.length}</p>
+                <p>Makale</p>
               </div>
-
-              <div className="flex flex-wrap gap-1.5 rounded-2xl border border-slate-200/80 bg-slate-100/80 p-1.5 backdrop-blur-xl dark:border-white/[0.08] dark:bg-slate-950/60">
-                <button
-                  type="button"
-                  onClick={() => selectCategory(undefined)}
-                  className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition-all duration-200 ${
-                    categoryFilter === undefined
-                      ? 'border border-cyan-500/30 bg-gradient-to-r from-cyan-500/20 to-emerald-500/20 text-cyan-700 shadow-[0_0_16px_rgba(6,182,212,0.2)] dark:text-cyan-300'
-                      : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
-                  }`}
-                >
-                  Tümü ({allPosts.length})
-                </button>
-                {categories.map(category => (
-                  <button
-                    key={category}
-                    type="button"
-                    onClick={() => selectCategory(category)}
-                    className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition-all duration-200 ${
-                      categoryFilter === category
-                        ? 'border border-cyan-500/30 bg-gradient-to-r from-cyan-500/20 to-emerald-500/20 text-cyan-700 shadow-[0_0_16px_rgba(6,182,212,0.2)] dark:text-cyan-300'
-                        : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
-                    }`}
-                  >
-                    {category}
-                  </button>
-                ))}
+              <div className="text-center">
+                <p className="text-2xl font-bold text-white">
+                  {categories.length}
+                </p>
+                <p>Kategori</p>
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Posts Specular Glass Grid */}
-        <main className="min-h-[60svh]">
+      {/* Category Filter */}
+      <div className="bg-background/80 sticky top-[65px] z-40 border-b border-border backdrop-blur-sm">
+        <div className="container mx-auto px-6">
+          <div className="scrollbar-hide flex items-center gap-2 overflow-x-auto py-4">
+            <button type="button" onClick={() => selectCategory(undefined)}>
+              <span
+                className={`inline-flex shrink-0 cursor-pointer items-center rounded-full border px-4 py-1.5 text-sm font-medium transition-all ${
+                  categoryFilter === undefined
+                    ? 'border-primary bg-primary text-primary-foreground'
+                    : 'border-border bg-muted text-muted-foreground hover:bg-accent hover:text-foreground'
+                }`}
+              >
+                Tümü
+              </span>
+            </button>
+            {categories.map(category => (
+              <button
+                type="button"
+                key={category}
+                onClick={() => selectCategory(category)}
+              >
+                <span
+                  className={`inline-flex shrink-0 cursor-pointer items-center rounded-full border px-4 py-1.5 text-sm font-medium transition-all ${
+                    categoryFilter === category
+                      ? 'border-primary bg-primary text-primary-foreground'
+                      : 'border-border bg-muted text-muted-foreground hover:bg-accent hover:text-foreground'
+                  }`}
+                >
+                  {category}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Posts grid */}
+      <main className="bg-muted/20 min-h-[60vh] py-16">
+        <div className="container mx-auto px-6">
           {posts.length === 0 ? (
-            <div className="glass-panel py-24 text-center text-slate-500 dark:text-slate-400">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="py-24 text-center text-muted-foreground"
+            >
               <BookOpenIcon className="mx-auto mb-4 h-12 w-12 opacity-30" />
               <p className="text-lg">Bu kategoride henüz makale yok.</p>
-            </div>
+            </motion.div>
           ) : (
             <motion.div
               ref={gridRef}
@@ -173,10 +201,7 @@ export default function MakalelerContent({
                   const adIdx = adPositions.indexOf(i + 1)
                   if (showListAds && adIdx !== -1) {
                     items.push(
-                      <div
-                        key={`ad-${adIdx}`}
-                        className="glass-panel col-span-full px-4"
-                      >
+                      <div key={`ad-${adIdx}`} className="col-span-full">
                         <AdSenseAd
                           slot={AD_SLOTS[adIdx]}
                           layoutKey={AD_LAYOUT_KEY}
@@ -189,63 +214,66 @@ export default function MakalelerContent({
               })()}
             </motion.div>
           )}
-        </main>
-      </div>
+        </div>
+      </main>
     </div>
   )
 }
 
 function PostCard({ post }: { post: BlogPost }) {
   const category = post.frontmatter.category ?? ''
+  const badgeColor =
+    cardCategoryColors[category] ??
+    'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
 
   return (
     <motion.div variants={fadeInUp}>
-      <Link href={`/makaleler/${post.slug}`} className="block h-full">
-        <Card className="group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200/80 bg-white/80 shadow-2xl backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-cyan-400/40 dark:border-white/[0.08] dark:bg-white/[0.03]">
-          {post.frontmatter.coverImage ? (
-            <div className="relative h-52 w-full overflow-hidden bg-slate-900">
+      <Link href={`/makaleler/${post.slug}`}>
+        <Card className="group flex h-full flex-col overflow-hidden border-0 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+          {post.frontmatter.coverImage && (
+            <div className="relative h-52 w-full overflow-hidden">
               <Image
                 src={post.frontmatter.coverImage}
                 alt={post.frontmatter.title}
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               {category && (
-                <Badge className="absolute bottom-3 left-3 rounded-full border border-cyan-400/30 bg-slate-950/70 px-3 py-1 text-xs font-bold text-cyan-300 backdrop-blur-md">
+                <Badge
+                  className={`absolute bottom-3 left-3 border-0 text-xs font-semibold ${badgeColor}`}
+                >
                   {category}
                 </Badge>
               )}
-            </div>
-          ) : (
-            <div className="flex h-36 items-end justify-between bg-gradient-to-br from-cyan-500/20 via-slate-900/40 to-emerald-500/20 p-5">
-              {category && (
-                <Badge className="rounded-full border border-cyan-500/30 bg-cyan-500/15 px-3 py-1 text-xs font-bold text-cyan-700 dark:text-cyan-300">
-                  {category}
-                </Badge>
-              )}
-              <span className="text-xs font-bold text-cyan-500 dark:text-cyan-300">
-                CMS
-              </span>
             </div>
           )}
 
-          <div className="flex flex-1 flex-col justify-between p-6">
-            <div>
-              <h2 className="mb-3 text-lg font-extrabold leading-snug text-slate-900 transition-colors group-hover:text-cyan-600 dark:text-white dark:group-hover:text-cyan-300">
-                {post.frontmatter.title}
-              </h2>
-              {post.frontmatter.description && (
-                <p className="mb-6 line-clamp-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-                  {post.frontmatter.description}
-                </p>
+          {!post.frontmatter.coverImage && (
+            <div className="to-muted/50 flex h-52 items-center justify-center bg-gradient-to-br from-muted">
+              {category && (
+                <Badge
+                  className={`border-0 text-xs font-semibold ${badgeColor}`}
+                >
+                  {category}
+                </Badge>
               )}
             </div>
+          )}
 
-            <div className="flex items-center justify-between gap-4 border-t border-slate-200/70 pt-4 text-xs font-semibold text-slate-500 dark:border-white/[0.08] dark:text-slate-400">
+          <div className="flex flex-1 flex-col p-6">
+            <h2 className="mb-3 text-lg font-bold leading-snug text-foreground transition-colors group-hover:text-primary">
+              {post.frontmatter.title}
+            </h2>
+            {post.frontmatter.description && (
+              <p className="mb-6 line-clamp-3 flex-1 text-sm text-muted-foreground">
+                {post.frontmatter.description}
+              </p>
+            )}
+            <div className="flex items-center gap-4 text-xs text-muted-foreground">
               {post.frontmatter.publishedAt && (
                 <span className="flex items-center gap-1.5">
-                  <CalendarIcon className="h-3.5 w-3.5 text-cyan-500" />
+                  <CalendarIcon className="h-3.5 w-3.5" />
                   <time dateTime={post.frontmatter.publishedAt}>
                     {new Date(post.frontmatter.publishedAt).toLocaleDateString(
                       'tr-TR',
@@ -256,7 +284,7 @@ function PostCard({ post }: { post: BlogPost }) {
               )}
               {post.frontmatter.readingTime && (
                 <span className="flex items-center gap-1.5">
-                  <ClockIcon className="h-3.5 w-3.5 text-emerald-500" />
+                  <ClockIcon className="h-3.5 w-3.5" />
                   {post.frontmatter.readingTime} dk
                 </span>
               )}

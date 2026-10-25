@@ -33,7 +33,7 @@ export default function APage({
   }))
 
   return (
-    <main className="min-h-svh">
+    <main className="min-h-screen">
       <ErrorBoundary>
         <Hero />
       </ErrorBoundary>

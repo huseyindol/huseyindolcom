@@ -6,43 +6,37 @@ import type { LucideIcon } from 'lucide-react'
 import { Cloud, Database, Monitor, Server, Wrench } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 
 const fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] as const },
+    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const },
   },
 }
 
 const stagger = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.05 } },
+  visible: { transition: { staggerChildren: 0.07 } },
 }
 
-const levelConfig: Record<
-  string,
-  { label: string; badgeClass: string; percent: number }
-> = {
+const levelConfig: Record<string, { label: string; color: string }> = {
   Expert: {
     label: 'Uzman',
-    badgeClass:
-      'border border-cyan-500/30 bg-cyan-500/15 text-cyan-700 dark:text-cyan-300',
-    percent: 95,
+    color:
+      'bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800',
   },
   Advanced: {
     label: 'İleri',
-    badgeClass:
-      'border border-emerald-500/30 bg-emerald-500/15 text-emerald-700 dark:text-emerald-300',
-    percent: 82,
+    color:
+      'bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800',
   },
   Intermediate: {
     label: 'Orta',
-    badgeClass:
-      'border border-slate-300/80 bg-slate-200/70 text-slate-700 dark:border-white/15 dark:bg-white/[0.06] dark:text-slate-300',
-    percent: 68,
+    color:
+      'bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800',
   },
 }
 
@@ -50,6 +44,7 @@ interface CategoryConfig {
   label: string
   description: string
   icon: LucideIcon
+  gradient: string
   skillNames: string[]
 }
 
@@ -59,6 +54,7 @@ const CATEGORIES: CategoryConfig[] = [
     description:
       'React ekosisteminde 8+ yıl deneyimle SSR/SSG/ISR stratejileri, TypeScript ile tip güvenli geliştirme ve modern UI mimarileri üzerine uzmanlaştım.',
     icon: Monitor,
+    gradient: 'from-blue-500 to-indigo-600',
     skillNames: [
       'HTML5',
       'CSS3',
@@ -75,6 +71,7 @@ const CATEGORIES: CategoryConfig[] = [
     description:
       "Node.js ve Express.js ile 7+ yıldır RESTful API'lar geliştiriyorum. Java Spring Boot 3.x ile multitenancy, RBAC ve OAuth2 entegrasyonları konusunda derinleşiyorum.",
     icon: Server,
+    gradient: 'from-emerald-500 to-teal-600',
     skillNames: ['Node.js', 'Express', 'Java', 'Spring', 'Prisma'],
   },
   {
@@ -82,6 +79,7 @@ const CATEGORIES: CategoryConfig[] = [
     description:
       'MongoDB, PostgreSQL ve Redis ile veri modelleme, sorgu optimizasyonu ve distributed caching stratejilerinde deneyimliyim.',
     icon: Database,
+    gradient: 'from-orange-500 to-amber-600',
     skillNames: ['MongoDB', 'PostgreSQL'],
   },
   {
@@ -89,6 +87,7 @@ const CATEGORIES: CategoryConfig[] = [
     description:
       'Docker multi-stage build, Kubernetes StatefulSet/HPA, GitHub Actions CI/CD ve Traefik Ingress ile production-grade altyapı yönetimi yapıyorum.',
     icon: Cloud,
+    gradient: 'from-violet-500 to-purple-600',
     skillNames: ['Docker', 'Nginx', 'Git'],
   },
   {
@@ -96,6 +95,7 @@ const CATEGORIES: CategoryConfig[] = [
     description:
       'Figma ile design-to-code, Postman ile API testing ve MCP ile özel AI araç entegrasyonlarında deneyimliyim.',
     icon: Wrench,
+    gradient: 'from-pink-500 to-rose-600',
     skillNames: ['VS Code', 'Figma', 'Trello', 'Postman', 'MCP'],
   },
 ]
@@ -111,84 +111,37 @@ export default function SkillsContent({
   title,
   description,
 }: SkillsContentProps) {
-  const [activeCategory, setActiveCategory] = useState<string>('all')
-
-  const allCategorized = new Set(CATEGORIES.flatMap(c => c.skillNames))
-  const uncategorized = skills.filter(s => !allCategorized.has(s.name))
-
-  const visibleCategories =
-    activeCategory === 'all'
-      ? CATEGORIES
-      : CATEGORIES.filter(c => c.label === activeCategory)
-
   return (
-    <section
-      aria-label="Yetenekler ve Teknoloji Yığını"
-      className="px-4 pb-16 sm:px-6 lg:px-8"
-    >
-      <div className="mx-auto flex max-w-6xl flex-col gap-10">
-        {/* Top Linear Glass Header + Frosted Filter Pill Bar */}
-        <div className="glass-panel relative overflow-hidden p-6 sm:p-8 lg:p-10">
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -top-28 left-1/2 h-64 w-[620px] -translate-x-1/2 rounded-full bg-gradient-to-r from-cyan-500/20 via-sky-400/15 to-emerald-500/20 blur-3xl"
-          />
-          <div className="relative flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
-            <div>
-              <span className="mb-3 inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3.5 py-1 text-xs font-bold text-cyan-700 dark:text-cyan-300">
-                <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]" />
-                Teknoloji Matrisi · {skills.length} Yetkinlik
-              </span>
-              <h2
-                className="mb-2 font-extrabold tracking-tight text-slate-900 dark:text-white"
-                style={{ fontSize: 'clamp(1.85rem, 1.1rem + 2.4vw, 3rem)' }}
-              >
-                {title}
-              </h2>
-              <p className="max-w-[60ch] text-sm leading-relaxed text-slate-600 md:text-base dark:text-slate-300">
-                {description}
-              </p>
-            </div>
+    <div className="min-h-screen">
+      {/* Hero header */}
+      <section className="relative -mt-20 overflow-hidden bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 py-32 pt-32 text-white md:py-40 md:pt-40">
+        <div className="animate-orb-1 pointer-events-none absolute -left-40 -top-40 h-96 w-96 rounded-full bg-blue-600/15 blur-3xl" />
+        <div className="animate-orb-2 pointer-events-none absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-violet-600/15 blur-3xl" />
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.06]"
+          style={{
+            backgroundImage:
+              'radial-gradient(circle, rgba(255,255,255,1) 1px, transparent 1px)',
+            backgroundSize: '40px 40px',
+          }}
+        />
 
-            {/* Frosted Glass Category Filter Pill Bar */}
-            <div className="flex flex-wrap gap-1.5 rounded-2xl border border-slate-200/80 bg-slate-100/80 p-1.5 backdrop-blur-xl sm:rounded-full dark:border-white/[0.08] dark:bg-slate-950/60">
-              <button
-                type="button"
-                onClick={() => setActiveCategory('all')}
-                className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition-all duration-200 ${
-                  activeCategory === 'all'
-                    ? 'border border-cyan-500/30 bg-gradient-to-r from-cyan-500/20 to-emerald-500/20 text-cyan-700 shadow-[0_0_16px_rgba(6,182,212,0.2)] dark:text-cyan-300'
-                    : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
-                }`}
-              >
-                Tümü ({skills.length})
-              </button>
-              {CATEGORIES.map(cat => {
-                const count = skills.filter(s =>
-                  cat.skillNames.includes(s.name),
-                ).length
-                const active = activeCategory === cat.label
-                return (
-                  <button
-                    key={cat.label}
-                    type="button"
-                    onClick={() => setActiveCategory(cat.label)}
-                    className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition-all duration-200 ${
-                      active
-                        ? 'border border-cyan-500/30 bg-gradient-to-r from-cyan-500/20 to-emerald-500/20 text-cyan-700 shadow-[0_0_16px_rgba(6,182,212,0.2)] dark:text-cyan-300'
-                        : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
-                    }`}
-                  >
-                    {cat.label} ({count})
-                  </button>
-                )
-              })}
-            </div>
+        <div className="container relative mx-auto px-6">
+          <div className="mx-auto max-w-3xl text-center">
+            <Badge className="mb-6 border border-blue-400/30 bg-blue-500/20 px-4 py-1.5 text-sm font-medium text-blue-200">
+              Teknoloji Yığını
+            </Badge>
+            <h1 className="mb-5 text-4xl font-extrabold md:text-6xl">
+              {title}
+            </h1>
+            <p className="text-lg text-slate-300 md:text-xl">{description}</p>
           </div>
         </div>
+      </section>
 
-        {/* Category Sections */}
-        {visibleCategories.map(cat => {
+      {/* Category sections */}
+      <div className="bg-muted/20">
+        {CATEGORIES.map((cat, catIdx) => {
           const catSkills = skills.filter(s => cat.skillNames.includes(s.name))
           if (catSkills.length === 0) return null
           return (
@@ -196,70 +149,75 @@ export default function SkillsContent({
               key={cat.label}
               category={cat}
               skills={catSkills}
+              index={catIdx}
             />
           )
         })}
 
-        {/* Uncategorized Skills */}
-        {activeCategory === 'all' && uncategorized.length > 0 && (
-          <UncategorizedSection skills={uncategorized} />
-        )}
+        {/* Uncategorized skills */}
+        <UncategorizedSection skills={skills} categories={CATEGORIES} />
       </div>
-    </section>
+    </div>
   )
 }
 
 function CategorySection({
   category,
   skills,
+  index,
 }: {
   category: CategoryConfig
   skills: SkillType[]
+  index: number
 }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-60px' })
+  const isInView = useInView(ref, { once: true, margin: '-80px' })
+  const isEven = index % 2 === 0
 
   return (
-    <motion.div
+    <section
       ref={ref}
-      initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
-      variants={stagger}
-      className="grid grid-cols-1 gap-6 lg:grid-cols-12"
+      className={`py-20 ${isEven ? 'bg-card' : 'bg-muted/30'}`}
     >
-      {/* Category Lead Glass Card (Cols 1-4) */}
-      <motion.div
-        variants={fadeInUp}
-        className="glass-panel flex flex-col justify-between p-6 sm:p-8 lg:col-span-4"
-      >
-        <div>
-          <div className="mb-5 flex items-center justify-between">
-            <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-cyan-500/30 bg-gradient-to-br from-cyan-500/20 to-emerald-500/20 text-cyan-600 shadow-[0_0_20px_rgba(6,182,212,0.2)] dark:text-cyan-300">
-              <category.icon className="h-5 w-5" />
-            </div>
-            <span className="rounded-full border border-slate-200/80 bg-white/60 px-3 py-1 text-xs font-bold text-slate-600 dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-slate-300">
-              {skills.length} Teknoloji
-            </span>
-          </div>
-          <h3 className="mb-2 text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-            {category.label}
-          </h3>
-          <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-            {category.description}
-          </p>
-        </div>
-      </motion.div>
+      <div className="container mx-auto px-6">
+        <div className="mx-auto max-w-6xl">
+          <motion.div
+            initial="hidden"
+            animate={isInView ? 'visible' : 'hidden'}
+            variants={stagger}
+          >
+            {/* Category header */}
+            <motion.div variants={fadeInUp} className="mb-12">
+              <div className="flex items-start gap-5">
+                <div
+                  className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br ${category.gradient} shadow-lg`}
+                >
+                  <category.icon className="h-6 w-6 text-white" />
+                </div>
+                <div>
+                  <h2 className="mb-2 text-2xl font-extrabold">
+                    {category.label}
+                  </h2>
+                  <p className="max-w-2xl text-muted-foreground">
+                    {category.description}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
 
-      {/* Skill Cards Grid (Cols 5-12) */}
-      <motion.div
-        variants={stagger}
-        className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:col-span-8"
-      >
-        {skills.map(skill => (
-          <SkillCard key={skill.name} skill={skill} />
-        ))}
-      </motion.div>
-    </motion.div>
+            {/* Skill grid */}
+            <motion.div
+              className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
+              variants={stagger}
+            >
+              {skills.map(skill => (
+                <SkillCard key={skill.name} skill={skill} />
+              ))}
+            </motion.div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
   )
 }
 
@@ -268,95 +226,72 @@ function SkillCard({ skill }: { skill: SkillType }) {
 
   return (
     <motion.div variants={fadeInUp}>
-      <Link
-        href={skill.url}
-        target="_blank"
-        title={skill.name}
-        className="block h-full"
-      >
-        <Card className="group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/80 bg-white/80 p-5 shadow-lg backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-cyan-400/40 hover:shadow-[0_16px_40px_rgba(6,182,212,0.16)] dark:border-white/[0.08] dark:bg-white/[0.03]">
-          <div className="mb-4 flex items-start justify-between gap-2">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200/70 bg-white p-2 shadow-sm dark:border-white/10 dark:bg-white/[0.06]">
-              <Image
-                src={skill.imageUrl}
-                alt={skill.name}
-                width={28}
-                height={28}
-                className="object-contain"
-              />
-            </div>
-            <Badge
-              className={`rounded-full px-2.5 py-0.5 text-[11px] font-bold ${level.badgeClass}`}
-            >
+      <Link href={skill.url} target="_blank" title={skill.name}>
+        <Card className="group flex flex-col items-center gap-3 border-0 p-5 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+          <div
+            className={`flex h-12 w-12 items-center justify-center rounded-xl ${skill.name === 'Express' ? 'bg-gray-100 dark:bg-gray-800' : ''}`}
+          >
+            <Image
+              src={skill.imageUrl}
+              alt={skill.name}
+              width={40}
+              height={40}
+              className="object-contain"
+            />
+          </div>
+          <div>
+            <p className="mb-1.5 text-sm font-semibold">{skill.name}</p>
+            <Badge variant="outline" className={`text-xs ${level.color}`}>
               {level.label}
             </Badge>
           </div>
-
-          <div>
-            <div className="mb-2 flex items-baseline justify-between gap-2">
-              <p className="text-base font-bold tracking-tight text-slate-900 transition-colors group-hover:text-cyan-600 dark:text-white dark:group-hover:text-cyan-300">
-                {skill.name}
-              </p>
-              <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
-                {skill.years} yıl
-              </span>
-            </div>
-
-            {/* Luminous Cyan-to-Emerald Gradient Progress Bar */}
-            <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-200/80 dark:bg-white/[0.08]">
-              <div
-                className="h-full rounded-full bg-gradient-to-r from-cyan-500 to-emerald-400 shadow-[0_0_12px_rgba(6,182,212,0.5)]"
-                style={{ width: `${level.percent}%` }}
-              />
-            </div>
-          </div>
+          <p className="text-xs text-muted-foreground">{skill.years} yıl</p>
         </Card>
       </Link>
     </motion.div>
   )
 }
 
-function UncategorizedSection({ skills }: { skills: SkillType[] }) {
+function UncategorizedSection({
+  skills,
+  categories,
+}: {
+  skills: SkillType[]
+  categories: CategoryConfig[]
+}) {
+  const allCategorized = new Set(categories.flatMap(c => c.skillNames))
+  const uncategorized = skills.filter(s => !allCategorized.has(s.name))
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-60px' })
+  const isInView = useInView(ref, { once: true, margin: '-80px' })
+
+  if (uncategorized.length === 0) return null
 
   return (
-    <motion.div
-      ref={ref}
-      initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
-      variants={stagger}
-      className="grid grid-cols-1 gap-6 lg:grid-cols-12"
-    >
-      <motion.div
-        variants={fadeInUp}
-        className="glass-panel flex flex-col justify-between p-6 sm:p-8 lg:col-span-4"
-      >
-        <div>
-          <span className="mb-2 inline-block text-xs font-bold uppercase tracking-wider text-cyan-600 dark:text-cyan-400">
-            Tamamlayıcı Ekosistem
-          </span>
-          <h3 className="mb-2 text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-            Diğer Teknolojiler
-          </h3>
-          <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-            Farklı projelerde ve kurumsal entegrasyonlarda aktif olarak
-            kullandığım ek kütüphane, protokol ve araçlar.
-          </p>
+    <section ref={ref} className="bg-card py-20">
+      <div className="container mx-auto px-6">
+        <div className="mx-auto max-w-6xl">
+          <motion.div
+            initial="hidden"
+            animate={isInView ? 'visible' : 'hidden'}
+            variants={stagger}
+          >
+            <motion.h2
+              variants={fadeInUp}
+              className="mb-10 text-xl font-bold text-muted-foreground"
+            >
+              Diğer Teknolojiler
+            </motion.h2>
+            <motion.div
+              className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
+              variants={stagger}
+            >
+              {uncategorized.map(skill => (
+                <SkillCard key={skill.name} skill={skill} />
+              ))}
+            </motion.div>
+          </motion.div>
         </div>
-        <span className="mt-4 text-xs font-bold text-slate-500 dark:text-slate-400">
-          {skills.length} Teknoloji
-        </span>
-      </motion.div>
-
-      <motion.div
-        variants={stagger}
-        className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:col-span-8"
-      >
-        {skills.map(skill => (
-          <SkillCard key={skill.name} skill={skill} />
-        ))}
-      </motion.div>
-    </motion.div>
+      </div>
+    </section>
   )
 }

@@ -30,7 +30,7 @@ export default function AboutPage() {
           'Biyografi',
         ]}
       />
-      <main className="min-h-svh">
+      <main className="min-h-screen">
         <ErrorBoundary>
           <Hero />
         </ErrorBoundary>

@@ -5,7 +5,7 @@ import ScrollToTop from '@/components/ScrollToTopButton'
 import { SessionRefresher } from '@/components/SessionRefresher'
 import SiteLayout from '@/components/SiteLayout'
 import { WebVitals } from '@/components/WebVitals'
-import { geistMono, geistSans } from '@/lib/fonts' // taste-skill-ignore: mono font only used for code blocks
+import { geistMono, geistSans } from '@/lib/fonts'
 import { Seo } from '@/lib/seo'
 import Providers from '@/providers/Providers'
 import '@/styles/globals.css'
@@ -42,7 +42,6 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       */}
       <style
         dangerouslySetInnerHTML={{
-          // taste-skill-ignore: mono font CSS variable only consumed by code/pre blocks
           __html: `:root{--font-geist-sans:${geistSans.style.fontFamily};--font-geist-mono:${geistMono.style.fontFamily};}`,
         }}
       />
@@ -53,7 +52,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       <GoogleAnalytics gaId="G-ETR2NBJH5V" />
       <ClarityAnalytics />
       <NextTopLoader
-        color="#ff4a1f"
+        color="#6366f1"
         height={3}
         showSpinner={false}
         easing="ease"

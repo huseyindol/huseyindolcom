@@ -1,91 +1,74 @@
 @import 'tailwindcss';
 
 @theme {
-  /* Light theme — Crisp Frosted Alabaster & Deep Slate + Cyan/Emerald Spotlights */
-  --color-background: #f8fafc;
-  --color-foreground: #0f172a;
-  --color-card: #ffffff;
-  --color-card-foreground: #0f172a;
-  --color-popover: #ffffff;
-  --color-popover-foreground: #0f172a;
-  --color-primary: #06b6d4;
-  --color-primary-foreground: #030712;
-  --color-secondary: #f1f5f9;
-  --color-secondary-foreground: #0f172a;
-  --color-muted: #f1f5f9;
-  --color-muted-foreground: #475569;
-  --color-accent: #10b981;
-  --color-accent-foreground: #030712;
-  --color-destructive: #dc2626;
-  --color-destructive-foreground: #f8fafc;
-  --color-border: rgba(15, 23, 42, 0.09);
-  --color-input: rgba(15, 23, 42, 0.12);
-  --color-ring: #06b6d4;
-  --color-skill-bg: #f1f5f9;
+  /* Light theme colors */
+  --color-background: hsl(0 0% 100%);
+  --color-foreground: hsl(222.2 84% 4.9%);
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(222.2 84% 4.9%);
+  --color-popover: hsl(0 0% 100%);
+  --color-popover-foreground: hsl(222.2 84% 4.9%);
+  --color-primary: hsl(217 91% 60%);
+  --color-primary-foreground: hsl(0 0% 100%);
+  --color-secondary: hsl(215 25% 97%);
+  --color-secondary-foreground: hsl(222.2 47.4% 11.2%);
+  --color-muted: hsl(215 25% 97%);
+  --color-muted-foreground: hsl(215.4 16.3% 46.9%);
+  --color-accent: hsl(217 91% 60%);
+  --color-accent-foreground: hsl(0 0% 100%);
+  --color-destructive: hsl(0 84.2% 60.2%);
+  --color-destructive-foreground: hsl(210 40% 98%);
+  --color-border: hsl(214.3 31.8% 91.4%);
+  --color-input: hsl(214.3 31.8% 91.4%);
+  --color-ring: hsl(217 91% 60%);
+  --color-skill-bg: hsl(217 91% 95%);
 
-  /* Linear / Vercel smooth rounded geometry */
-  --radius: 1rem;
+  /* Border radius */
+  --radius: 0.5rem;
 
   /* Custom animations */
-  --animate-slide-infinite: slideInfinite 28s linear infinite;
+  --animate-slide-infinite: slideInfinite 20s linear infinite;
 }
 
 @layer base {
   :root {
-    --background: #f8fafc;
-    --foreground: #0f172a;
-    --card: #ffffff;
-    --card-foreground: #0f172a;
-    --primary: #06b6d4;
-    --primary-foreground: #030712;
-    --secondary: #f1f5f9;
-    --secondary-foreground: #0f172a;
-    --muted: #f1f5f9;
-    --muted-foreground: #475569;
-    --accent: #10b981;
-    --accent-foreground: #030712;
-    --border: rgba(15, 23, 42, 0.09);
-    --radius: 1rem;
-    --experience-accent: 188 94% 43%;
+    /* Portfolio specific colors */
+    --hero-gradient-start: 217 91% 60%;
+    --hero-gradient-end: 260 84% 65%;
+    --experience-accent: 34 100% 60%;
+
+    /* Shadows and effects */
+    --shadow-subtle: 0 1px 3px 0 hsl(0 0% 0% / 0.1);
+    --shadow-elegant: 0 10px 30px -10px hsl(217 91% 60% / 0.3);
+    --glow-primary: 0 0 40px hsl(217 100% 70% / 0.4);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --animation-float: float 6s ease-in-out infinite;
   }
 
   .dark {
-    /* Dark theme — Konsept A: Deep Obsidian Space & Cyan/Emerald Ambient Spotlights */
-    --color-background: #05070e;
-    --color-foreground: #f8fafc;
-    --color-card: #0b101e;
-    --color-card-foreground: #f8fafc;
-    --color-popover: #0b101e;
-    --color-popover-foreground: #f8fafc;
-    --color-primary: #06b6d4;
-    --color-primary-foreground: #030712;
-    --color-secondary: #111827;
-    --color-secondary-foreground: #f1f5f9;
-    --color-muted: #111827;
-    --color-muted-foreground: #94a3b8;
-    --color-accent: #10b981;
-    --color-accent-foreground: #030712;
-    --color-destructive: #ef4444;
-    --color-destructive-foreground: #f8fafc;
-    --color-border: rgba(255, 255, 255, 0.09);
-    --color-input: rgba(255, 255, 255, 0.12);
-    --color-ring: #06b6d4;
-    --color-skill-bg: #111827;
+    /* Dark theme overrides */
+    --color-background: hsl(222.2 84% 4.9%);
+    --color-foreground: hsl(210 40% 98%);
+    --color-card: hsl(222.2 84% 4.9%);
+    --color-card-foreground: hsl(210 40% 98%);
+    --color-popover: hsl(222.2 84% 4.9%);
+    --color-popover-foreground: hsl(210 40% 98%);
+    --color-secondary: hsl(217.2 32.6% 17.5%);
+    --color-secondary-foreground: hsl(210 40% 98%);
+    --color-muted: hsl(217.2 32.6% 17.5%);
+    --color-muted-foreground: hsl(215 20.2% 65.1%);
+    --color-destructive: hsl(0 62.8% 30.6%);
+    --color-destructive-foreground: hsl(210 40% 98%);
+    --color-border: hsl(217.2 32.6% 17.5%);
+    --color-input: hsl(217.2 32.6% 17.5%);
+    --color-skill-bg: hsl(217.2 32.6% 20%);
 
-    --background: #05070e;
-    --foreground: #f8fafc;
-    --card: #0b101e;
-    --card-foreground: #f8fafc;
-    --primary: #06b6d4;
-    --primary-foreground: #030712;
-    --secondary: #111827;
-    --secondary-foreground: #f1f5f9;
-    --muted: #111827;
-    --muted-foreground: #94a3b8;
-    --accent: #10b981;
-    --accent-foreground: #030712;
-    --border: rgba(255, 255, 255, 0.09);
-    --radius: 1rem;
+    /* Dark shadows and effects */
+    --shadow-subtle: 0 1px 3px 0 hsl(0 0% 0% / 0.3);
+    --shadow-elegant: 0 10px 30px -10px hsl(217 91% 60% / 0.4);
+    --glow-primary: 0 0 40px hsl(217 100% 70% / 0.3);
   }
 
   * {
@@ -93,23 +76,10 @@
   }
 
   body {
-    @apply bg-background font-sans text-foreground antialiased;
-    line-height: 1.5;
-    text-align: start;
-    overflow-wrap: break-word;
+    @apply bg-background font-sans text-foreground;
     font-feature-settings:
       'rlig' 1,
       'calt' 1;
-  }
-
-  h1,
-  h2,
-  h3 {
-    text-wrap: balance;
-  }
-
-  p {
-    text-wrap: pretty;
   }
 
   /* iOS Safari auto-zoom prevention: font-size < 16px triggers zoom on focus.
@@ -124,61 +94,51 @@
 }
 
 @layer components {
+  /* Utility classes for your CSS variables */
   .theme-bg {
-    background-color: var(--color-background);
+    background-color: hsl(var(--color-background));
   }
 
   .theme-text {
-    color: var(--color-foreground);
+    color: hsl(var(--color-foreground));
   }
 
   .theme-card {
-    background-color: var(--color-card);
-    color: var(--color-card-foreground);
+    background-color: hsl(var(--color-card));
+    color: hsl(var(--color-card-foreground));
   }
 
   .theme-primary {
-    background-color: var(--color-primary);
-    color: var(--color-primary-foreground);
+    background-color: hsl(var(--color-primary));
+    color: hsl(var(--color-primary-foreground));
   }
 
-  .linear-bg {
-    background-image:
-      radial-gradient(
-        ellipse 80% 50% at 50% -15%,
-        rgba(6, 182, 212, 0.22),
-        rgba(16, 185, 129, 0.08) 45%,
-        transparent 75%
-      ),
-      radial-gradient(rgba(148, 163, 184, 0.14) 1px, transparent 1px);
-    background-size:
-      100% 100%,
-      24px 24px;
-  }
-
-  .glass-panel {
-    @apply rounded-2xl border border-slate-200/80 bg-white/80 shadow-[0_20px_60px_-15px_rgba(15,23,42,0.08),inset_0_1px_0_0_rgba(255,255,255,0.7)] backdrop-blur-2xl dark:border-white/[0.09] dark:bg-white/[0.035] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5),inset_0_1px_0_0_rgba(255,255,255,0.14)];
-  }
-
-  .glass-pill {
-    @apply rounded-full border border-slate-200/80 bg-white/80 shadow-[0_8px_32px_rgba(15,23,42,0.08),inset_0_1px_0_rgba(255,255,255,0.75)] backdrop-blur-xl dark:border-white/[0.12] dark:bg-white/[0.05] dark:shadow-[0_8px_32px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.18)];
+  .theme-shadow {
+    box-shadow: var(--shadow-elegant);
   }
 
   .hero-gradient {
-    background: radial-gradient(
-      ellipse 80% 55% at 50% -10%,
-      rgba(6, 182, 212, 0.2),
-      rgba(16, 185, 129, 0.08) 50%,
-      transparent 80%
+    background: linear-gradient(
+      135deg,
+      hsl(var(--hero-gradient-start)),
+      hsl(var(--hero-gradient-end))
     );
   }
 
   .text-gradient {
-    @apply bg-gradient-to-r from-cyan-400 via-sky-300 to-emerald-400 bg-clip-text text-transparent;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--hero-gradient-start)),
+      hsl(var(--hero-gradient-end))
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }
 
 @layer utilities {
+  /* Animations */
   @keyframes slideInfinite {
     0% {
       transform: translateX(0);
@@ -188,10 +148,20 @@
     }
   }
 
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
   @keyframes fade-in-up {
     from {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(30px);
     }
     to {
       opacity: 1;
@@ -199,23 +169,138 @@
     }
   }
 
+  /* Background orb float animations — CSS-only, runs on compositor thread */
+  @keyframes orb-float-1 {
+    0%,
+    100% {
+      transform: translate(0, 0);
+    }
+    50% {
+      transform: translate(40px, -30px);
+    }
+  }
+
+  @keyframes orb-float-2 {
+    0%,
+    100% {
+      transform: translate(0, 0);
+    }
+    50% {
+      transform: translate(-30px, 40px);
+    }
+  }
+
+  @keyframes orb-pulse {
+    0%,
+    100% {
+      transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(1.4);
+    }
+  }
+
+  @keyframes badge-bob-up {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+
+  @keyframes badge-bob-down {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(6px);
+    }
+  }
+
+  @keyframes ring-pulse-1 {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.7;
+    }
+    50% {
+      transform: scale(1.15);
+      opacity: 0;
+    }
+  }
+
+  @keyframes ring-pulse-2 {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.4;
+    }
+    50% {
+      transform: scale(1.28);
+      opacity: 0;
+    }
+  }
+
   .animate-slide-infinite {
-    animation: slideInfinite 28s linear infinite;
+    animation: slideInfinite 20s linear infinite;
   }
 
-  .animate-slide-infinite:hover {
-    animation-play-state: paused;
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
   }
 
-  .animate-fade-in-up {
-    animation: fade-in-up 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  .animate-orb-1 {
+    animation: orb-float-1 18s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .animate-orb-2 {
+    animation: orb-float-2 22s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .animate-orb-pulse {
+    animation: orb-pulse 10s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .animate-badge-up {
+    animation: badge-bob-up 4s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .animate-badge-down {
+    animation: badge-bob-down 5s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .animate-ring-1 {
+    animation: ring-pulse-1 3s ease-in-out infinite;
+    will-change: transform, opacity;
+  }
+
+  .animate-ring-2 {
+    animation: ring-pulse-2 3s ease-in-out 0.8s infinite;
+    will-change: transform, opacity;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .animate-slide-infinite,
-    .animate-fade-in-up {
+    .animate-orb-1,
+    .animate-orb-2,
+    .animate-orb-pulse,
+    .animate-badge-up,
+    .animate-badge-down,
+    .animate-ring-1,
+    .animate-ring-2 {
       animation: none;
     }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.6s ease-out forwards;
   }
 
   @keyframes mobile-menu-enter {
@@ -230,6 +315,10 @@
   }
 
   .animate-mobile-menu {
-    animation: mobile-menu-enter 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: mobile-menu-enter 0.2s ease-out;
+  }
+
+  .shadow-elegant {
+    box-shadow: var(--shadow-elegant);
   }
 }

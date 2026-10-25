@@ -3,7 +3,7 @@ import { Metadata } from 'next'
 import { SkillType } from '../schemas/dynamic'
 
 export const siteInfo: siteInfoType = {
-  sayHi: 'Merhabalar, ben Hüseyin',
+  sayHi: '👋 Merhabalar, ben Hüseyin',
   title: {
     highlight: 'Modern Web',
     rest: 'Uygulamaları Geliştiriyorum',

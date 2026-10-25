@@ -58,7 +58,6 @@ bom.json
 
 # Claude - kişisel dosyalar (repo'da olmasın)
 .claude/
-.taste-skill/
 
 # Claude - proje kuralları (repo'da kalsın, ignore ETMEYİN)
 # CLAUDE.md

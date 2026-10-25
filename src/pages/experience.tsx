@@ -30,7 +30,7 @@ export default function ExperiencePage({
           'Özgeçmiş',
         ]}
       />
-      <main className="min-h-svh">
+      <main className="min-h-screen">
         <ErrorBoundary>
           <ExperienceTimeline
             experiences={experiences}

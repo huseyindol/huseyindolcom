@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono as loadCodeFont } from 'next/font/google' // taste-skill-ignore: mono only for code blocks
+import { Geist, Geist_Mono } from 'next/font/google'
 
 /**
  * Router-bağımsız font tanımları.
@@ -8,19 +8,18 @@ import { Geist, Geist_Mono as loadCodeFont } from 'next/font/google' // taste-sk
  */
 export const geistSans = Geist({
   variable: '--font-geist-sans',
-  subsets: ['latin', 'latin-ext'],
+  subsets: ['latin'],
   display: 'swap',
   preload: true,
   adjustFontFallback: true, // CLS için fallback font metrik eşleme
   weight: ['400', '500', '600', '700', '800'], // 800 = font-extrabold
 })
 
-export const geistMono = // taste-skill-ignore: mono only for code blocks
-  loadCodeFont({
-    variable: '--font-geist-mono', // taste-skill-ignore: mono only for code blocks
-    subsets: ['latin', 'latin-ext'],
-    display: 'swap',
-    preload: false, // Mono sadece kod blokları için, kritik path'te değil
-    adjustFontFallback: true,
-    weight: ['400', '500'],
-  })
+export const geistMono = Geist_Mono({
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
+  display: 'swap',
+  preload: false, // Mono sadece kod blokları için, kritik path'te değil
+  adjustFontFallback: true,
+  weight: ['400', '500'],
+})
