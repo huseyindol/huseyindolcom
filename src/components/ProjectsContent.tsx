@@ -341,9 +341,9 @@ const projects: Project[] = [
 ]
 
 const statusConfig = {
-  live: 'bg-primary text-primary-foreground',
-  beta: 'bg-foreground text-background',
-  soon: 'bg-secondary text-foreground',
+  live: 'border border-emerald-500/30 bg-emerald-500/15 text-emerald-700 dark:text-emerald-300',
+  beta: 'border border-cyan-500/30 bg-cyan-500/15 text-cyan-700 dark:text-cyan-300',
+  soon: 'border border-amber-500/30 bg-amber-500/15 text-amber-700 dark:text-amber-300',
 }
 
 export default function ProjectsContent() {
@@ -351,60 +351,62 @@ export default function ProjectsContent() {
   const gridInView = useInView(gridRef, { once: true, margin: '-60px' })
 
   return (
-    <div className="min-h-svh px-2 pb-2 md:px-3">
-      <div className="mx-auto flex max-w-[1680px] flex-col gap-2">
-        {/* Top Board Header Row */}
-        <section className="grid grid-cols-12 gap-2">
-          <div className="col-span-12 flex flex-col justify-between rounded-md bg-card p-6 md:p-8 lg:col-span-6">
-            <div>
-              <Badge className="mb-4 rounded-sm border-0 bg-primary px-3 py-1 text-xs font-extrabold text-primary-foreground">
+    <div className="min-h-svh px-4 pb-16 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-6xl flex-col gap-10">
+        {/* Radial Spotlight Glass Header */}
+        <section className="glass-panel relative overflow-hidden p-6 sm:p-8 lg:p-10">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-28 left-1/2 h-72 w-[680px] -translate-x-1/2 rounded-full bg-gradient-to-r from-cyan-500/25 via-sky-400/15 to-emerald-500/20 blur-3xl"
+          />
+
+          <div className="relative grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-end">
+            <div className="lg:col-span-6">
+              <Badge className="mb-4 rounded-full border border-cyan-500/30 bg-cyan-500/15 px-3.5 py-1 text-xs font-bold text-cyan-700 dark:text-cyan-300">
                 Açık Kaynak & Ürün Ailesi
               </Badge>
               <h1
-                className="mb-3 font-extrabold tracking-tight text-foreground"
-                style={{ fontSize: 'clamp(2.25rem, 1.2rem + 3.5vw, 4.25rem)' }}
+                className="mb-3 font-extrabold tracking-tight text-slate-900 dark:text-white"
+                style={{ fontSize: 'clamp(2.25rem, 1.2rem + 3.5vw, 4rem)' }}
               >
                 Projelerim
               </h1>
-            </div>
-            <p className="max-w-[60ch] text-base leading-relaxed text-muted-foreground md:text-lg">
-              Elly ekosistemi ve kişisel projelerim. Backend&apos;den
-              mobil&apos;e, admin panelinden portföy sitesine ve WebAssembly
-              oyunlarına kadar uçtan uca bir yazılım ailesi.
-            </p>
-          </div>
-
-          <div className="col-span-12 flex flex-col justify-between gap-2 lg:col-span-6">
-            <div className="grid grid-cols-3 gap-2">
-              <div className="rounded-md bg-primary p-5 text-primary-foreground">
-                <p className="text-3xl font-extrabold leading-none">
-                  {projects.length}
-                </p>
-                <p className="mt-2 text-xs font-bold">Toplam Proje</p>
-              </div>
-              <div className="rounded-md bg-foreground p-5 text-background">
-                <p className="text-3xl font-extrabold leading-none text-primary">
-                  11
-                </p>
-                <p className="text-background/80 mt-2 text-xs font-bold">
-                  Canlı Sistem
-                </p>
-              </div>
-              <div className="rounded-md bg-card p-5 text-foreground">
-                <p className="text-3xl font-extrabold leading-none text-primary">
-                  1
-                </p>
-                <p className="mt-2 text-xs font-bold text-muted-foreground">
-                  Flight Test
-                </p>
-              </div>
+              <p className="max-w-[58ch] text-base leading-relaxed text-slate-600 md:text-lg dark:text-slate-300">
+                Elly ekosistemi ve kişisel projelerim. Backend&apos;den
+                mobil&apos;e, admin panelinden portföy sitesine ve WebAssembly
+                oyunlarına kadar uçtan uca bir yazılım ailesi.
+              </p>
             </div>
 
-            <div className="flex flex-1 flex-col justify-between rounded-md bg-card p-5">
-              <span className="mb-3 text-xs font-bold text-muted-foreground">
-                Hızlı Atlama Panosu
-              </span>
-              <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-col gap-4 lg:col-span-6">
+              <div className="grid grid-cols-3 gap-3">
+                <div className="rounded-2xl border border-slate-200/80 bg-white/70 p-4 backdrop-blur-xl dark:border-white/[0.08] dark:bg-white/[0.04]">
+                  <p className="bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-3xl font-extrabold leading-none text-transparent">
+                    {projects.length}
+                  </p>
+                  <p className="mt-2 text-xs font-bold text-slate-600 dark:text-slate-300">
+                    Toplam Proje
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-slate-200/80 bg-white/70 p-4 backdrop-blur-xl dark:border-white/[0.08] dark:bg-white/[0.04]">
+                  <p className="bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-3xl font-extrabold leading-none text-transparent">
+                    11
+                  </p>
+                  <p className="mt-2 text-xs font-bold text-slate-600 dark:text-slate-300">
+                    Canlı Sistem
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-slate-200/80 bg-white/70 p-4 backdrop-blur-xl dark:border-white/[0.08] dark:bg-white/[0.04]">
+                  <p className="bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-3xl font-extrabold leading-none text-transparent">
+                    1
+                  </p>
+                  <p className="mt-2 text-xs font-bold text-slate-600 dark:text-slate-300">
+                    Flight Test
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-1.5 rounded-2xl border border-slate-200/80 bg-slate-100/80 p-2 backdrop-blur-xl dark:border-white/[0.08] dark:bg-slate-950/60">
                 {[
                   { label: 'Elly Backend', target: 'elly-backend' },
                   { label: 'Admin Panel', target: 'elly-admin' },
@@ -422,7 +424,7 @@ export default function ProjectsContent() {
                         .getElementById(item.target)
                         ?.scrollIntoView({ behavior: 'smooth' })
                     }}
-                    className="rounded-sm bg-secondary px-3 py-2 text-xs font-extrabold text-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
+                    className="rounded-full border border-slate-200/70 bg-white/80 px-3 py-1.5 text-xs font-bold text-slate-700 transition-all hover:border-cyan-400/50 hover:text-cyan-600 dark:border-white/[0.08] dark:bg-white/[0.05] dark:text-slate-200 dark:hover:text-cyan-300"
                   >
                     {item.label}
                   </button>
@@ -432,29 +434,29 @@ export default function ProjectsContent() {
           </div>
         </section>
 
-        <div className="rounded-md bg-card px-4">
+        <div className="glass-panel px-4">
           <AdSenseAd slot="1535119733" />
         </div>
 
-        {/* Project Board Strips */}
+        {/* Specular Glass Project Showcase Cards */}
         <section>
           <motion.div
             ref={gridRef}
             initial="hidden"
             animate={gridInView ? 'visible' : 'hidden'}
             variants={stagger}
-            className="flex flex-col gap-2"
+            className="flex flex-col gap-6"
           >
             {projects.map((project, index) => (
-              <div key={project.id} className="flex flex-col gap-2">
-                <ProjectCard project={project} index={index} />
+              <div key={project.id} className="flex flex-col gap-6">
+                <ProjectCard project={project} />
                 {index === 1 && (
-                  <div className="rounded-md bg-card px-4">
+                  <div className="glass-panel px-4">
                     <AdSenseAd slot="5199032579" />
                   </div>
                 )}
                 {index === 3 && (
-                  <div className="rounded-md bg-card px-4">
+                  <div className="glass-panel px-4">
                     <AdSenseAd slot="8283314736" />
                   </div>
                 )}
@@ -467,131 +469,119 @@ export default function ProjectsContent() {
   )
 }
 
-function ProjectCard({ project, index }: { project: Project; index: number }) {
+function ProjectCard({ project }: { project: Project }) {
   const Icon = project.icon
-  const invertLead = index % 2 === 0
 
   return (
-    <motion.div
-      variants={fadeInUp}
-      id={project.id}
-      className="grid scroll-mt-24 grid-cols-12 gap-2"
-    >
-      {/* Left Identity Tile (Cols 1-4) */}
-      <div
-        className={`col-span-12 flex flex-col justify-between rounded-md p-6 md:col-span-4 md:p-8 ${
-          invertLead
-            ? 'bg-foreground text-background'
-            : 'bg-secondary text-foreground'
-        }`}
-      >
-        <div>
-          <div className="mb-5 flex items-center justify-between gap-2">
-            <div
-              className={`inline-flex h-12 w-12 items-center justify-center rounded-sm ${
-                invertLead
-                  ? 'bg-primary text-primary-foreground'
-                  : 'bg-card text-primary'
-              }`}
-            >
-              <Icon className="h-6 w-6" />
+    <motion.div variants={fadeInUp} id={project.id} className="scroll-mt-24">
+      <Card className="group relative overflow-hidden rounded-3xl border border-slate-200/80 bg-white/80 p-6 shadow-2xl backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-cyan-400/40 sm:p-8 dark:border-white/[0.08] dark:bg-white/[0.03]">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-16 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent"
+        />
+
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+          {/* Left Identity Column (Cols 1-4) */}
+          <div className="flex flex-col justify-between rounded-2xl border border-slate-200/70 bg-white/60 p-6 backdrop-blur-md lg:col-span-4 dark:border-white/[0.08] dark:bg-white/[0.02]">
+            <div>
+              <div className="mb-5 flex items-center justify-between gap-2">
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-cyan-500/30 bg-gradient-to-br from-cyan-500/20 to-emerald-500/20 text-cyan-600 shadow-[0_0_20px_rgba(6,182,212,0.2)] dark:text-cyan-300">
+                  <Icon className="h-6 w-6" />
+                </div>
+                <div className="flex items-center gap-1.5">
+                  {project.engine && (
+                    <Badge className="rounded-full border border-cyan-500/25 bg-cyan-500/10 px-2.5 py-0.5 text-xs font-bold text-cyan-700 dark:text-cyan-300">
+                      {project.engine}
+                    </Badge>
+                  )}
+                  <Badge
+                    className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${statusConfig[project.status]}`}
+                  >
+                    {project.statusLabel}
+                  </Badge>
+                </div>
+              </div>
+
+              <h2 className="mb-1 text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+                {project.title}
+              </h2>
+              <p className="text-sm font-semibold text-cyan-600 dark:text-cyan-400">
+                {project.subtitle}
+              </p>
             </div>
-            <div className="flex items-center gap-1.5">
-              {project.engine && (
-                <Badge className="rounded-sm border-0 bg-card px-2.5 py-0.5 text-xs font-extrabold text-foreground">
-                  {project.engine}
-                </Badge>
+
+            <div className="mt-6 flex flex-wrap items-center gap-2">
+              {project.appIcon && (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  src={project.appIcon}
+                  alt={project.title}
+                  className="h-9 w-9 rounded-xl border border-white/15 object-cover shadow-sm transition-transform duration-300 group-hover:scale-105"
+                />
               )}
-              <Badge
-                className={`rounded-sm border-0 px-2.5 py-0.5 text-xs font-extrabold ${statusConfig[project.status]}`}
-              >
-                {project.statusLabel}
-              </Badge>
+              {project.githubUrl && (
+                <Link
+                  href={project.githubUrl}
+                  target="_blank"
+                  aria-label="GitHub"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200/80 bg-white/80 text-slate-700 transition-colors hover:border-cyan-400 hover:text-cyan-500 dark:border-white/10 dark:bg-white/[0.06] dark:text-slate-200"
+                >
+                  <Github className="h-4 w-4" />
+                </Link>
+              )}
+              {project.liveUrl && (
+                <Link
+                  href={project.liveUrl}
+                  target="_blank"
+                  className="inline-flex h-9 items-center gap-1.5 rounded-full bg-gradient-to-r from-cyan-500 to-emerald-500 px-4 text-xs font-bold text-slate-950 shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-all hover:scale-[1.02]"
+                >
+                  <ExternalLinkIcon className="h-3.5 w-3.5" />
+                  {project.liveLabel}
+                </Link>
+              )}
+              {project.ecosystemUrl && (
+                <Link
+                  href={project.ecosystemUrl}
+                  className="inline-flex h-9 items-center gap-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3.5 text-xs font-bold text-cyan-700 transition-colors hover:bg-cyan-500/20 dark:text-cyan-300"
+                >
+                  <LayersIcon className="h-3.5 w-3.5" />
+                  Ekosistem
+                </Link>
+              )}
             </div>
           </div>
 
-          <h2 className="mb-1 text-2xl font-extrabold tracking-tight">
-            {project.title}
-          </h2>
-          <p
-            className={`text-sm font-semibold ${
-              invertLead ? 'text-background/70' : 'text-muted-foreground'
-            }`}
-          >
-            {project.subtitle}
-          </p>
-        </div>
+          {/* Right Detail Column (Cols 5-12) */}
+          <div className="flex flex-col justify-between lg:col-span-8">
+            <div>
+              <p className="mb-6 max-w-[68ch] text-base leading-relaxed text-slate-600 dark:text-slate-300">
+                {project.description}
+              </p>
 
-        <div className="mt-6 flex flex-wrap items-center gap-2">
-          {project.appIcon && (
-            /* eslint-disable-next-line @next/next/no-img-element */
-            <img
-              src={project.appIcon}
-              alt={project.title}
-              className="h-9 w-9 rounded-sm object-cover"
-            />
-          )}
-          {project.githubUrl && (
-            <Link
-              href={project.githubUrl}
-              target="_blank"
-              aria-label="GitHub"
-              className="flex h-9 w-9 items-center justify-center rounded-sm bg-card text-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
-            >
-              <Github className="h-4 w-4" />
-            </Link>
-          )}
-          {project.liveUrl && (
-            <Link
-              href={project.liveUrl}
-              target="_blank"
-              className="inline-flex h-9 items-center gap-1.5 rounded-sm bg-card px-3.5 text-xs font-extrabold text-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
-            >
-              <ExternalLinkIcon className="h-3.5 w-3.5" />
-              {project.liveLabel}
-            </Link>
-          )}
-          {project.ecosystemUrl && (
-            <Link
-              href={project.ecosystemUrl}
-              className="inline-flex h-9 items-center gap-1.5 rounded-sm bg-primary px-3.5 text-xs font-extrabold text-primary-foreground transition-colors hover:bg-card hover:text-foreground"
-            >
-              <LayersIcon className="h-3.5 w-3.5" />
-              Ekosistem
-            </Link>
-          )}
-        </div>
-      </div>
+              <ul className="mb-6 grid gap-3 sm:grid-cols-2">
+                {project.highlights.map(h => (
+                  <li
+                    key={h}
+                    className="flex items-start gap-2.5 rounded-2xl border border-slate-200/70 bg-white/60 p-3.5 text-xs font-semibold text-slate-700 md:text-sm dark:border-white/[0.07] dark:bg-white/[0.02] dark:text-slate-200"
+                  >
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]" />
+                    <span>{h}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-      {/* Right Detail Tile (Cols 5-12) */}
-      <Card className="col-span-12 flex flex-col justify-between rounded-md border-0 bg-card p-6 md:col-span-8 md:p-8">
-        <div>
-          <p className="mb-6 max-w-[68ch] text-base leading-relaxed text-muted-foreground">
-            {project.description}
-          </p>
-
-          <ul className="mb-6 grid gap-2 sm:grid-cols-2">
-            {project.highlights.map(h => (
-              <li
-                key={h}
-                className="flex items-start gap-2 rounded-sm bg-secondary p-3 text-xs font-semibold text-foreground md:text-sm"
-              >
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                <span>{h}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="flex flex-wrap gap-1.5">
-          {project.techStack.map(tech => (
-            <span
-              key={tech}
-              className="rounded-sm bg-secondary px-2.5 py-1 text-xs font-bold text-muted-foreground"
-            >
-              {tech}
-            </span>
-          ))}
+            <div className="flex flex-wrap gap-1.5">
+              {project.techStack.map(tech => (
+                <span
+                  key={tech}
+                  className="rounded-full border border-slate-200/80 bg-white/70 px-3 py-1 text-xs font-semibold text-slate-700 dark:border-white/[0.08] dark:bg-white/[0.05] dark:text-slate-300"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       </Card>
     </motion.div>
