@@ -71,74 +71,72 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 z-50 w-full transition-all duration-300 ${
-        scrolled
-          ? 'border-border/60 bg-background/90 border-b shadow-sm backdrop-blur-md'
-          : 'border-b border-transparent bg-transparent'
+      className={`fixed top-0 z-50 w-full transition-colors duration-200 ${
+        scrolled ? 'bg-card text-foreground' : 'bg-background text-foreground'
       }`}
     >
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
-        {/* Logo */}
+        {/* Wordmark */}
         <Link
           href="/"
-          className="flex items-center gap-3"
+          className="group flex items-center gap-3"
           onClick={() =>
             sendGTMEvent({ virtual: '/', event: 'buttonClick', target: 'home' })
           }
         >
-          <Image
-            src="/assets/img/huseyindol.png"
-            alt="Hüseyin DOL"
-            width={40}
-            height={40}
-            className="ring-primary/20 rounded-full ring-2"
-          />
-          <span
-            className={`text-lg font-bold transition-colors ${
-              scrolled ? 'text-foreground' : 'text-foreground dark:text-white'
-            }`}
-          >
+          <div className="relative h-9 w-9 shrink-0 overflow-hidden bg-card">
+            <Image
+              src="/assets/img/huseyindol.png"
+              alt="Hüseyin DOL"
+              width={36}
+              height={36}
+              className="h-full w-full object-cover"
+            />
+          </div>
+          <span className="text-base font-extrabold tracking-tight text-foreground transition-colors group-hover:text-primary">
             Hüseyin DOL
           </span>
         </Link>
 
         {/* Desktop nav */}
         <nav className="hidden items-center gap-1 md:flex">
-          {navLinksToUse.map(link => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() =>
-                sendGTMEvent({
-                  virtual: link.href,
-                  event: 'buttonClick',
-                  target: link.href.startsWith('/projects/elly')
-                    ? link.href
-                    : link.href.slice(1),
-                })
-              }
-              className={`relative rounded-md px-4 py-2 text-sm font-medium transition-colors ${
-                isActive(link.href)
-                  ? scrolled
-                    ? 'text-primary'
-                    : 'text-primary dark:text-white'
-                  : scrolled
-                    ? 'text-muted-foreground hover:text-foreground'
-                    : 'text-foreground/60 hover:text-foreground dark:text-white/70 dark:hover:text-white'
-              }`}
-            >
-              {link.label}
-              {isActive(link.href) && (
-                <span className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-primary" />
-              )}
-            </Link>
-          ))}
+          {navLinksToUse.map(link => {
+            const active = isActive(link.href)
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() =>
+                  sendGTMEvent({
+                    virtual: link.href,
+                    event: 'buttonClick',
+                    target: link.href.startsWith('/projects/elly')
+                      ? link.href
+                      : link.href.slice(1),
+                  })
+                }
+                className={`inline-flex items-center gap-2 px-3.5 py-2 text-sm transition-colors ${
+                  active
+                    ? 'font-bold text-foreground'
+                    : 'font-medium text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                {active && (
+                  <span
+                    aria-hidden="true"
+                    className="h-1.5 w-1.5 shrink-0 bg-primary"
+                  />
+                )}
+                {link.label}
+              </Link>
+            )
+          })}
 
-          <div className="ml-2 flex items-center gap-2">
+          <div className="ml-3 flex items-center gap-2">
             <ThemeToggle />
             <Link
               href="mailto:huseyindol@gmail.com"
-              className="ml-1 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-blue-500/20 transition-all hover:scale-105 hover:shadow-blue-500/40"
+              className="ml-1 bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-foreground hover:text-background"
             >
               İletişime Geç
             </Link>
@@ -147,7 +145,7 @@ export default function Header() {
                 onClick={handleLogout}
                 disabled={isPending}
                 title="Çıkış Yap"
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-red-500/10 text-red-500 transition-colors hover:bg-red-500/20 disabled:opacity-50"
+                className="bg-destructive/15 flex h-9 w-9 items-center justify-center text-destructive transition-colors hover:bg-destructive hover:text-destructive-foreground disabled:opacity-50"
               >
                 <LogOut className="h-4 w-4" />
               </button>
@@ -161,40 +159,45 @@ export default function Header() {
           <button
             onClick={() => setIsOpen(v => !v)}
             aria-label="Menü"
-            className={`flex h-9 w-9 items-center justify-center rounded-full transition-colors ${
-              scrolled
-                ? 'bg-muted text-foreground hover:bg-accent'
-                : 'bg-foreground/10 hover:bg-foreground/20 text-foreground dark:bg-white/10 dark:text-white dark:hover:bg-white/20'
-            }`}
+            className="flex h-9 w-9 items-center justify-center bg-card text-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
           >
             {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile menu — pure CSS, runtime maliyeti yok */}
+      {/* Mobile menu — flat surface, zero runtime overhead */}
       {isOpen && (
-        <div className="animate-mobile-menu bg-background/95 border-b border-border px-6 pb-6 pt-2 backdrop-blur-md md:hidden">
+        <div className="animate-mobile-menu bg-card px-6 pb-6 pt-2 md:hidden">
           <nav className="flex flex-col gap-1">
-            {navLinksToUse.map(link => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setIsOpen(false)}
-                className={`rounded-lg px-4 py-3 text-sm font-medium transition-colors ${
-                  isActive(link.href)
-                    ? 'bg-primary/10 text-primary'
-                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <div className="mt-2 flex items-center gap-2">
+            {navLinksToUse.map(link => {
+              const active = isActive(link.href)
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsOpen(false)}
+                  className={`flex items-center gap-2.5 px-4 py-3 text-sm transition-colors ${
+                    active
+                      ? 'bg-background font-bold text-foreground'
+                      : 'font-medium text-muted-foreground hover:bg-background hover:text-foreground'
+                  }`}
+                >
+                  {active && (
+                    <span
+                      aria-hidden="true"
+                      className="h-1.5 w-1.5 shrink-0 bg-primary"
+                    />
+                  )}
+                  {link.label}
+                </Link>
+              )
+            })}
+            <div className="mt-3 flex items-center gap-2">
               <Link
                 href="mailto:huseyindol@gmail.com"
                 onClick={() => setIsOpen(false)}
-                className="flex-1 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 px-4 py-3 text-center text-sm font-semibold text-white"
+                className="flex-1 bg-primary px-4 py-3 text-center text-sm font-semibold text-primary-foreground transition-colors hover:bg-foreground hover:text-background"
               >
                 İletişime Geç
               </Link>
@@ -206,7 +209,7 @@ export default function Header() {
                   }}
                   disabled={isPending}
                   title="Çıkış Yap"
-                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-red-500/10 text-red-500 transition-colors hover:bg-red-500/20 disabled:opacity-50"
+                  className="bg-destructive/15 flex h-11 w-11 shrink-0 items-center justify-center text-destructive transition-colors hover:bg-destructive hover:text-destructive-foreground disabled:opacity-50"
                 >
                   <LogOut className="h-5 w-5" />
                 </button>

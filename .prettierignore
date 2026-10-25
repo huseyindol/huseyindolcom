@@ -67,3 +67,8 @@ bun.lock
 # Prettier itself
 .prettierrc
 .prettierignore
+
+# Agent skills & temporary draw state
+.agents/skills/design-taste-frontend/**
+.claude/**
+.taste-skill/**

@@ -12,7 +12,7 @@ import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 
 const fadeInUp = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0, y: 28 },
   visible: {
     opacity: 1,
     y: 0,
@@ -22,7 +22,7 @@ const fadeInUp = {
 
 const stagger = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.12 } },
+  visible: { transition: { staggerChildren: 0.1 } },
 }
 
 function CountUp({ end, suffix = '' }: { end: number; suffix?: string }) {
@@ -63,28 +63,24 @@ const values: Array<{
   icon: LucideIcon
   title: string
   description: string
-  color: string
 }> = [
   {
     icon: Code2,
     title: 'Temiz Kod',
     description:
       'Okunabilir, sürdürülebilir ve iyi yapılandırılmış kod yazmak en önemli önceliğim. SOLID prensiplerine ve kapsamlı code review süreçlerine büyük önem veriyorum.',
-    color: 'from-blue-500 to-indigo-600',
   },
   {
     icon: Zap,
     title: 'Performans Odaklı',
     description:
       'Core Web Vitals, lazy loading, code splitting ve bundle optimizasyonu ile kullanıcı deneyimini her zaman merkeze alıyorum. Her ms önemlidir.',
-    color: 'from-emerald-500 to-teal-600',
   },
   {
     icon: Users,
     title: 'Ekip & Mentorluk',
     description:
       'Code review, bilgi paylaşımı ve junior geliştirici mentorluğu ile ekibin büyümesine ve teknik kültürün güçlenmesine katkıda bulunuyorum.',
-    color: 'from-violet-500 to-purple-600',
   },
 ]
 
@@ -101,79 +97,90 @@ export default function Hero() {
 
 function HeroBanner() {
   return (
-    <section className="relative -mt-20 overflow-hidden bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 py-36 pt-36 text-white md:py-48 md:pt-48">
-      <div className="animate-orb-1 pointer-events-none absolute -left-52 -top-52 h-[500px] w-[500px] rounded-full bg-blue-600/15 blur-3xl" />
-      <div className="animate-orb-2 pointer-events-none absolute -bottom-52 -right-52 h-[500px] w-[500px] rounded-full bg-violet-600/15 blur-3xl" />
-      <div className="animate-orb-pulse pointer-events-none absolute left-1/2 top-1/2 h-96 w-96 rounded-full bg-indigo-500/10 blur-3xl" />
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.07]"
-        style={{
-          backgroundImage:
-            'radial-gradient(circle, rgba(255,255,255,1) 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
-        }}
-      />
-
-      <div className="container relative mx-auto px-6">
-        <div className="mx-auto max-w-4xl text-center">
-          <Badge className="mb-6 border border-blue-400/30 bg-blue-500/20 px-4 py-1.5 text-sm font-medium text-blue-200">
+    <section className="bg-background pb-20 pt-16 text-foreground md:pb-28 md:pt-24">
+      <div className="container mx-auto px-6">
+        {/* Top Editorial Meta Row */}
+        <div className="mb-10 flex flex-wrap items-center justify-between gap-4">
+          <Badge className="rounded-none border-0 bg-card px-3.5 py-1.5 text-sm font-semibold text-foreground">
             {siteInfo.sayHi}
           </Badge>
+          <span className="text-sm font-medium text-muted-foreground">
+            İstanbul · Full Stack & Sistem Mimarisi
+          </span>
+        </div>
 
-          <h1 className="mb-6 text-5xl font-extrabold leading-tight md:text-7xl">
-            <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-violet-400 bg-clip-text text-transparent">
+        {/* Masked Two-Line Statement Headline */}
+        <h1
+          className="mb-14 font-extrabold leading-[0.92] tracking-[-0.04em] text-foreground md:mb-20"
+          style={{ fontSize: 'clamp(2.75rem, 1.2rem + 6.2vw, 6.5rem)' }}
+        >
+          <span className="block overflow-hidden pb-1">
+            <span className="animate-line-reveal block text-primary">
               {siteInfo.title.highlight}
             </span>
-            <br />
-            <span className="text-white/90">{siteInfo.title.rest}</span>
-          </h1>
+          </span>
+          <span className="block overflow-hidden pb-2 md:pl-[7vw]">
+            <span className="animate-line-reveal-delayed block text-foreground">
+              {siteInfo.title.rest}
+            </span>
+          </span>
+        </h1>
 
-          <p
-            className="mx-auto mb-10 max-w-3xl text-xl leading-relaxed text-slate-300 md:text-2xl"
-            dangerouslySetInnerHTML={{ __html: siteInfo.description }}
-          />
-
-          <div className="mb-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Button
-              size="lg"
-              className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/30 transition-all hover:scale-105 hover:shadow-blue-500/50"
-              onClick={() => {
-                sendGTMEvent({ event: 'buttonClick', platform: 'email' })
-                window.open(siteInfo.email, '_blank')
-              }}
-            >
-              <Mail className="mr-2 h-5 w-5" />
-              İletişime Geç
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="border-white/30 text-white backdrop-blur transition-all hover:scale-105 hover:border-white/50 hover:bg-white/10"
-              onClick={() => {
-                sendGTMEvent({ event: 'buttonClick', platform: 'cv-download' })
-                window.open(siteInfo.cvUrl, '_blank')
-              }}
-            >
-              <Download className="mr-2 h-5 w-5" />
-              CV İndir
-            </Button>
+        {/* Bottom 12-Column Editorial Split: Supporting Copy + Solid Actions */}
+        <div className="grid gap-10 md:grid-cols-12 md:items-end">
+          <div className="md:col-span-7">
+            <p
+              className="max-w-[60ch] text-lg leading-[1.6] text-muted-foreground md:text-xl [&_strong]:font-semibold [&_strong]:text-foreground"
+              dangerouslySetInnerHTML={{ __html: siteInfo.description }}
+            />
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            {siteInfo.socialLinks.map(link => (
-              <Link
-                key={link.platform}
-                href={link.url}
-                target="_blank"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white/70 transition-all hover:scale-110 hover:bg-white/20 hover:text-white"
+          <div className="flex flex-col items-start gap-6 md:col-span-5 md:items-end">
+            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+              <Button
+                size="lg"
+                className="rounded-none border-0 bg-primary px-7 py-6 text-base font-semibold text-primary-foreground transition-colors hover:bg-foreground hover:text-background"
+                onClick={() => {
+                  sendGTMEvent({ event: 'buttonClick', platform: 'email' })
+                  window.open(siteInfo.email, '_blank')
+                }}
               >
-                {link.platform === 'github' && <Github className="h-4 w-4" />}
-                {link.platform === 'linkedin' && (
-                  <Linkedin className="h-4 w-4" />
-                )}
-                {link.platform === 'email' && <Mail className="h-4 w-4" />}
-              </Link>
-            ))}
+                <Mail className="mr-2 h-5 w-5" />
+                İletişime Geç
+              </Button>
+              <Button
+                size="lg"
+                className="rounded-none border-0 bg-card px-7 py-6 text-base font-semibold text-foreground transition-colors hover:bg-foreground hover:text-background"
+                onClick={() => {
+                  sendGTMEvent({
+                    event: 'buttonClick',
+                    platform: 'cv-download',
+                  })
+                  window.open(siteInfo.cvUrl, '_blank')
+                }}
+              >
+                <Download className="mr-2 h-5 w-5" />
+                CV İndir
+              </Button>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2">
+              {siteInfo.socialLinks.map(link => (
+                <Link
+                  key={link.platform}
+                  href={link.url}
+                  target="_blank"
+                  aria-label={link.platform}
+                  className="flex h-10 w-10 items-center justify-center bg-card text-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
+                >
+                  {link.platform === 'github' && <Github className="h-4 w-4" />}
+                  {link.platform === 'linkedin' && (
+                    <Linkedin className="h-4 w-4" />
+                  )}
+                  {link.platform === 'email' && <Mail className="h-4 w-4" />}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -186,10 +193,20 @@ function StatsSection() {
   const isInView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section ref={ref} className="border-b bg-card py-16">
+    <section ref={ref} className="bg-foreground py-20 text-background">
       <div className="container mx-auto px-6">
+        <div className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+          <h2 className="text-2xl font-extrabold tracking-tight text-background md:text-3xl">
+            Rakamlarla Üretim
+          </h2>
+          <p className="text-background/70 max-w-md text-sm">
+            Kurumsal ölçekli platformlar, açık kaynak sistemler ve çoklu
+            disiplinlerde kesintisiz mühendislik pratiği.
+          </p>
+        </div>
+
         <motion.div
-          className="mx-auto grid max-w-4xl grid-cols-2 gap-12 md:grid-cols-4"
+          className="grid grid-cols-2 gap-10 md:grid-cols-4"
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
           variants={stagger}
@@ -198,12 +215,15 @@ function StatsSection() {
             <motion.div
               key={stat.label}
               variants={fadeInUp}
-              className="text-center"
+              className="bg-background/5 p-6 md:p-8"
             >
-              <div className="mb-2 text-5xl font-extrabold text-primary">
+              <div
+                className="mb-2 font-extrabold leading-none tracking-tight text-primary"
+                style={{ fontSize: 'clamp(2.5rem, 1.5rem + 3.5vw, 4.5rem)' }}
+              >
                 {isInView && <CountUp end={stat.value} suffix={stat.suffix} />}
               </div>
-              <div className="text-sm font-medium text-muted-foreground">
+              <div className="text-background/80 text-sm font-semibold">
                 {stat.label}
               </div>
             </motion.div>
@@ -219,107 +239,117 @@ function AboutSection() {
   const isInView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section ref={ref} className="bg-muted/30 py-28">
+    <section ref={ref} className="bg-card py-24 text-card-foreground md:py-32">
       <div className="container mx-auto px-6">
-        <div className="mx-auto max-w-6xl">
-          <motion.div
-            initial="hidden"
-            animate={isInView ? 'visible' : 'hidden'}
-            variants={stagger}
-            className="grid gap-20 md:grid-cols-2 md:items-center"
-          >
-            <motion.div variants={fadeInUp} className="flex justify-center">
-              <div className="relative">
-                <div className="animate-ring-1 border-primary/40 absolute inset-0 rounded-full border-2" />
-                <div className="animate-ring-2 border-primary/20 absolute inset-0 rounded-full border" />
-                <div className="border-primary/20 ring-primary/10 relative h-72 w-72 overflow-hidden rounded-full border-4 shadow-2xl ring-4">
-                  <Image
-                    src="https://github.com/huseyindol.png"
-                    alt="Hüseyin DOL"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="animate-badge-up absolute -bottom-3 -right-3 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 px-4 py-2 text-xs font-bold text-white shadow-lg">
-                  10+ yıl deneyim
-                </div>
-                <div className="animate-badge-down absolute -left-3 top-10 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 px-4 py-2 text-xs font-bold text-white shadow-lg">
-                  Full Stack
-                </div>
+        <motion.div
+          initial="hidden"
+          animate={isInView ? 'visible' : 'hidden'}
+          variants={stagger}
+          className="grid gap-14 md:grid-cols-12 md:items-start"
+        >
+          {/* Left Column: Architectural Portrait + Flat Caption Block */}
+          <motion.div variants={fadeInUp} className="md:col-span-5">
+            <div className="mx-auto max-w-sm md:mx-0">
+              <div className="relative aspect-[4/5] w-full overflow-hidden bg-background">
+                <Image
+                  src="https://github.com/huseyindol.png"
+                  alt="Hüseyin DOL"
+                  fill
+                  className="object-cover"
+                />
               </div>
+              <div className="bg-background p-6">
+                <p className="text-base font-extrabold text-foreground">
+                  Hüseyin DOL
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  10+ yıl deneyim · Full Stack Software Developer & Team Lead
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right Column: Editorial Biography */}
+          <motion.div variants={stagger} className="space-y-6 md:col-span-7">
+            <motion.div variants={fadeInUp}>
+              <h2
+                className="mb-2 font-extrabold tracking-tight text-foreground"
+                style={{ fontSize: 'clamp(2rem, 1.2rem + 2.5vw, 3.25rem)' }}
+              >
+                Hakkımda
+              </h2>
             </motion.div>
 
-            <motion.div variants={stagger} className="space-y-6">
-              <motion.div variants={fadeInUp}>
-                <h2 className="text-gradient mb-3 text-3xl font-extrabold md:text-4xl">
-                  Hakkımda
-                </h2>
-                <div className="h-1 w-16 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600" />
-              </motion.div>
+            <motion.p
+              variants={fadeInUp}
+              className="max-w-[65ch] text-base leading-[1.7] text-muted-foreground md:text-lg"
+            >
+              2011 yılında Projesoft&apos;ta başladığım frontend yolculuğu,
+              bugün{' '}
+              <strong className="font-semibold text-foreground">
+                10+ yıllık deneyime
+              </strong>{' '}
+              dönüştü. E-ticaret&apos;ten fintech&apos;e, medya platformlarından
+              kurumsal uygulamalara kadar çeşitli sektörlerde çalıştım. jQuery
+              ve PHP&apos;den React ve Next.js&apos;e, monolitik yapılardan
+              mikroservis mimarilerine kadar teknolojinin evrimini bizzat
+              yaşadım.
+            </motion.p>
 
-              <motion.p
-                variants={fadeInUp}
-                className="leading-relaxed text-muted-foreground"
-              >
-                2011 yılında Projesoft&apos;ta başladığım frontend yolculuğu,
-                bugün{' '}
-                <strong className="text-foreground">10+ yıllık deneyime</strong>{' '}
-                dönüştü. E-ticaret&apos;ten fintech&apos;e, medya
-                platformlarından kurumsal uygulamalara kadar çeşitli sektörlerde
-                çalıştım. jQuery ve PHP&apos;den React ve Next.js&apos;e,
-                monolitik yapılardan mikroservis mimarilerine kadar teknolojinin
-                evrimini bizzat yaşadım.
-              </motion.p>
+            <motion.p
+              variants={fadeInUp}
+              className="max-w-[65ch] text-base leading-[1.7] text-muted-foreground md:text-lg"
+            >
+              React ekosisteminde uzmanlaşmanın yanı sıra, son yıllarda{' '}
+              <strong className="font-semibold text-foreground">
+                Java Spring Boot
+              </strong>{' '}
+              ile backend geliştirme,{' '}
+              <strong className="font-semibold text-foreground">
+                Kubernetes
+              </strong>{' '}
+              ile DevOps altyapısı ve{' '}
+              <strong className="font-semibold text-foreground">
+                React Native
+              </strong>{' '}
+              ile mobil uygulama geliştirme alanlarında da derinleşiyorum.
+            </motion.p>
 
-              <motion.p
-                variants={fadeInUp}
-                className="leading-relaxed text-muted-foreground"
-              >
-                React ekosisteminde uzmanlaşmanın yanı sıra, son yıllarda{' '}
-                <strong className="text-foreground">Java Spring Boot</strong>{' '}
-                ile backend geliştirme,{' '}
-                <strong className="text-foreground">Kubernetes</strong> ile
-                DevOps altyapısı ve{' '}
-                <strong className="text-foreground">React Native</strong> ile
-                mobil uygulama geliştirme alanlarında da derinleşiyorum.
-              </motion.p>
+            <motion.p
+              variants={fadeInUp}
+              className="max-w-[65ch] text-base leading-[1.7] text-muted-foreground md:text-lg"
+            >
+              <strong className="font-semibold text-foreground">
+                Hangikredi&apos;de takım lideri
+              </strong>{' '}
+              olarak teknik kararların yanı sıra junior geliştiricilerin
+              mentorluğunu yapıyor, code review süreçlerini yönetiyor ve CI/CD
+              pipeline&apos;larını optimize ediyorum.
+            </motion.p>
 
-              <motion.p
-                variants={fadeInUp}
-                className="leading-relaxed text-muted-foreground"
-              >
-                <strong className="text-foreground">
-                  Hangikredi&apos;de takım lideri
-                </strong>{' '}
-                olarak teknik kararların yanı sıra junior geliştiricilerin
-                mentorluğunu yapıyor, code review süreçlerini yönetiyor ve CI/CD
-                pipeline&apos;larını optimize ediyorum.
-              </motion.p>
-
-              <motion.div
-                variants={fadeInUp}
-                className="flex flex-wrap gap-2 pt-2"
-              >
-                {[
-                  'React',
-                  'Next.js',
-                  'TypeScript',
-                  'Java',
-                  'Kubernetes',
-                  'React Native',
-                ].map(tech => (
-                  <Badge
-                    key={tech}
-                    variant="secondary"
-                    className="border-primary/20 bg-primary/10 text-primary"
-                  >
-                    {tech}
-                  </Badge>
-                ))}
-              </motion.div>
+            <motion.div
+              variants={fadeInUp}
+              className="flex flex-wrap gap-2 pt-3"
+            >
+              {[
+                'React',
+                'Next.js',
+                'TypeScript',
+                'Java',
+                'Kubernetes',
+                'React Native',
+              ].map(tech => (
+                <Badge
+                  key={tech}
+                  variant="secondary"
+                  className="rounded-none border-0 bg-background px-3.5 py-1.5 text-sm font-semibold text-foreground"
+                >
+                  {tech}
+                </Badge>
+              ))}
             </motion.div>
           </motion.div>
-        </div>
+        </motion.div>
       </div>
     </section>
   )
@@ -330,46 +360,51 @@ function ValuesSection() {
   const isInView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section ref={ref} className="bg-card py-28">
+    <section ref={ref} className="bg-background py-24 text-foreground md:py-32">
       <div className="container mx-auto px-6">
-        <div className="mx-auto max-w-6xl">
+        <motion.div
+          initial="hidden"
+          animate={isInView ? 'visible' : 'hidden'}
+          variants={stagger}
+        >
           <motion.div
-            initial="hidden"
-            animate={isInView ? 'visible' : 'hidden'}
-            variants={stagger}
+            variants={fadeInUp}
+            className="mb-16 grid gap-6 md:grid-cols-12 md:items-end"
           >
-            <motion.div variants={fadeInUp} className="mb-16 text-center">
-              <h2 className="text-gradient mb-4 text-3xl font-extrabold md:text-4xl">
+            <div className="md:col-span-6">
+              <h2
+                className="font-extrabold tracking-tight text-foreground"
+                style={{ fontSize: 'clamp(2rem, 1.2rem + 2.5vw, 3.25rem)' }}
+              >
                 Çalışma Yaklaşımım
               </h2>
-              <p className="mx-auto max-w-2xl text-muted-foreground">
+            </div>
+            <div className="md:col-span-6">
+              <p className="max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
                 Her projede kaliteyi, performansı ve ekip iletişimini ön planda
                 tutuyorum.
               </p>
-            </motion.div>
-
-            <motion.div
-              className="grid gap-8 md:grid-cols-3"
-              variants={stagger}
-            >
-              {values.map(value => (
-                <motion.div key={value.title} variants={fadeInUp}>
-                  <Card className="group h-full overflow-hidden border-0 p-8 shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
-                    <div
-                      className={`mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br ${value.color} shadow-lg`}
-                    >
-                      <value.icon className="h-6 w-6 text-white" />
-                    </div>
-                    <h3 className="mb-3 text-xl font-bold">{value.title}</h3>
-                    <p className="leading-relaxed text-muted-foreground">
-                      {value.description}
-                    </p>
-                  </Card>
-                </motion.div>
-              ))}
-            </motion.div>
+            </div>
           </motion.div>
-        </div>
+
+          <motion.div className="grid gap-6 md:grid-cols-3" variants={stagger}>
+            {values.map(value => (
+              <motion.div key={value.title} variants={fadeInUp}>
+                <Card className="group h-full rounded-none border-0 bg-card p-8 transition-colors duration-200 hover:bg-foreground hover:text-background md:p-10">
+                  <div className="mb-8 inline-flex h-12 w-12 items-center justify-center bg-background text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                    <value.icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="mb-3 text-xl font-extrabold tracking-tight">
+                    {value.title}
+                  </h3>
+                  <p className="group-hover:text-background/80 leading-relaxed text-muted-foreground transition-colors">
+                    {value.description}
+                  </p>
+                </Card>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   )
