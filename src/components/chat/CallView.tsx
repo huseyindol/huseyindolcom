@@ -28,25 +28,55 @@ export function CallView({
 }: Props) {
   const localVideo = useRef<HTMLVideoElement>(null)
   const remoteVideo = useRef<HTMLVideoElement>(null)
+  const remoteAudio = useRef<HTMLAudioElement>(null)
 
   useEffect(() => {
-    if (localVideo.current) localVideo.current.srcObject = localStream
-  }, [localStream])
+    const videoEl = localVideo.current
+    if (!videoEl) return
+    videoEl.srcObject = localStream
+    if (localStream) {
+      void videoEl.play().catch(() => {})
+    }
+  }, [localStream, phase])
+
   useEffect(() => {
-    if (remoteVideo.current) remoteVideo.current.srcObject = remoteStream
-  }, [remoteStream])
+    const videoEl = remoteVideo.current
+    if (videoEl) {
+      videoEl.srcObject = remoteStream
+      if (remoteStream) {
+        void videoEl.play().catch(() => {})
+      }
+    }
+    const audioEl = remoteAudio.current
+    if (audioEl) {
+      const audioTracks = remoteStream?.getAudioTracks() ?? []
+      if (audioTracks.length > 0) {
+        audioTracks.forEach(t => {
+          t.enabled = true
+        })
+        audioEl.srcObject = new MediaStream(audioTracks)
+        audioEl.muted = false
+        audioEl.volume = 1
+        void audioEl.play().catch(() => {})
+      } else {
+        audioEl.srcObject = null
+      }
+    }
+  }, [remoteStream, phase])
 
   if (phase === 'idle') return null
   const active = phase === 'active'
 
   return (
     <div className="absolute inset-0 z-20 flex flex-col bg-slate-950">
+      <audio ref={remoteAudio} autoPlay className="hidden" />
       <div className="relative flex-1">
         {active ? (
           <video
             ref={remoteVideo}
             autoPlay
             playsInline
+            muted
             className="h-full w-full object-cover"
           />
         ) : (
