@@ -48,6 +48,7 @@ export function useTenantCall(token: string, enabled: boolean) {
   const callIdRef = useRef<string | null>(null)
   const pcRef = useRef<RTCPeerConnection | null>(null)
   const localRef = useRef<MediaStream | null>(null)
+  const mediaPromiseRef = useRef<Promise<MediaStream | null> | null>(null)
   const pendingIce = useRef<RTCIceCandidateInit[]>([])
   const remoteReady = useRef(false)
   const phaseRef = useRef<TenantCallPhase>('idle')
@@ -74,6 +75,7 @@ export function useTenantCall(token: string, enabled: boolean) {
       pc.close()
       pcRef.current = null
     }
+    mediaPromiseRef.current = null
     localRef.current?.getTracks().forEach(t => t.stop())
     localRef.current = null
     setLocalStream(null)
@@ -81,19 +83,82 @@ export function useTenantCall(token: string, enabled: boolean) {
     callIdRef.current = null
     remoteReady.current = false
     pendingIce.current = []
+    phaseRef.current = 'idle'
     setPhase('idle')
     setPeerName(null)
   }
 
+  /**
+   * Yerel kamera/mikrofon akışını açar. Kullanıcı tıklaması sırasında (startCall)
+   * çağrıldığında tarayıcı izin penceresi güvenilir şekilde tetiklenir; kamera/mikrofon
+   * hiç açılamasa bile çağrıyı koparmak yerine null döner (recvonly devam edilir).
+   */
+  const acquireLocalStream = (): Promise<MediaStream | null> => {
+    if (localRef.current) {
+      return Promise.resolve(localRef.current)
+    }
+    if (mediaPromiseRef.current) {
+      return mediaPromiseRef.current
+    }
+    const promise = (async (): Promise<MediaStream | null> => {
+      if (
+        typeof navigator === 'undefined' ||
+        !navigator.mediaDevices?.getUserMedia
+      ) {
+        toast.warning(
+          'Kamera/mikrofon erişimi yok — görüşmeye yalnız alıcı olarak devam ediliyor.',
+        )
+        return null
+      }
+      let stream: MediaStream
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: true,
+        })
+      } catch (videoAudioErr) {
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+          toast.warning('Kamera açılamadı — sesli devam ediliyor.')
+        } catch {
+          try {
+            stream = await navigator.mediaDevices.getUserMedia({ video: true })
+            toast.warning(
+              'Mikrofon açılamadı — yalnız görüntü ile devam ediliyor.',
+            )
+          } catch {
+            toast.warning(
+              `${mediaErrorMessage(videoAudioErr)} Karşı tarafın ses/görüntüsü alınacak.`,
+            )
+            return null
+          }
+        }
+      }
+      if (phaseRef.current === 'idle') {
+        stream.getTracks().forEach(t => t.stop())
+        return null
+      }
+      stream.getAudioTracks().forEach(t => {
+        t.enabled = micOn
+      })
+      stream.getVideoTracks().forEach(t => {
+        t.enabled = camOn
+      })
+      localRef.current = stream
+      setLocalStream(stream)
+      return stream
+    })().finally(() => {
+      mediaPromiseRef.current = null
+    })
+    mediaPromiseRef.current = promise
+    return promise
+  }
+
   // Caller: ANSWERED sonrası pc kur + offer üret
   const setupPeerAndOffer = async () => {
-    // getUserMedia yalnız güvenli bağlamda (HTTPS/localhost) tanımlıdır.
-    if (!navigator.mediaDevices?.getUserMedia) {
-      toast.error('Görüntülü görüşme için HTTPS veya localhost gerekir.')
-      if (callIdRef.current) publish(`/app/rtc/${callIdRef.current}/hangup`)
-      teardown()
-      return
-    }
+    // Aynı çağrı için mükerrer ANSWERED sinyali (/user/queue/rtc + /topic/rtc-client) gelirse ikinci kez kurma.
+    if (pcRef.current) return
+    const targetCallId = callIdRef.current
     const pc = new RTCPeerConnection({ iceServers: ICE_SERVERS })
     pcRef.current = pc
     remoteReady.current = false
@@ -108,23 +173,42 @@ export function useTenantCall(token: string, enabled: boolean) {
       }
     }
     pc.ontrack = e => {
-      if (e.streams[0]) setRemoteStream(e.streams[0])
+      if (e.streams[0]) {
+        setRemoteStream(e.streams[0])
+      } else if (e.track) {
+        setRemoteStream(prev => {
+          const next = prev
+            ? new MediaStream(prev.getTracks())
+            : new MediaStream()
+          next.addTrack(e.track)
+          return next
+        })
+      }
     }
-    // Önce kamera+mikrofon; olmazsa sese düş (kamera bloklu ama mik açık olabilir).
-    // Ses de alınamazsa hata dışarı fırlar → ANSWERED catch'i toast + hangup yapar.
-    let stream: MediaStream
-    try {
-      stream = await navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: true,
-      })
-    } catch {
-      stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-      toast.warning('Kamera açılamadı — sesli devam ediliyor.')
+
+    const stream = localRef.current ?? (await acquireLocalStream())
+    if (pcRef.current !== pc || callIdRef.current !== targetCallId) {
+      return
     }
-    localRef.current = stream
-    setLocalStream(stream)
-    stream.getTracks().forEach(t => pc.addTrack(t, stream))
+    if (stream) {
+      stream.getTracks().forEach(t => pc.addTrack(t, stream))
+      if (
+        stream.getAudioTracks().length === 0 &&
+        typeof pc.addTransceiver === 'function'
+      ) {
+        pc.addTransceiver('audio', { direction: 'recvonly' })
+      }
+      if (
+        stream.getVideoTracks().length === 0 &&
+        typeof pc.addTransceiver === 'function'
+      ) {
+        pc.addTransceiver('video', { direction: 'recvonly' })
+      }
+    } else if (typeof pc.addTransceiver === 'function') {
+      pc.addTransceiver('audio', { direction: 'recvonly' })
+      pc.addTransceiver('video', { direction: 'recvonly' })
+    }
+
     const offer = await pc.createOffer()
     await pc.setLocalDescription(offer)
     if (offer.sdp && callIdRef.current) {
@@ -137,17 +221,32 @@ export function useTenantCall(token: string, enabled: boolean) {
 
   // Sinyal işleyici — her render'da yeniden oluşur; ref'e effect'te bağlanır (aşağıda).
   const handleSignal = (sig: CallSignal) => {
+    // Başka/eski bir çağrıya ait sinyalleri yoksay.
+    if (
+      sig.callId &&
+      callIdRef.current &&
+      sig.callId !== callIdRef.current &&
+      sig.type !== 'RINGING'
+    ) {
+      return
+    }
     switch (sig.type) {
       case 'RINGING':
+        if (phaseRef.current !== 'calling') return
         callIdRef.current = sig.callId
         break
       case 'ANSWERED':
+        if (phaseRef.current !== 'calling' && phaseRef.current !== 'active') {
+          return
+        }
+        if (pcRef.current) return
         callIdRef.current = sig.callId
         setPeerName(sig.peerDisplayName ?? 'Temsilci')
+        phaseRef.current = 'active'
         setPhase('active')
         setupPeerAndOffer().catch(err => {
-          console.error('getUserMedia/offer başarısız', err)
-          toast.error(mediaErrorMessage(err))
+          console.error('WebRTC offer oluşturulamadı', err)
+          toast.error('Görüşme bağlantısı başlatılamadı.')
           if (callIdRef.current) publish(`/app/rtc/${callIdRef.current}/hangup`)
           teardown()
         })
@@ -276,8 +375,10 @@ export function useTenantCall(token: string, enabled: boolean) {
       toast.error('Bağlantı kurulamadı — sayfayı yenileyip tekrar deneyin')
       return
     }
+    phaseRef.current = 'calling'
     setPhase('calling')
     setPeerName(null)
+    void acquireLocalStream()
     publish(`/app/tenant-rtc/${CHAT_TENANT_ID}/call`, { clientRef: myRef })
   }
 
