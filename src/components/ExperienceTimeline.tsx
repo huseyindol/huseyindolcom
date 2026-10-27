@@ -26,13 +26,13 @@ const industryColors: Record<string, string> = {
   Fintech:
     'bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400',
   'E-commerce':
-    'bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400',
+    'bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/30 dark:text-amber-300',
   Agency:
-    'bg-violet-100 text-violet-700 border-violet-200 dark:bg-violet-900/30 dark:text-violet-400',
+    'bg-stone-100 text-stone-700 border-stone-200 dark:bg-stone-800 dark:text-stone-300',
   Media:
     'bg-orange-100 text-orange-700 border-orange-200 dark:bg-orange-900/30 dark:text-orange-400',
   Freelancer:
-    'bg-pink-100 text-pink-700 border-pink-200 dark:bg-pink-900/30 dark:text-pink-400',
+    'bg-teal-100 text-teal-700 border-teal-200 dark:bg-teal-900/30 dark:text-teal-400',
 }
 
 interface ExperienceTimelineProps {
@@ -84,27 +84,19 @@ export default function ExperienceTimeline({
   return (
     <div className="min-h-screen">
       {/* Hero header */}
-      <section className="relative -mt-20 overflow-hidden bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 py-32 pt-32 text-white md:py-40 md:pt-40">
-        <div className="animate-orb-1 pointer-events-none absolute -left-40 -top-40 h-96 w-96 rounded-full bg-blue-600/15 blur-3xl" />
-        <div className="animate-orb-2 pointer-events-none absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-violet-600/15 blur-3xl" />
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.06]"
-          style={{
-            backgroundImage:
-              'radial-gradient(circle, rgba(255,255,255,1) 1px, transparent 1px)',
-            backgroundSize: '40px 40px',
-          }}
-        />
+      <section className="relative -mt-20 overflow-hidden border-b border-white/10 bg-zinc-950 py-32 pt-32 text-zinc-100 md:py-40 md:pt-40">
+        <div className="editorial-grid-bg pointer-events-none absolute inset-0 opacity-50" />
+        <div className="pointer-events-none absolute left-1/2 top-0 h-80 w-[640px] -translate-x-1/2 rounded-full bg-amber-500/10 blur-3xl" />
 
         <div className="container relative mx-auto px-6">
           <div className="mx-auto max-w-3xl text-center">
-            <Badge className="mb-6 border border-blue-400/30 bg-blue-500/20 px-4 py-1.5 text-sm font-medium text-blue-200">
+            <Badge className="mb-6 border border-amber-400/30 bg-amber-500/10 px-4 py-1.5 text-sm font-medium text-amber-200">
               Kariyer Yolculuğu
             </Badge>
-            <h1 className="mb-5 text-4xl font-extrabold md:text-6xl">
+            <h1 className="mb-5 text-4xl font-black tracking-tight md:text-6xl">
               {title}
             </h1>
-            <p className="text-lg text-slate-300 md:text-xl">{description}</p>
+            <p className="text-lg text-zinc-400 md:text-xl">{description}</p>
           </div>
 
           {/* Career summary stats */}
@@ -115,10 +107,10 @@ export default function ExperienceTimeline({
               { value: '5', label: 'Farklı Sektör' },
             ].map(s => (
               <div key={s.label}>
-                <div className="text-3xl font-extrabold text-blue-300">
+                <div className="text-3xl font-black text-amber-400">
                   {s.value}
                 </div>
-                <div className="mt-1 text-sm text-slate-400">{s.label}</div>
+                <div className="mt-1 text-sm text-zinc-400">{s.label}</div>
               </div>
             ))}
           </div>
@@ -193,12 +185,14 @@ function ExperienceCard({
     industryColors[exp.industry] ??
     'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
 
+  const slideOffset = index % 2 === 0 ? -56 : 56
+
   return (
     <motion.div
       ref={ref}
       layout
-      initial={{ opacity: 0, x: -40 }}
-      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -40 }}
+      initial={{ opacity: 0, x: slideOffset }}
+      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: slideOffset }}
       exit={{ opacity: 0, x: 40, transition: { duration: 0.2 } }}
       transition={{ duration: 0.5, delay: index * 0.08 }}
       className="relative pb-10 pl-12 last:pb-0"

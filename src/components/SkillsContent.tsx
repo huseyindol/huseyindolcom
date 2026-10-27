@@ -17,6 +17,26 @@ const fadeInUp = {
   },
 }
 
+const slideFromLeft = {
+  hidden: { opacity: 0, x: -64, y: 12 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as const },
+  },
+}
+
+const slideFromRight = {
+  hidden: { opacity: 0, x: 64, y: 12 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as const },
+  },
+}
+
 const stagger = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.07 } },
@@ -54,7 +74,7 @@ const CATEGORIES: CategoryConfig[] = [
     description:
       'React ekosisteminde 8+ yıl deneyimle SSR/SSG/ISR stratejileri, TypeScript ile tip güvenli geliştirme ve modern UI mimarileri üzerine uzmanlaştım.',
     icon: Monitor,
-    gradient: 'from-blue-500 to-indigo-600',
+    gradient: 'from-amber-500 to-orange-600',
     skillNames: [
       'HTML5',
       'CSS3',
@@ -87,7 +107,7 @@ const CATEGORIES: CategoryConfig[] = [
     description:
       'Docker multi-stage build, Kubernetes StatefulSet/HPA, GitHub Actions CI/CD ve Traefik Ingress ile production-grade altyapı yönetimi yapıyorum.',
     icon: Cloud,
-    gradient: 'from-violet-500 to-purple-600',
+    gradient: 'from-stone-700 to-zinc-900',
     skillNames: ['Docker', 'Nginx', 'Git'],
   },
   {
@@ -114,27 +134,19 @@ export default function SkillsContent({
   return (
     <div className="min-h-screen">
       {/* Hero header */}
-      <section className="relative -mt-20 overflow-hidden bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 py-32 pt-32 text-white md:py-40 md:pt-40">
-        <div className="animate-orb-1 pointer-events-none absolute -left-40 -top-40 h-96 w-96 rounded-full bg-blue-600/15 blur-3xl" />
-        <div className="animate-orb-2 pointer-events-none absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-violet-600/15 blur-3xl" />
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.06]"
-          style={{
-            backgroundImage:
-              'radial-gradient(circle, rgba(255,255,255,1) 1px, transparent 1px)',
-            backgroundSize: '40px 40px',
-          }}
-        />
+      <section className="relative -mt-20 overflow-hidden border-b border-white/10 bg-zinc-950 py-32 pt-32 text-zinc-100 md:py-40 md:pt-40">
+        <div className="editorial-grid-bg pointer-events-none absolute inset-0 opacity-50" />
+        <div className="pointer-events-none absolute left-1/2 top-0 h-80 w-[640px] -translate-x-1/2 rounded-full bg-amber-500/10 blur-3xl" />
 
         <div className="container relative mx-auto px-6">
           <div className="mx-auto max-w-3xl text-center">
-            <Badge className="mb-6 border border-blue-400/30 bg-blue-500/20 px-4 py-1.5 text-sm font-medium text-blue-200">
+            <Badge className="mb-6 border border-amber-400/30 bg-amber-500/10 px-4 py-1.5 text-sm font-medium text-amber-200">
               Teknoloji Yığını
             </Badge>
-            <h1 className="mb-5 text-4xl font-extrabold md:text-6xl">
+            <h1 className="mb-5 text-4xl font-black tracking-tight md:text-6xl">
               {title}
             </h1>
-            <p className="text-lg text-slate-300 md:text-xl">{description}</p>
+            <p className="text-lg text-zinc-400 md:text-xl">{description}</p>
           </div>
         </div>
       </section>
@@ -187,7 +199,10 @@ function CategorySection({
             variants={stagger}
           >
             {/* Category header */}
-            <motion.div variants={fadeInUp} className="mb-12">
+            <motion.div
+              variants={isEven ? slideFromLeft : slideFromRight}
+              className="mb-12"
+            >
               <div className="flex items-start gap-5">
                 <div
                   className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br ${category.gradient} shadow-lg`}

@@ -138,7 +138,7 @@ export default function Header() {
             <ThemeToggle />
             <Link
               href="mailto:huseyindol@gmail.com"
-              className="ml-1 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-blue-500/20 transition-all hover:scale-105 hover:shadow-blue-500/40"
+              className="ml-1 rounded-full bg-amber-400 px-4 py-2 text-sm font-bold text-zinc-950 shadow-md shadow-amber-500/20 transition-all hover:scale-105 hover:bg-amber-300"
             >
               İletişime Geç
             </Link>
@@ -194,7 +194,7 @@ export default function Header() {
               <Link
                 href="mailto:huseyindol@gmail.com"
                 onClick={() => setIsOpen(false)}
-                className="flex-1 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 px-4 py-3 text-center text-sm font-semibold text-white"
+                className="flex-1 rounded-lg bg-amber-400 px-4 py-3 text-center text-sm font-bold text-zinc-950"
               >
                 İletişime Geç
               </Link>

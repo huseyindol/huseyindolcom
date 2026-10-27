@@ -1,27 +1,27 @@
 @import 'tailwindcss';
 
 @theme {
-  /* Light theme colors */
-  --color-background: hsl(0 0% 100%);
-  --color-foreground: hsl(222.2 84% 4.9%);
+  /* Light theme colors — Editorial Stone & Amber (No AI Purple) */
+  --color-background: hsl(40 20% 98%);
+  --color-foreground: hsl(24 10% 8%);
   --color-card: hsl(0 0% 100%);
-  --color-card-foreground: hsl(222.2 84% 4.9%);
+  --color-card-foreground: hsl(24 10% 8%);
   --color-popover: hsl(0 0% 100%);
-  --color-popover-foreground: hsl(222.2 84% 4.9%);
-  --color-primary: hsl(217 91% 60%);
+  --color-popover-foreground: hsl(24 10% 8%);
+  --color-primary: hsl(32 95% 44%);
   --color-primary-foreground: hsl(0 0% 100%);
-  --color-secondary: hsl(215 25% 97%);
-  --color-secondary-foreground: hsl(222.2 47.4% 11.2%);
-  --color-muted: hsl(215 25% 97%);
-  --color-muted-foreground: hsl(215.4 16.3% 46.9%);
-  --color-accent: hsl(217 91% 60%);
-  --color-accent-foreground: hsl(0 0% 100%);
+  --color-secondary: hsl(36 16% 94%);
+  --color-secondary-foreground: hsl(24 10% 12%);
+  --color-muted: hsl(36 16% 94%);
+  --color-muted-foreground: hsl(24 6% 42%);
+  --color-accent: hsl(38 92% 50%);
+  --color-accent-foreground: hsl(24 10% 8%);
   --color-destructive: hsl(0 84.2% 60.2%);
   --color-destructive-foreground: hsl(210 40% 98%);
-  --color-border: hsl(214.3 31.8% 91.4%);
-  --color-input: hsl(214.3 31.8% 91.4%);
-  --color-ring: hsl(217 91% 60%);
-  --color-skill-bg: hsl(217 91% 95%);
+  --color-border: hsl(30 12% 88%);
+  --color-input: hsl(30 12% 88%);
+  --color-ring: hsl(32 95% 44%);
+  --color-skill-bg: hsl(38 90% 95%);
 
   /* Border radius */
   --radius: 0.5rem;
@@ -32,15 +32,15 @@
 
 @layer base {
   :root {
-    /* Portfolio specific colors */
-    --hero-gradient-start: 217 91% 60%;
-    --hero-gradient-end: 260 84% 65%;
-    --experience-accent: 34 100% 60%;
+    /* Portfolio specific colors — Warm Amber & Copper */
+    --hero-gradient-start: 38 92% 50%;
+    --hero-gradient-end: 24 90% 48%;
+    --experience-accent: 38 92% 50%;
 
     /* Shadows and effects */
-    --shadow-subtle: 0 1px 3px 0 hsl(0 0% 0% / 0.1);
-    --shadow-elegant: 0 10px 30px -10px hsl(217 91% 60% / 0.3);
-    --glow-primary: 0 0 40px hsl(217 100% 70% / 0.4);
+    --shadow-subtle: 0 1px 3px 0 hsl(0 0% 0% / 0.08);
+    --shadow-elegant: 0 12px 32px -12px hsl(32 95% 44% / 0.22);
+    --glow-primary: 0 0 40px hsl(38 92% 50% / 0.25);
 
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -48,27 +48,29 @@
   }
 
   .dark {
-    /* Dark theme overrides */
-    --color-background: hsl(222.2 84% 4.9%);
-    --color-foreground: hsl(210 40% 98%);
-    --color-card: hsl(222.2 84% 4.9%);
-    --color-card-foreground: hsl(210 40% 98%);
-    --color-popover: hsl(222.2 84% 4.9%);
-    --color-popover-foreground: hsl(210 40% 98%);
-    --color-secondary: hsl(217.2 32.6% 17.5%);
-    --color-secondary-foreground: hsl(210 40% 98%);
-    --color-muted: hsl(217.2 32.6% 17.5%);
-    --color-muted-foreground: hsl(215 20.2% 65.1%);
+    /* Dark theme overrides — Obsidian Stone & Warm Amber */
+    --color-background: hsl(24 10% 5%);
+    --color-foreground: hsl(36 20% 96%);
+    --color-card: hsl(24 8% 8%);
+    --color-card-foreground: hsl(36 20% 96%);
+    --color-popover: hsl(24 8% 8%);
+    --color-popover-foreground: hsl(36 20% 96%);
+    --color-primary: hsl(38 92% 50%);
+    --color-primary-foreground: hsl(24 10% 6%);
+    --color-secondary: hsl(24 8% 13%);
+    --color-secondary-foreground: hsl(36 20% 96%);
+    --color-muted: hsl(24 8% 13%);
+    --color-muted-foreground: hsl(30 8% 64%);
     --color-destructive: hsl(0 62.8% 30.6%);
     --color-destructive-foreground: hsl(210 40% 98%);
-    --color-border: hsl(217.2 32.6% 17.5%);
-    --color-input: hsl(217.2 32.6% 17.5%);
-    --color-skill-bg: hsl(217.2 32.6% 20%);
+    --color-border: hsl(24 8% 16%);
+    --color-input: hsl(24 8% 16%);
+    --color-skill-bg: hsl(24 8% 14%);
 
     /* Dark shadows and effects */
-    --shadow-subtle: 0 1px 3px 0 hsl(0 0% 0% / 0.3);
-    --shadow-elegant: 0 10px 30px -10px hsl(217 91% 60% / 0.4);
-    --glow-primary: 0 0 40px hsl(217 100% 70% / 0.3);
+    --shadow-subtle: 0 1px 3px 0 hsl(0 0% 0% / 0.35);
+    --shadow-elegant: 0 12px 32px -12px hsl(38 92% 50% / 0.28);
+    --glow-primary: 0 0 40px hsl(38 92% 50% / 0.2);
   }
 
   * {
@@ -320,5 +322,63 @@
 
   .shadow-elegant {
     box-shadow: var(--shadow-elegant);
+  }
+
+  .gpu-kinetic {
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+  }
+
+  .editorial-grid-bg {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  @keyframes sda-enter-left {
+    from {
+      opacity: 0;
+      transform: translate3d(-80px, 20px, 0) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+  }
+
+  @keyframes sda-enter-right {
+    from {
+      opacity: 0;
+      transform: translate3d(80px, 20px, 0) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+  }
+
+  @supports ((animation-timeline: view()) and (animation-range: entry)) {
+    .sda-slide-left {
+      animation: sda-enter-left linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 35%;
+    }
+
+    .sda-slide-right {
+      animation: sda-enter-right linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 35%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gpu-kinetic,
+    .sda-slide-left,
+    .sda-slide-right {
+      animation: none !important;
+      transform: none !important;
+      opacity: 1 !important;
+    }
   }
 }

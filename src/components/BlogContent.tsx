@@ -89,27 +89,19 @@ export default function BlogContent({ posts, categories }: BlogContentProps) {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="relative -mt-20 overflow-hidden bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 py-32 pt-32 text-white md:py-40 md:pt-40">
-        <div className="animate-orb-1 pointer-events-none absolute -left-40 -top-40 h-96 w-96 rounded-full bg-blue-600/15 blur-3xl" />
-        <div className="animate-orb-2 pointer-events-none absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-emerald-600/15 blur-3xl" />
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.06]"
-          style={{
-            backgroundImage:
-              'radial-gradient(circle, rgba(255,255,255,1) 1px, transparent 1px)',
-            backgroundSize: '40px 40px',
-          }}
-        />
+      <section className="relative -mt-20 overflow-hidden border-b border-white/10 bg-zinc-950 py-32 pt-32 text-zinc-100 md:py-40 md:pt-40">
+        <div className="editorial-grid-bg pointer-events-none absolute inset-0 opacity-50" />
+        <div className="pointer-events-none absolute left-1/2 top-0 h-80 w-[640px] -translate-x-1/2 rounded-full bg-amber-500/10 blur-3xl" />
 
         <div className="container relative mx-auto px-6">
           <div className="mx-auto max-w-3xl text-center">
-            <Badge className="mb-6 border border-emerald-400/30 bg-emerald-500/20 px-4 py-1.5 text-sm font-medium text-emerald-200">
+            <Badge className="mb-6 border border-amber-400/30 bg-amber-500/10 px-4 py-1.5 text-sm font-medium text-amber-200">
               Teknik Makaleler
             </Badge>
-            <h1 className="mb-5 text-4xl font-extrabold md:text-6xl">
+            <h1 className="mb-5 text-4xl font-black tracking-tight md:text-6xl">
               Makalelerim
             </h1>
-            <p className="text-lg text-slate-300 md:text-xl">
+            <p className="text-lg text-zinc-400 md:text-xl">
               Yazılım geliştirme süreçleri, kariyer deneyimlerim ve modern
               teknolojiler üzerine teknik notlarım.
             </p>

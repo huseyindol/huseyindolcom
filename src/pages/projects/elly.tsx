@@ -94,7 +94,7 @@ export default function EllyEcosystemPage() {
               {/* Architecture diagram */}
               <motion.div
                 variants={fadeInUp}
-                className="mb-12 overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 p-8 text-white md:p-16"
+                className="mb-12 overflow-hidden rounded-3xl border border-white/10 bg-zinc-950 p-8 text-zinc-100 md:p-16"
               >
                 <div className="flex flex-col items-center gap-8">
                   {/* Backend node */}

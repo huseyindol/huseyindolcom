@@ -168,4 +168,16 @@ describe('Hero Component', () => {
     const sections = container.querySelectorAll('section')
     expect(sections.length).toBeGreaterThan(0)
   })
+
+  it('should render multi-directional kinetic typography tracks', () => {
+    render(<Hero />)
+
+    expect(
+      screen.getByRole('region', { name: /Teknoloji ve Mimari Akışı/i }),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByText(/REACT 19 · NEXT\.JS 16 · TYPESCRIPT/i),
+    ).toBeInTheDocument()
+    expect(screen.getByText(/JAVA 21 & SPRING BOOT 3\.5/i)).toBeInTheDocument()
+  })
 })

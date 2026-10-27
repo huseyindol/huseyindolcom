@@ -51,19 +51,11 @@ export default function Footer() {
   return (
     <footer
       ref={ref}
-      className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white"
+      className="relative overflow-hidden border-t border-white/10 bg-zinc-950 text-zinc-100"
     >
-      {/* Background orbs */}
-      <div className="pointer-events-none absolute -left-40 -top-40 h-80 w-80 rounded-full bg-blue-600/10 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-40 -right-40 h-80 w-80 rounded-full bg-violet-600/10 blur-3xl" />
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.04]"
-        style={{
-          backgroundImage:
-            'radial-gradient(circle, rgba(255,255,255,1) 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
-        }}
-      />
+      {/* Architectural grid & subtle amber glow */}
+      <div className="editorial-grid-bg pointer-events-none absolute inset-0 opacity-40" />
+      <div className="pointer-events-none absolute -top-40 left-1/2 h-80 w-96 -translate-x-1/2 rounded-full bg-amber-500/10 blur-3xl" />
 
       <div className="container relative mx-auto px-6 py-20">
         <motion.div
@@ -147,7 +139,7 @@ export default function Footer() {
                 href="mailto:huseyindol@gmail.com"
                 className="flex items-center gap-2.5 text-sm text-slate-400 transition-colors hover:text-white"
               >
-                <Mail className="h-4 w-4 shrink-0 text-blue-400" />
+                <Mail className="h-4 w-4 shrink-0 text-amber-400" />
                 huseyindol@gmail.com
               </a>
             </div>
