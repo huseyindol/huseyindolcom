@@ -1,9 +1,14 @@
-import { useUrlQueryParam } from '@/hooks/useUrlQueryParam'
+import {
+  KineticScrollBanner,
+  KineticScrollItem,
+  type KineticTrackItem,
+} from '@/components/KineticScrollBanner'
 import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
+import { useUrlQueryParam } from '@/hooks/useUrlQueryParam'
 import { INDUSTRIES } from '@/schemas/constants'
 import type { ExperienceType } from '@/schemas/dynamic/experienceSchema'
-import { AnimatePresence, motion, useInView } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import {
   Building,
   Calendar,
@@ -11,29 +16,62 @@ import {
   ChevronUp,
   MapPin,
 } from 'lucide-react'
-import { useRef, useState } from 'react'
-
-const fadeInLeft = {
-  hidden: { opacity: 0, x: -30 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] as const },
-  },
-}
+import { useState } from 'react'
 
 const industryColors: Record<string, string> = {
   Fintech:
     'bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400',
   'E-commerce':
-    'bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/30 dark:text-amber-300',
+    'bg-sky-100 text-sky-700 border-sky-200 dark:bg-sky-900/30 dark:text-sky-300',
   Agency:
     'bg-stone-100 text-stone-700 border-stone-200 dark:bg-stone-800 dark:text-stone-300',
   Media:
-    'bg-orange-100 text-orange-700 border-orange-200 dark:bg-orange-900/30 dark:text-orange-400',
+    'bg-teal-100 text-teal-700 border-teal-200 dark:bg-teal-900/30 dark:text-teal-300',
   Freelancer:
-    'bg-teal-100 text-teal-700 border-teal-200 dark:bg-teal-900/30 dark:text-teal-400',
+    'bg-rose-100 text-rose-700 border-rose-200 dark:bg-rose-900/30 dark:text-rose-300',
 }
+
+const experienceKineticTracks: KineticTrackItem[] = [
+  {
+    id: 'exp-fintech',
+    dir: -1,
+    speed: 1.45,
+    baseOffset: -55,
+    tag: 'FINTECH LEADERSHIP',
+    primary: 'HANGİKREDİ · TEAM LEAD · MİMARİ KARARLAR',
+    secondary: 'CI/CD · CODE REVIEW · MENTORLUK',
+  },
+  {
+    id: 'exp-ecom',
+    dir: 1,
+    speed: 1.65,
+    baseOffset: 75,
+    tag: 'E-COMMERCE & MEDIA',
+    primary: 'YÜKSEK TRAFİKLİ WEB PLATFORMLARI',
+    secondary: 'SSR · ISR · CORE WEB VITALS OPTİMİZASYONU',
+    accent: true,
+  },
+  {
+    id: 'exp-scale',
+    dir: -1,
+    speed: 1.15,
+    baseOffset: -30,
+    scaleEffect: true,
+    tag: '2011 → 2026',
+    primary: '10+ YIL DENEYİM · 7 ŞİRKET · 5 SEKTÖR',
+    secondary: 'MONOLİTİKTEN MİKROSERVİS MİMARİSİNE',
+  },
+  {
+    id: 'exp-stack',
+    dir: 1,
+    speed: 1.8,
+    baseOffset: 95,
+    tag: 'FULL-STACK EVOLVEMENT',
+    primary: 'REACT · NEXT.JS · JAVA SPRING BOOT',
+    secondary: 'KUBERNETES · DOCKER · MULTI-TENANT DB',
+    accent: true,
+  },
+]
 
 interface ExperienceTimelineProps {
   experiences: ExperienceType[]
@@ -41,14 +79,6 @@ interface ExperienceTimelineProps {
   description: string
 }
 
-/**
- * Filtre seçimini URL'e yansıtır — ROUTER KULLANMADAN.
- *
- * Router'a bağlanmak taşımada sorun çıkardı: App Router'ın useRouter'ı Pages
- * Router'da mount değil, çağrısı handler içinde patlayınca React aynı handler'daki
- * setState'i de düşürüyor ve filtre hiç çalışmıyordu. Filtrelemenin URL'e ihtiyacı
- * yok; adres yalnız paylaşılabilirlik için güncelleniyor.
- */
 function syncFilterUrl(url: string) {
   try {
     window.history.replaceState(window.history.state, '', url)
@@ -62,9 +92,6 @@ export default function ExperienceTimeline({
   title,
   description,
 }: ExperienceTimelineProps) {
-  // Filtre tamamen client state — server searchParams okunmuyor (sayfa static/ISR kalır).
-  // Tıklamada URL de güncellenir (paylaşılabilir); ilk yükte hep "all" başlar.
-  // İlk yük: adresteki ?industry= uygulanır; sonrası kullanıcı seçimi ezer.
   const urlIndustry = useUrlQueryParam('industry')
   const [selected, setSelected] = useState<string | null>(null)
   const selectedIndustry = selected ?? urlIndustry ?? 'all'
@@ -82,15 +109,15 @@ export default function ExperienceTimeline({
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-hidden">
       {/* Hero header */}
-      <section className="relative -mt-20 overflow-hidden border-b border-white/10 bg-zinc-950 py-32 pt-32 text-zinc-100 md:py-40 md:pt-40">
+      <section className="brand-hero-surface relative -mt-20 overflow-hidden border-b border-white/10 py-32 pt-32 text-zinc-100 md:py-40 md:pt-40">
         <div className="editorial-grid-bg pointer-events-none absolute inset-0 opacity-50" />
-        <div className="pointer-events-none absolute left-1/2 top-0 h-80 w-[640px] -translate-x-1/2 rounded-full bg-amber-500/10 blur-3xl" />
+        <div className="brand-glow-orb pointer-events-none absolute left-1/2 top-0 h-80 w-[640px] -translate-x-1/2 rounded-full blur-3xl" />
 
         <div className="container relative mx-auto px-6">
           <div className="mx-auto max-w-3xl text-center">
-            <Badge className="mb-6 border border-amber-400/30 bg-amber-500/10 px-4 py-1.5 text-sm font-medium text-amber-200">
+            <Badge className="brand-badge mb-6 border px-4 py-1.5 text-sm font-medium">
               Kariyer Yolculuğu
             </Badge>
             <h1 className="mb-5 text-4xl font-black tracking-tight md:text-6xl">
@@ -107,7 +134,7 @@ export default function ExperienceTimeline({
               { value: '5', label: 'Farklı Sektör' },
             ].map(s => (
               <div key={s.label}>
-                <div className="text-3xl font-black text-amber-400">
+                <div className="brand-text-accent text-3xl font-black">
                   {s.value}
                 </div>
                 <div className="mt-1 text-sm text-zinc-400">{s.label}</div>
@@ -117,8 +144,17 @@ export default function ExperienceTimeline({
         </div>
       </section>
 
+      {/* Multi-directional Apple kinetic stream on Experience page */}
+      <KineticScrollBanner
+        kicker="01 / KARİYER KRONOLOJİSİ"
+        title="Sektörler ve mimariler arası yolculuk"
+        badge="FINTECH · E-COMMERCE · MEDIA · AGENCY"
+        tracks={experienceKineticTracks}
+        ariaLabel="Deneyim Kinetik Kariyer Akışı"
+      />
+
       {/* Filter + Timeline */}
-      <section className="bg-muted/20 py-20">
+      <section className="bg-muted/20 overflow-hidden py-20">
         <div className="container mx-auto px-6">
           <div className="mx-auto max-w-4xl">
             {/* Industry filter */}
@@ -129,7 +165,7 @@ export default function ExperienceTimeline({
                   onClick={() => handleFilter(industry.value)}
                   className={`inline-flex h-10 items-center justify-center rounded-full px-5 text-sm font-medium transition-all duration-200 ${
                     selectedIndustry === industry.value
-                      ? 'shadow-primary/30 scale-105 bg-primary text-primary-foreground shadow-md'
+                      ? 'brand-pill-btn scale-105 font-bold shadow-md'
                       : 'border border-border bg-card text-muted-foreground hover:bg-accent hover:text-accent-foreground'
                   }`}
                 >
@@ -140,25 +176,19 @@ export default function ExperienceTimeline({
 
             {/* Timeline */}
             <div className="relative">
-              <AnimatePresence mode="popLayout">
-                {filtered.map((exp, index) => (
-                  <ExperienceCard
-                    key={`${exp.company}-${exp.period}`}
-                    exp={exp}
-                    index={index}
-                    isLast={index === filtered.length - 1}
-                  />
-                ))}
-              </AnimatePresence>
+              {filtered.map((exp, index) => (
+                <ExperienceCard
+                  key={`${exp.company}-${exp.period}`}
+                  exp={exp}
+                  index={index}
+                  isLast={index === filtered.length - 1}
+                />
+              ))}
 
               {filtered.length === 0 && (
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="py-20 text-center text-muted-foreground"
-                >
+                <p className="py-20 text-center text-muted-foreground">
                   Bu sektörde deneyim bulunamadı.
-                </motion.p>
+                </p>
               )}
             </div>
           </div>
@@ -177,51 +207,34 @@ function ExperienceCard({
   index: number
   isLast: boolean
 }) {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-60px' })
   const [expanded, setExpanded] = useState(index === 0)
 
   const industryColor =
     industryColors[exp.industry] ??
     'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
 
-  const slideOffset = index % 2 === 0 ? -56 : 56
-
   return (
-    <motion.div
-      ref={ref}
-      layout
-      initial={{ opacity: 0, x: slideOffset }}
-      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: slideOffset }}
-      exit={{ opacity: 0, x: 40, transition: { duration: 0.2 } }}
-      transition={{ duration: 0.5, delay: index * 0.08 }}
-      className="relative pb-10 pl-12 last:pb-0"
-    >
+    <div className="relative pb-10 pl-12 last:pb-0">
       {/* Timeline line */}
       {!isLast && (
         <div className="from-primary/50 via-primary/20 absolute bottom-0 left-[18px] top-6 w-px bg-gradient-to-b to-transparent" />
       )}
 
       {/* Timeline dot */}
-      <motion.div
-        className="ring-primary/10 absolute left-2.5 top-3 flex h-5 w-5 items-center justify-center rounded-full border-2 border-primary bg-card shadow-md ring-4"
-        initial={{ scale: 0 }}
-        animate={isInView ? { scale: 1 } : { scale: 0 }}
-        transition={{ duration: 0.3, delay: index * 0.08 + 0.15 }}
-      >
+      <div className="ring-primary/10 absolute left-2.5 top-3 flex h-5 w-5 items-center justify-center rounded-full border-2 border-primary bg-card shadow-md ring-4">
         <div className="h-2 w-2 rounded-full bg-primary" />
-      </motion.div>
+      </div>
 
-      <motion.div variants={fadeInLeft}>
+      <KineticScrollItem side={index % 2 === 0 ? 'left' : 'right'}>
         <Card
-          className="cursor-pointer overflow-hidden border-0 shadow-md transition-shadow duration-300 hover:shadow-lg"
+          className="border-border/60 cursor-pointer overflow-hidden border shadow-md transition-shadow duration-300 hover:shadow-lg"
           onClick={() => setExpanded(v => !v)}
         >
           {/* Card header — always visible */}
           <div className="p-6">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1">
-                <h3 className="mb-1 text-xl font-bold text-primary">
+                <h3 className="brand-text-accent mb-1 text-xl font-bold">
                   {exp.position}
                 </h3>
                 <div className="mb-3 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
@@ -311,7 +324,7 @@ function ExperienceCard({
             )}
           </AnimatePresence>
         </Card>
-      </motion.div>
-    </motion.div>
+      </KineticScrollItem>
+    </div>
   )
 }

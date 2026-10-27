@@ -1,27 +1,27 @@
 @import 'tailwindcss';
 
 @theme {
-  /* Light theme colors — Editorial Stone & Amber (No AI Purple) */
-  --color-background: hsl(40 20% 98%);
-  --color-foreground: hsl(24 10% 8%);
+  /* Light theme colors — Nordic Teal Editorial (Default) */
+  --color-background: hsl(180 20% 98%);
+  --color-foreground: hsl(190 35% 8%);
   --color-card: hsl(0 0% 100%);
-  --color-card-foreground: hsl(24 10% 8%);
+  --color-card-foreground: hsl(190 35% 8%);
   --color-popover: hsl(0 0% 100%);
-  --color-popover-foreground: hsl(24 10% 8%);
-  --color-primary: hsl(32 95% 44%);
+  --color-popover-foreground: hsl(190 35% 8%);
+  --color-primary: hsl(173 80% 36%);
   --color-primary-foreground: hsl(0 0% 100%);
-  --color-secondary: hsl(36 16% 94%);
-  --color-secondary-foreground: hsl(24 10% 12%);
-  --color-muted: hsl(36 16% 94%);
-  --color-muted-foreground: hsl(24 6% 42%);
-  --color-accent: hsl(38 92% 50%);
-  --color-accent-foreground: hsl(24 10% 8%);
+  --color-secondary: hsl(180 18% 94%);
+  --color-secondary-foreground: hsl(190 35% 11%);
+  --color-muted: hsl(180 18% 94%);
+  --color-muted-foreground: hsl(190 14% 40%);
+  --color-accent: hsl(173 80% 40%);
+  --color-accent-foreground: hsl(190 35% 8%);
   --color-destructive: hsl(0 84.2% 60.2%);
   --color-destructive-foreground: hsl(210 40% 98%);
-  --color-border: hsl(30 12% 88%);
-  --color-input: hsl(30 12% 88%);
-  --color-ring: hsl(32 95% 44%);
-  --color-skill-bg: hsl(38 90% 95%);
+  --color-border: hsl(185 18% 88%);
+  --color-input: hsl(185 18% 88%);
+  --color-ring: hsl(173 80% 36%);
+  --color-skill-bg: hsl(173 70% 95%);
 
   /* Border radius */
   --radius: 0.5rem;
@@ -31,46 +31,124 @@
 }
 
 @layer base {
-  :root {
-    /* Portfolio specific colors — Warm Amber & Copper */
-    --hero-gradient-start: 38 92% 50%;
-    --hero-gradient-end: 24 90% 48%;
-    --experience-accent: 38 92% 50%;
+  :root,
+  :root[data-palette='teal'] {
+    --brand-accent: #14b8a6;
+    --brand-accent-strong: #0d9488;
+    --brand-accent-soft: #5eead4;
+    --brand-accent-fg: #031314;
+    --brand-surface: #040c0e;
+    --brand-glow-bg: rgba(20, 184, 166, 0.13);
+    --brand-badge-bg: rgba(20, 184, 166, 0.12);
+    --brand-badge-border: rgba(45, 212, 191, 0.32);
+    --brand-badge-text: #99f6e4;
 
-    /* Shadows and effects */
+    --hero-gradient-start: 173 80% 40%;
+    --hero-gradient-end: 192 91% 42%;
+    --experience-accent: 173 80% 40%;
+
     --shadow-subtle: 0 1px 3px 0 hsl(0 0% 0% / 0.08);
-    --shadow-elegant: 0 12px 32px -12px hsl(32 95% 44% / 0.22);
-    --glow-primary: 0 0 40px hsl(38 92% 50% / 0.25);
+    --shadow-elegant: 0 12px 32px -12px hsl(173 80% 40% / 0.22);
+    --glow-primary: 0 0 40px hsl(173 80% 40% / 0.25);
 
-    /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --animation-float: float 6s ease-in-out infinite;
   }
 
+  :root[data-palette='cobalt'] {
+    --brand-accent: #38bdf8;
+    --brand-accent-strong: #0ea5e9;
+    --brand-accent-soft: #7dd3fc;
+    --brand-accent-fg: #041019;
+    --brand-surface: #060a10;
+    --brand-glow-bg: rgba(56, 189, 248, 0.12);
+    --brand-badge-bg: rgba(14, 165, 233, 0.12);
+    --brand-badge-border: rgba(56, 189, 248, 0.32);
+    --brand-badge-text: #bae6fd;
+
+    --color-primary: hsl(199 89% 48%);
+    --color-accent: hsl(199 89% 48%);
+    --color-ring: hsl(199 89% 48%);
+    --hero-gradient-start: 199 89% 48%;
+    --hero-gradient-end: 188 94% 43%;
+  }
+
+  :root[data-palette='emerald'] {
+    --brand-accent: #10b981;
+    --brand-accent-strong: #059669;
+    --brand-accent-soft: #6ee7b7;
+    --brand-accent-fg: #03120c;
+    --brand-surface: #050c09;
+    --brand-glow-bg: rgba(16, 185, 129, 0.13);
+    --brand-badge-bg: rgba(16, 185, 129, 0.12);
+    --brand-badge-border: rgba(52, 211, 153, 0.32);
+    --brand-badge-text: #a7f3d0;
+
+    --color-primary: hsl(160 84% 39%);
+    --color-accent: hsl(160 84% 39%);
+    --color-ring: hsl(160 84% 39%);
+    --hero-gradient-start: 160 84% 39%;
+    --hero-gradient-end: 172 66% 50%;
+  }
+
+  :root[data-palette='titanium'] {
+    --brand-accent: #e4e4e7;
+    --brand-accent-strong: #d4d4d8;
+    --brand-accent-soft: #a1a1aa;
+    --brand-accent-fg: #09090b;
+    --brand-surface: #09090b;
+    --brand-glow-bg: rgba(228, 228, 231, 0.1);
+    --brand-badge-bg: rgba(255, 255, 255, 0.08);
+    --brand-badge-border: rgba(255, 255, 255, 0.24);
+    --brand-badge-text: #f4f4f5;
+
+    --color-primary: hsl(240 5% 84%);
+    --color-accent: hsl(240 5% 84%);
+    --color-ring: hsl(240 5% 84%);
+    --hero-gradient-start: 240 6% 90%;
+    --hero-gradient-end: 240 5% 65%;
+  }
+
+  :root[data-palette='crimson'] {
+    --brand-accent: #f43f5e;
+    --brand-accent-strong: #e11d48;
+    --brand-accent-soft: #fda4af;
+    --brand-accent-fg: #fff1f2;
+    --brand-surface: #0d0708;
+    --brand-glow-bg: rgba(244, 63, 94, 0.13);
+    --brand-badge-bg: rgba(244, 63, 94, 0.12);
+    --brand-badge-border: rgba(251, 113, 133, 0.32);
+    --brand-badge-text: #fecdd3;
+
+    --color-primary: hsl(350 89% 60%);
+    --color-accent: hsl(350 89% 60%);
+    --color-ring: hsl(350 89% 60%);
+    --hero-gradient-start: 350 89% 60%;
+    --hero-gradient-end: 12 85% 58%;
+  }
+
   .dark {
-    /* Dark theme overrides — Obsidian Stone & Warm Amber */
-    --color-background: hsl(24 10% 5%);
-    --color-foreground: hsl(36 20% 96%);
-    --color-card: hsl(24 8% 8%);
-    --color-card-foreground: hsl(36 20% 96%);
-    --color-popover: hsl(24 8% 8%);
-    --color-popover-foreground: hsl(36 20% 96%);
-    --color-primary: hsl(38 92% 50%);
-    --color-primary-foreground: hsl(24 10% 6%);
-    --color-secondary: hsl(24 8% 13%);
-    --color-secondary-foreground: hsl(36 20% 96%);
-    --color-muted: hsl(24 8% 13%);
-    --color-muted-foreground: hsl(30 8% 64%);
+    --color-background: hsl(190 35% 4%);
+    --color-foreground: hsl(180 20% 96%);
+    --color-card: hsl(190 28% 7%);
+    --color-card-foreground: hsl(180 20% 96%);
+    --color-popover: hsl(190 28% 7%);
+    --color-popover-foreground: hsl(180 20% 96%);
+    --color-primary: hsl(173 80% 44%);
+    --color-primary-foreground: hsl(190 35% 5%);
+    --color-secondary: hsl(190 20% 12%);
+    --color-secondary-foreground: hsl(180 20% 96%);
+    --color-muted: hsl(190 20% 12%);
+    --color-muted-foreground: hsl(185 12% 64%);
     --color-destructive: hsl(0 62.8% 30.6%);
     --color-destructive-foreground: hsl(210 40% 98%);
-    --color-border: hsl(24 8% 16%);
-    --color-input: hsl(24 8% 16%);
-    --color-skill-bg: hsl(24 8% 14%);
+    --color-border: hsl(190 20% 15%);
+    --color-input: hsl(190 20% 15%);
+    --color-skill-bg: hsl(190 20% 13%);
 
-    /* Dark shadows and effects */
     --shadow-subtle: 0 1px 3px 0 hsl(0 0% 0% / 0.35);
-    --shadow-elegant: 0 12px 32px -12px hsl(38 92% 50% / 0.28);
-    --glow-primary: 0 0 40px hsl(38 92% 50% / 0.2);
+    --shadow-elegant: 0 12px 32px -12px hsl(173 80% 44% / 0.28);
+    --glow-primary: 0 0 40px hsl(173 80% 44% / 0.2);
   }
 
   * {
@@ -84,8 +162,6 @@
       'calt' 1;
   }
 
-  /* iOS Safari auto-zoom prevention: font-size < 16px triggers zoom on focus.
-     Only applies on touch devices — manual zoom (accessibility) unaffected. */
   @media (hover: none) and (pointer: coarse) {
     input,
     select,
@@ -96,7 +172,6 @@
 }
 
 @layer components {
-  /* Utility classes for your CSS variables */
   .theme-bg {
     background-color: hsl(var(--color-background));
   }
@@ -111,8 +186,8 @@
   }
 
   .theme-primary {
-    background-color: hsl(var(--color-primary));
-    color: hsl(var(--color-primary-foreground));
+    background-color: var(--brand-accent);
+    color: var(--brand-accent-fg);
   }
 
   .theme-shadow {
@@ -122,25 +197,51 @@
   .hero-gradient {
     background: linear-gradient(
       135deg,
-      hsl(var(--hero-gradient-start)),
-      hsl(var(--hero-gradient-end))
+      var(--brand-accent),
+      var(--brand-accent-soft)
     );
   }
 
   .text-gradient {
     background: linear-gradient(
       135deg,
-      hsl(var(--hero-gradient-start)),
-      hsl(var(--hero-gradient-end))
+      var(--brand-accent),
+      var(--brand-accent-soft)
     );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+
+  .brand-hero-surface {
+    background-color: var(--brand-surface);
+  }
+
+  .brand-glow-orb {
+    background-color: var(--brand-glow-bg);
+  }
+
+  .brand-text-accent {
+    color: var(--brand-accent);
+  }
+
+  .brand-pill-btn {
+    background-color: var(--brand-accent);
+    color: var(--brand-accent-fg);
+  }
+
+  .brand-pill-btn:hover {
+    background-color: var(--brand-accent-soft);
+  }
+
+  .brand-badge {
+    background-color: var(--brand-badge-bg);
+    border-color: var(--brand-badge-border);
+    color: var(--brand-badge-text);
+  }
 }
 
 @layer utilities {
-  /* Animations */
   @keyframes slideInfinite {
     0% {
       transform: translateX(0);
@@ -171,7 +272,6 @@
     }
   }
 
-  /* Background orb float animations — CSS-only, runs on compositor thread */
   @keyframes orb-float-1 {
     0%,
     100% {

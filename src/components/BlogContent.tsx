@@ -1,13 +1,17 @@
-import { useUrlQueryParam } from '@/hooks/useUrlQueryParam'
 import AdSenseAd from '@/components/AdSenseAd'
+import {
+  KineticScrollBanner,
+  KineticScrollItem,
+  type KineticTrackItem,
+} from '@/components/KineticScrollBanner'
 import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
+import { useUrlQueryParam } from '@/hooks/useUrlQueryParam'
 import type { BlogPost } from '@/lib/mdx'
-import { motion, useInView } from 'framer-motion'
 import { BookOpenIcon, CalendarIcon, ClockIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 
 const BLOG_LIST_AD_SLOTS = [
   '7448731904',
@@ -18,43 +22,62 @@ const BLOG_LIST_AD_SLOTS = [
 ]
 const BLOG_LIST_LAYOUT_KEY = '-6t+ed+2i-1n-4w'
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const },
-  },
-}
-
-const stagger = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.07 } },
-}
-
 const cardCategoryColors: Record<string, string> = {
-  Frontend: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
+  Frontend: 'bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-300',
   Backend:
     'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300',
-  DevOps:
-    'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300',
-  AI: 'bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300',
-  Mobile: 'bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300',
+  DevOps: 'bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-300',
+  AI: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-300',
+  Mobile: 'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-300',
 }
+
+const blogKineticTracks: KineticTrackItem[] = [
+  {
+    id: 'blg-fe',
+    dir: -1,
+    speed: 1.4,
+    baseOffset: -50,
+    tag: 'FRONTEND ARCHITECTURE',
+    primary: 'REACT 19 · NEXT.JS 16 · SSR & ISR',
+    secondary: 'CORE WEB VITALS · STATE MANAGEMENT',
+  },
+  {
+    id: 'blg-be',
+    dir: 1,
+    speed: 1.65,
+    baseOffset: 75,
+    tag: 'DISTRIBUTED BACKEND',
+    primary: 'JAVA 21 · SPRING BOOT 3.5 · MICROSERVICES',
+    secondary: 'MULTI-TENANCY · REDIS · RABBITMQ',
+    accent: true,
+  },
+  {
+    id: 'blg-ops',
+    dir: -1,
+    speed: 1.15,
+    baseOffset: -30,
+    scaleEffect: true,
+    tag: 'CLOUD & DEVOPS',
+    primary: 'KUBERNETES · DOCKER · CI/CD PIPELINES',
+    secondary: 'HIGH AVAILABILITY · OBSERVABILITY',
+  },
+  {
+    id: 'blg-ai',
+    dir: 1,
+    speed: 1.8,
+    baseOffset: 90,
+    tag: 'AI & MODERN WEB',
+    primary: 'LLM AGENTS · MCP · PERFORMANCE ENGINEERING',
+    secondary: 'CLEAN CODE · SECURITY · SYSTEM DESIGN',
+    accent: true,
+  },
+]
 
 interface BlogContentProps {
   posts: BlogPost[]
   categories: string[]
 }
 
-/**
- * Filtre seçimini URL'e yansıtır — ROUTER KULLANMADAN.
- *
- * Router'a bağlanmak taşımada sorun çıkardı: App Router'ın useRouter'ı Pages
- * Router'da mount değil, çağrısı handler içinde patlayınca React aynı handler'daki
- * setState'i de düşürüyor ve filtre hiç çalışmıyordu. Filtrelemenin URL'e ihtiyacı
- * yok; adres yalnız paylaşılabilirlik için güncelleniyor.
- */
 function syncFilterUrl(url: string) {
   try {
     window.history.replaceState(window.history.state, '', url)
@@ -64,13 +87,6 @@ function syncFilterUrl(url: string) {
 }
 
 export default function BlogContent({ posts, categories }: BlogContentProps) {
-  const gridRef = useRef(null)
-  const gridInView = useInView(gridRef, { once: true, margin: '-60px' })
-
-  // Kategori filtresi tamamen client-side (server searchParams okunmuyor → sayfa static).
-  // Tüm postlar prerender edilir; seçim sadece görüneni süzer, URL'i de paylaşılabilir tutar.
-  // İlk yük: adresteki ?category= uygulanır (paylaşılan link filtreli açılsın).
-  // Sonrası: kullanıcı seçimi (selected) URL'i ezer. null = henüz seçim yapılmadı.
   const urlCategory = useUrlQueryParam('category')
   const [selected, setSelected] = useState<string | undefined | null>(null)
   const categoryFilter = selected === null ? urlCategory : selected
@@ -87,15 +103,15 @@ export default function BlogContent({ posts, categories }: BlogContentProps) {
     : posts
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-hidden">
       {/* Hero */}
-      <section className="relative -mt-20 overflow-hidden border-b border-white/10 bg-zinc-950 py-32 pt-32 text-zinc-100 md:py-40 md:pt-40">
+      <section className="brand-hero-surface relative -mt-20 overflow-hidden border-b border-white/10 py-32 pt-32 text-zinc-100 md:py-40 md:pt-40">
         <div className="editorial-grid-bg pointer-events-none absolute inset-0 opacity-50" />
-        <div className="pointer-events-none absolute left-1/2 top-0 h-80 w-[640px] -translate-x-1/2 rounded-full bg-amber-500/10 blur-3xl" />
+        <div className="brand-glow-orb pointer-events-none absolute left-1/2 top-0 h-80 w-[640px] -translate-x-1/2 rounded-full blur-3xl" />
 
         <div className="container relative mx-auto px-6">
           <div className="mx-auto max-w-3xl text-center">
-            <Badge className="mb-6 border border-amber-400/30 bg-amber-500/10 px-4 py-1.5 text-sm font-medium text-amber-200">
+            <Badge className="brand-badge mb-6 border px-4 py-1.5 text-sm font-medium">
               Teknik Makaleler
             </Badge>
             <h1 className="mb-5 text-4xl font-black tracking-tight md:text-6xl">
@@ -107,13 +123,15 @@ export default function BlogContent({ posts, categories }: BlogContentProps) {
             </p>
 
             {/* Stats */}
-            <div className="mt-10 flex justify-center gap-8 text-sm text-slate-400">
+            <div className="mt-10 flex justify-center gap-8 text-sm text-zinc-400">
               <div className="text-center">
-                <p className="text-2xl font-bold text-white">{posts.length}</p>
+                <p className="brand-text-accent text-2xl font-black">
+                  {posts.length}
+                </p>
                 <p>Makale</p>
               </div>
               <div className="text-center">
-                <p className="text-2xl font-bold text-white">
+                <p className="brand-text-accent text-2xl font-black">
                   {categories.length}
                 </p>
                 <p>Kategori</p>
@@ -122,6 +140,15 @@ export default function BlogContent({ posts, categories }: BlogContentProps) {
           </div>
         </div>
       </section>
+
+      {/* Multi-directional Apple kinetic stream on Blog page */}
+      <KineticScrollBanner
+        kicker="01 / MÜHENDİSLİK NOTLARI"
+        title="Derinlemesine mimari ve performans yazıları"
+        badge={`${posts.length} MAKALE · ${categories.length} KATEGORİ`}
+        tracks={blogKineticTracks}
+        ariaLabel="Makaleler Kinetik Akışı"
+      />
 
       {/* Category Filter */}
       <div className="bg-background/80 sticky top-[65px] z-40 border-b border-border backdrop-blur-sm">
@@ -132,7 +159,7 @@ export default function BlogContent({ posts, categories }: BlogContentProps) {
               onClick={() => selectCategory(undefined)}
               className={`inline-flex shrink-0 cursor-pointer items-center rounded-full border px-4 py-1.5 text-sm font-medium transition-all ${
                 categoryFilter === undefined
-                  ? 'border-primary bg-primary text-primary-foreground'
+                  ? 'brand-pill-btn border-transparent font-bold'
                   : 'border-border bg-muted text-muted-foreground hover:bg-accent hover:text-foreground'
               }`}
             >
@@ -145,7 +172,7 @@ export default function BlogContent({ posts, categories }: BlogContentProps) {
                 onClick={() => selectCategory(category)}
                 className={`inline-flex shrink-0 cursor-pointer items-center rounded-full border px-4 py-1.5 text-sm font-medium transition-all ${
                   categoryFilter === category
-                    ? 'border-primary bg-primary text-primary-foreground'
+                    ? 'brand-pill-btn border-transparent font-bold'
                     : 'border-border bg-muted text-muted-foreground hover:bg-accent hover:text-foreground'
                 }`}
               >
@@ -157,25 +184,15 @@ export default function BlogContent({ posts, categories }: BlogContentProps) {
       </div>
 
       {/* Posts grid */}
-      <main className="bg-muted/20 min-h-[60vh] py-16">
+      <main className="bg-muted/20 min-h-[60vh] overflow-hidden py-16">
         <div className="container mx-auto px-6">
           {visiblePosts.length === 0 ? (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="py-24 text-center text-muted-foreground"
-            >
+            <div className="py-24 text-center text-muted-foreground">
               <BookOpenIcon className="mx-auto mb-4 h-12 w-12 opacity-30" />
               <p className="text-lg">Bu kategoride henüz makale yok.</p>
-            </motion.div>
+            </div>
           ) : (
-            <motion.div
-              ref={gridRef}
-              initial="hidden"
-              animate={gridInView ? 'visible' : 'hidden'}
-              variants={stagger}
-              className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-            >
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {(() => {
                 const adPositions = BLOG_LIST_AD_SLOTS.map((_, k) =>
                   Math.floor(
@@ -186,7 +203,13 @@ export default function BlogContent({ posts, categories }: BlogContentProps) {
                 const items: React.ReactNode[] = []
                 const showListAds = categoryFilter === undefined
                 visiblePosts.forEach((post, i) => {
-                  items.push(<PostCard key={post.slug} post={post} />)
+                  items.push(
+                    <PostCard
+                      key={post.slug}
+                      post={post}
+                      side={i % 2 === 0 ? 'left' : 'right'}
+                    />,
+                  )
                   const adIdx = adPositions.indexOf(i + 1)
                   if (showListAds && adIdx !== -1) {
                     items.push(
@@ -201,7 +224,7 @@ export default function BlogContent({ posts, categories }: BlogContentProps) {
                 })
                 return items
               })()}
-            </motion.div>
+            </div>
           )}
         </div>
       </main>
@@ -209,16 +232,16 @@ export default function BlogContent({ posts, categories }: BlogContentProps) {
   )
 }
 
-function PostCard({ post }: { post: BlogPost }) {
+function PostCard({ post, side }: { post: BlogPost; side: 'left' | 'right' }) {
   const category = post.frontmatter.category
   const badgeColor =
     cardCategoryColors[category] ??
     'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
 
   return (
-    <motion.div variants={fadeInUp}>
-      <Link href={`/blog/${post.slug}`}>
-        <Card className="group flex h-full flex-col overflow-hidden border-0 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+    <KineticScrollItem side={side} intensity={0.85} className="h-full">
+      <Link href={`/blog/${post.slug}`} className="block h-full">
+        <Card className="border-border/60 group flex h-full flex-col overflow-hidden border shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
           {post.frontmatter.coverImage && (
             <div className="relative h-52 w-full overflow-hidden">
               <Image
@@ -271,6 +294,6 @@ function PostCard({ post }: { post: BlogPost }) {
           </div>
         </Card>
       </Link>
-    </motion.div>
+    </KineticScrollItem>
   )
 }

@@ -1,11 +1,11 @@
 import { siteLogout } from '@/actions/auth/siteLogout'
+import BrandLogo from '@/components/BrandLogo'
 import { ThemeToggle } from '@/components/ui/theme-toggle'
 import { removeGlobalCookie, useCookie } from '@/context/CookieContext'
 import { clearGuestStorage } from '@/hooks/chat/useGuestToken'
 import { CookieEnum } from '@/utils/constant/cookieConstant'
 import { sendGTMEvent } from '@next/third-parties/google'
 import { LogOut, Menu, X } from 'lucide-react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState, useTransition } from 'react'
@@ -77,7 +77,7 @@ export default function Header() {
           : 'border-b border-transparent bg-transparent'
       }`}
     >
-      <div className="container mx-auto flex items-center justify-between px-6 py-4">
+      <div className="container mx-auto flex items-center justify-between px-4 py-3.5 sm:px-6 sm:py-4">
         {/* Logo */}
         <Link
           href="/"
@@ -86,20 +86,7 @@ export default function Header() {
             sendGTMEvent({ virtual: '/', event: 'buttonClick', target: 'home' })
           }
         >
-          <Image
-            src="/assets/img/huseyindol.png"
-            alt="Hüseyin DOL"
-            width={40}
-            height={40}
-            className="ring-primary/20 rounded-full ring-2"
-          />
-          <span
-            className={`text-lg font-bold transition-colors ${
-              scrolled ? 'text-foreground' : 'text-foreground dark:text-white'
-            }`}
-          >
-            Hüseyin DOL
-          </span>
+          <BrandLogo scrolled={scrolled} />
         </Link>
 
         {/* Desktop nav */}
@@ -138,7 +125,7 @@ export default function Header() {
             <ThemeToggle />
             <Link
               href="mailto:huseyindol@gmail.com"
-              className="ml-1 rounded-full bg-amber-400 px-4 py-2 text-sm font-bold text-zinc-950 shadow-md shadow-amber-500/20 transition-all hover:scale-105 hover:bg-amber-300"
+              className="brand-pill-btn ml-1 rounded-full px-4 py-2 text-sm font-bold shadow-md transition-all hover:scale-105"
             >
               İletişime Geç
             </Link>
@@ -194,7 +181,7 @@ export default function Header() {
               <Link
                 href="mailto:huseyindol@gmail.com"
                 onClick={() => setIsOpen(false)}
-                className="flex-1 rounded-lg bg-amber-400 px-4 py-3 text-center text-sm font-bold text-zinc-950"
+                className="brand-pill-btn flex-1 rounded-lg px-4 py-3 text-center text-sm font-bold"
               >
                 İletişime Geç
               </Link>

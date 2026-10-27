@@ -52,7 +52,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       <GoogleAnalytics gaId="G-ETR2NBJH5V" />
       <ClarityAnalytics />
       <NextTopLoader
-        color="#6366f1"
+        color="#14b8a6"
         height={3}
         showSpinner={false}
         easing="ease"

@@ -1,7 +1,11 @@
 import AdSenseAd from '@/components/AdSenseAd'
+import {
+  KineticScrollBanner,
+  KineticScrollItem,
+  type KineticTrackItem,
+} from '@/components/KineticScrollBanner'
 import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
-import { motion, useInView } from 'framer-motion'
 import {
   ExternalLinkIcon,
   GamepadIcon,
@@ -14,21 +18,6 @@ import {
 } from 'lucide-react'
 import { FaGithub as Github } from 'react-icons/fa'
 import Link from 'next/link'
-import { useRef } from 'react'
-
-const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] as const },
-  },
-}
-
-const stagger = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1 } },
-}
 
 interface Project {
   id: string
@@ -355,24 +344,63 @@ const projects: Project[] = [
 
 const statusConfig = {
   live: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300',
-  beta: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
-  soon: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300',
+  beta: 'bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-300',
+  soon: 'bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-300',
 }
 
-export default function ProjectsContent() {
-  const gridRef = useRef(null)
-  const gridInView = useInView(gridRef, { once: true, margin: '-60px' })
+const projectsKineticTracks: KineticTrackItem[] = [
+  {
+    id: 'prj-elly',
+    dir: -1,
+    speed: 1.45,
+    baseOffset: -55,
+    tag: 'HEADLESS CMS',
+    primary: 'ELLY MULTI-TENANT ARCHITECTURE',
+    secondary: 'SPRING BOOT 3.5 · JAVA 21 · POSTGRESQL · REDIS',
+  },
+  {
+    id: 'prj-web',
+    dir: 1,
+    speed: 1.65,
+    baseOffset: 75,
+    tag: 'WEB & MOBILE',
+    primary: 'NEXT.JS 16 ADMIN & TENANT · FLUTTER APP',
+    secondary: 'WEBRTC VIDEO CALL · STOMP LIVE CHAT',
+    accent: true,
+  },
+  {
+    id: 'prj-games',
+    dir: -1,
+    speed: 1.2,
+    baseOffset: -30,
+    scaleEffect: true,
+    tag: 'GAME ENGINE',
+    primary: 'GODOT ENGINE & FLUTTER ARCADE GAMES',
+    secondary: 'APP STORE · TESTFLIGHT · WEBGL',
+  },
+  {
+    id: 'prj-open',
+    dir: 1,
+    speed: 1.8,
+    baseOffset: 90,
+    tag: 'OPEN SOURCE',
+    primary: '9 PROJE · 8 CANLI · UÇTAN UCA EKOSİSTEM',
+    secondary: 'CLEAN ARCHITECTURE · CI/CD · KUBERNETES',
+    accent: true,
+  },
+]
 
+export default function ProjectsContent() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-hidden">
       {/* Hero */}
-      <section className="relative -mt-20 overflow-hidden border-b border-white/10 bg-zinc-950 py-32 pt-32 text-zinc-100 md:py-40 md:pt-40">
+      <section className="brand-hero-surface relative -mt-20 overflow-hidden border-b border-white/10 py-32 pt-32 text-zinc-100 md:py-40 md:pt-40">
         <div className="editorial-grid-bg pointer-events-none absolute inset-0 opacity-50" />
-        <div className="pointer-events-none absolute left-1/2 top-0 h-80 w-[640px] -translate-x-1/2 rounded-full bg-amber-500/10 blur-3xl" />
+        <div className="brand-glow-orb pointer-events-none absolute left-1/2 top-0 h-80 w-[640px] -translate-x-1/2 rounded-full blur-3xl" />
 
         <div className="container relative mx-auto px-6">
           <div className="mx-auto max-w-3xl text-center">
-            <Badge className="mb-6 border border-amber-400/30 bg-amber-500/10 px-4 py-1.5 text-sm font-medium text-amber-200">
+            <Badge className="brand-badge mb-6 border px-4 py-1.5 text-sm font-medium">
               Açık Kaynak
             </Badge>
             <h1 className="mb-5 text-4xl font-black tracking-tight md:text-6xl">
@@ -483,7 +511,14 @@ export default function ProjectsContent() {
         </div>
       </section>
 
-      {/* Ad — ekosistem bölümü sonrası (üst) */}
+      {/* Multi-directional Apple kinetic stream on Projects page */}
+      <KineticScrollBanner
+        kicker="01 / EKOSİSTEM & OYUN MİMARİSİ"
+        title="Backend'den mobil ve oyun motorlarına canlı akış"
+        badge="9 PROJE · 4 PLATFORM"
+        tracks={projectsKineticTracks}
+        ariaLabel="Projeler Kinetik Akışı"
+      />
 
       {/* Ad — ekosistem bölümü sonrası (üst) */}
       <div className="container mx-auto max-w-5xl px-6">
@@ -491,31 +526,27 @@ export default function ProjectsContent() {
       </div>
 
       {/* Project cards */}
-      <section className="bg-muted/20 py-20">
+      <section className="bg-muted/20 overflow-hidden py-20">
         <div className="container mx-auto px-6">
-          <motion.div
-            ref={gridRef}
-            initial="hidden"
-            animate={gridInView ? 'visible' : 'hidden'}
-            variants={stagger}
-            className="mx-auto max-w-5xl space-y-8"
-          >
+          <div className="mx-auto max-w-5xl space-y-8">
             {projects.map((project, index) => (
-              <>
-                <ProjectCard key={project.id} project={project} />
+              <div key={project.id} className="space-y-8">
+                <KineticScrollItem side={index % 2 === 0 ? 'left' : 'right'}>
+                  <ProjectCard project={project} />
+                </KineticScrollItem>
                 {index === 1 && (
-                  <div key="ad-mid">
+                  <div>
                     <AdSenseAd slot="5199032579" />
                   </div>
                 )}
                 {index === 3 && (
-                  <div key="ad-bottom">
+                  <div>
                     <AdSenseAd slot="8283314736" />
                   </div>
                 )}
-              </>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
     </div>
@@ -526,8 +557,8 @@ function ProjectCard({ project }: { project: Project }) {
   const Icon = project.icon
 
   return (
-    <motion.div variants={fadeInUp} id={project.id} className="scroll-mt-24">
-      <Card className="overflow-hidden border-0 shadow-sm transition-shadow duration-300 hover:shadow-lg">
+    <div id={project.id} className="scroll-mt-24">
+      <Card className="border-border/60 overflow-hidden border shadow-sm transition-shadow duration-300 hover:shadow-lg">
         <div className="flex flex-col md:flex-row">
           {/* Left accent */}
           <div
@@ -632,6 +663,6 @@ function ProjectCard({ project }: { project: Project }) {
           </div>
         </div>
       </Card>
-    </motion.div>
+    </div>
   )
 }

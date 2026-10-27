@@ -1,7 +1,7 @@
+import BrandLogo from '@/components/BrandLogo'
 import { motion, useInView } from 'framer-motion'
 import { Heart, Mail } from 'lucide-react'
 import { FaGithub as Github, FaLinkedin as Linkedin } from 'react-icons/fa'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useRef } from 'react'
 
@@ -51,11 +51,11 @@ export default function Footer() {
   return (
     <footer
       ref={ref}
-      className="relative overflow-hidden border-t border-white/10 bg-zinc-950 text-zinc-100"
+      className="brand-hero-surface relative overflow-hidden border-t border-white/10 text-zinc-100"
     >
-      {/* Architectural grid & subtle amber glow */}
+      {/* Architectural grid & subtle brand glow */}
       <div className="editorial-grid-bg pointer-events-none absolute inset-0 opacity-40" />
-      <div className="pointer-events-none absolute -top-40 left-1/2 h-80 w-96 -translate-x-1/2 rounded-full bg-amber-500/10 blur-3xl" />
+      <div className="brand-glow-orb pointer-events-none absolute -top-40 left-1/2 h-80 w-96 -translate-x-1/2 rounded-full blur-3xl" />
 
       <div className="container relative mx-auto px-6 py-20">
         <motion.div
@@ -66,15 +66,8 @@ export default function Footer() {
         >
           {/* Brand */}
           <div className="md:col-span-1">
-            <Link href="/" className="mb-6 flex items-center gap-3">
-              <Image
-                src="/assets/img/huseyindol.png"
-                alt="Hüseyin DOL"
-                width={44}
-                height={44}
-                className="rounded-full ring-2 ring-white/20"
-              />
-              <span className="text-lg font-bold">Hüseyin DOL</span>
+            <Link href="/" className="mb-6 inline-flex items-center gap-3">
+              <BrandLogo footer />
             </Link>
             <p className="mb-6 text-sm leading-relaxed text-slate-400">
               Software Developer. React, Next.js ve TypeScript ile frontend,
@@ -139,7 +132,7 @@ export default function Footer() {
                 href="mailto:huseyindol@gmail.com"
                 className="flex items-center gap-2.5 text-sm text-slate-400 transition-colors hover:text-white"
               >
-                <Mail className="h-4 w-4 shrink-0 text-amber-400" />
+                <Mail className="brand-text-accent h-4 w-4 shrink-0" />
                 huseyindol@gmail.com
               </a>
             </div>
