@@ -133,7 +133,7 @@
     "basic-ftp": "^6.0.0",
     "tmp": "^0.2.7",
     "yaml": "^2.8.3",
-    "path-to-regexp": "^8.0.0",
+    "path-to-regexp": "^8.4.0",
     "lodash": "^4.17.24",
     "lodash-es": "^4.17.24",
     "uuid": "^14.0.0",
