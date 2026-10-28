@@ -128,7 +128,7 @@
     "fast-uri": "^3.1.9",
     "ip-address": "^10.7.4",
     "postcss": "^8.5.26",
-    "picomatch": "^4.0.2",
+    "picomatch": "^4.0.4",
     "flatted": "^3.4.2",
     "basic-ftp": "^6.0.0",
     "tmp": "^0.2.7",
