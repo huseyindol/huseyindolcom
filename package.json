@@ -130,7 +130,7 @@
     "postcss": "^8.5.26",
     "picomatch": "^4.0.4",
     "flatted": "^3.4.2",
-    "basic-ftp": "^6.0.0",
+    "basic-ftp": "^6.2.1",
     "tmp": "^0.2.7",
     "yaml": "^2.8.3",
     "path-to-regexp": "^8.0.0",
