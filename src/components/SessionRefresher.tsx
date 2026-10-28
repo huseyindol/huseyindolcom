@@ -33,8 +33,7 @@ export function SessionRefresher() {
       await refreshSession()
       // Başarı: yeni cookie'ler → context güncellenir, yeni süre zamanlanır.
       // Başarısızlık: cookie'ler server'da temizlendi → isLoggedIn=false olur.
-      // Router'dan bağımsız tazeleme: yeni cookie'ler okunsun. (router.refresh()
-      // App Router'a özgü; bu bileşen iki router'ın da kökünde render ediliyor.)
+      // Yeni cookie'lerin okunması için sayfayı tazele.
       window.location.reload()
     }
 

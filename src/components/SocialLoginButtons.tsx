@@ -42,8 +42,7 @@ export function SocialLoginButtons() {
 
 /**
  * Callback'ten dönen `?error=` mesajını gösterir.
- * Router'dan BAĞIMSIZ: hata mesajı window.location'dan okunur. Böylece bileşen hem
- * App Router hem Pages Router sayfalarında çalışır (taşıma sürerken ikisi bir arada).
+ * Statik sayfayı dinamikleştirmemek için hata mesajı `useUrlQueryParam` ile okunur.
  */
 export function SocialAuthErrorNotice() {
   // URL'deki ?error= (useSyncExternalStore — set-state-in-effect'e takılmaz,

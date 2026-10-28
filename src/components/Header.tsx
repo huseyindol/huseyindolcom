@@ -34,8 +34,6 @@ const authCookies = [
 ] as const
 
 export default function Header() {
-  // usePathname HER İKİ router'da da çalışır (useRouter'ın aksine) — Header
-  // taşıma sürerken hem app/ hem pages/ layout'unda render ediliyor.
   const pathname = usePathname() ?? ''
   const isEllyPage = pathname.startsWith('/projects/elly')
   const navLinksToUse = isEllyPage ? ellyNavLinks : mainNavLinks
