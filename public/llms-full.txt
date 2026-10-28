@@ -75,6 +75,8 @@ Hüseyin DOL is a Senior Frontend Developer with more than 10 years of professio
 - [About](https://www.huseyindol.com/about): Professional background
 - [Experience](https://www.huseyindol.com/experience): Full career history
 - [Skills](https://www.huseyindol.com/skills): Complete technical skill set
+- [Projects & AI Agent Skills](https://www.huseyindol.com/projects): Open-source projects, AI Agent Skill Studio (VulnGuardian), Elly multi-tenant CMS ecosystem, and WebAssembly games
+- [VulnGuardian — AI Agent Skill & Vulnerability Command Center](https://www.huseyindol.com/projects/vuln-guardian): Autonomous vulnerability intelligence (OSV.dev, GHSA, NVD/CVE), 5-stage breaking-change & HTTP 200 smoke gate, single-batch safe-version auto-remediation (zero PR mail spam), and Next.js 16 self-hosted command center for Antigravity and Claude Code
 - [Blog](https://www.huseyindol.com/blog): Technical articles covering Frontend, Backend, DevOps, Mobile, and AI topics
 - [CV](https://www.huseyindol.com/assets/files/Huseyin_DOL_CV_2026.pdf): Downloadable resume (PDF)
 
@@ -117,6 +119,7 @@ Hüseyin DOL is a Senior Frontend Developer with more than 10 years of professio
 
 ## Open Source Projects
 
+- [vuln-guardian](https://github.com/huseyindol/vuln-guardian): Autonomous vulnerability intelligence (OSV.dev/GHSA/CVE), single-batch safe-version patcher, breaking-change & HTTP 200 smoke gate, and Next.js 16 Command Center AI Agent Skill for Google Antigravity and Claude Code (`https://skillstudio-zeta.vercel.app`).
 - [elly](https://github.com/huseyindol/elly): Spring Boot 3.5 + Java 21 CMS backend. Multitenancy, RBAC, Redis, RabbitMQ, Kubernetes, GitHub Actions CI/CD.
 - [huseyindolcom](https://github.com/huseyindol/huseyindolcom): This portfolio — Next.js 16 Pages Router, TypeScript, Tailwind CSS 4, blog system, SEO.
 - [McpProjectScaffold](https://github.com/huseyindol/McpProjectScaffold): Open-source MCP server for project scaffolding.

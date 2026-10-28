@@ -77,6 +77,12 @@ async function buildEntries(): Promise<UrlEntry[]> {
       changefreq: 'monthly',
       priority: 0.85,
     },
+    {
+      loc: `${BASE_URL}/projects/vuln-guardian`,
+      lastmod: now,
+      changefreq: 'monthly',
+      priority: 0.85,
+    },
     ...[
       'elly-architecture',
       'elly-video',
