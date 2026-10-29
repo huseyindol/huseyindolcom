@@ -88,4 +88,16 @@ describe('ProjectsContent Component', () => {
 
     expect(gridBtn).toBeInTheDocument()
   })
+
+  it('renders App Store link for Tumble Trail 4x4', () => {
+    render(<ProjectsContent />)
+
+    const appStoreLink = screen.getByRole('link', {
+      name: /Tumble Trail 4x4 App Store/i,
+    })
+    expect(appStoreLink).toHaveAttribute(
+      'href',
+      'https://apps.apple.com/tr/app/tumble-trail-4x4/id6821119563',
+    )
+  })
 })

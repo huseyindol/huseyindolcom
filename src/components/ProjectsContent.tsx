@@ -29,7 +29,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { useMemo, useState } from 'react'
-import { FaGithub as Github } from 'react-icons/fa'
+import { FaApple as Apple, FaGithub as Github } from 'react-icons/fa'
 
 export type ProjectCategory = 'skills' | 'ecosystem' | 'games'
 
@@ -47,6 +47,7 @@ interface Project {
   highlights: string[]
   liveUrl?: string
   liveLabel?: string
+  appStoreUrl?: string
   detailUrl?: string
   detailLabel?: string
   ecosystemUrl?: string
@@ -299,21 +300,29 @@ const projects: Project[] = [
     appIcon: '/assets/games/tumble-trail/icons/Icon-192.png',
     title: 'Tumble Trail 4x4',
     engine: 'Flutter',
-    subtitle: 'Tumble Trail 4x4 (Web)',
+    subtitle: '2.5D Arazi Macerası (App Store & Web)',
     description:
-      'Tumble Trail 4x4: sonsuz dağ yolunda 2.5D 4x4 macera. Süspansiyonu ayarla, kayaların üstünden tırman, devrilmeden ve yakıtı bitirmeden ilerle; jetonlarla garajda aracını geliştir. Flutter Web ile tarayıcıda doğrudan oynanabilir.',
+      'Tumble Trail 4x4: sonsuz dağ ve şehir yollarında 2.5D 4x4 arazi macerası. Süspansiyonu anlık ayarla, kayaları ve şehir engellerini aş, gece/gündüz ve dört mevsim döngüsünde ilerle; jetonlarla garajda aracını geliştir. iPhone/iPad için App Store’da ve tarayıcıda doğrudan oynanabilir.',
     icon: GamepadIcon,
     gradient: 'from-blue-400 to-cyan-600',
     status: 'live',
-    statusLabel: 'Oyna',
-    techStack: ['Flutter', 'Dart', 'WebAssembly', 'Next.js 16'],
-    highlights: [
-      'Flutter Web export ile tarayıcıda doğrudan çalışma',
-      'Fizik tabanlı araç kontrolü ve dinamikleri',
-      'Mobil ve masaüstü uyumlu web arayüzü',
+    statusLabel: 'App Store & Web',
+    techStack: [
+      'Flutter',
+      'Flame',
+      'Forge2D',
+      'Dart',
+      'iOS App Store',
+      'WebAssembly',
     ],
+    highlights: [
+      'App Store’da iPhone ve iPad için yayında + tarayıcıda tek tıkla oynanabilir',
+      'Forge2D fizik tabanlı 4x4 süspansiyon, yakıt gerilimi ve garaj yükseltmeleri',
+      'Gece/gündüz far konisi, dört mevsim hava durumu ve şehir bölgeleri',
+    ],
+    appStoreUrl: 'https://apps.apple.com/tr/app/tumble-trail-4x4/id6821119563',
     liveUrl: '/games/tumble-trail',
-    liveLabel: 'Oyna',
+    liveLabel: 'Web’de Oyna',
   },
   {
     id: 'hyper-drift-arcade',
@@ -1096,6 +1105,18 @@ function ProjectCard({
                         className="hover:border-foreground/30 flex h-8 w-8 items-center justify-center rounded-full border border-border bg-muted text-muted-foreground transition-colors hover:text-foreground"
                       >
                         <Github className="h-4 w-4" />
+                      </Link>
+                    )}
+                    {project.appStoreUrl && (
+                      <Link
+                        href={project.appStoreUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${project.title} App Store`}
+                        className="inline-flex h-8 items-center gap-1.5 rounded-full bg-zinc-900 px-3 text-xs font-bold text-white shadow-sm transition-all hover:scale-105 hover:bg-zinc-800 dark:bg-white dark:text-zinc-950 dark:hover:bg-zinc-200"
+                      >
+                        <Apple className="h-3.5 w-3.5" />
+                        App Store
                       </Link>
                     )}
                     {project.liveUrl && (
