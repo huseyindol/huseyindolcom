@@ -44,7 +44,7 @@ export const DEFAULT_KEYWORDS = [
   'Yazılım Geliştirici',
 ]
 
-const DEFAULT_IMAGE = '/assets/logos/og-phoenix-v1.png'
+const DEFAULT_IMAGE = '/assets/logos/og-phoenix-v2.png'
 
 export interface SeoProps {
   /** Sayfa başlığı — şablonla sarılır ("%s | Hüseyin DOL"). Verilmezse varsayılan başlık. */

@@ -25,7 +25,7 @@ const SITE_NAME = 'Hüseyin DOL'
 const PAGE_TITLE = `${SITE_NAME} | Modern Web Uygulamaları Geliştiriyorum`
 const PAGE_DESCRIPTION =
   '10+ yıllık deneyimle React, Next.js, TypeScript ile modern frontend, Java ve Spring Boot ile ölçeklenebilir backend çözümleri geliştiren bir Software Developer.'
-const OG_IMAGE = `${SITE_URL}/assets/logos/og-phoenix-v1.png`
+const OG_IMAGE = `${SITE_URL}/assets/logos/og-phoenix-v2.png`
 const PROFILE_IMAGE = 'https://github.com/huseyindol.png'
 const KEYWORDS =
   'Hüseyin DOL, Software Developer, Full Stack Developer, React, Next.js, TypeScript, Java, Spring Boot, Kubernetes, React Native, Frontend, Backend, İstanbul'
