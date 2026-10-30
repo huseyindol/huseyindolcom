@@ -1,3 +1,3 @@
 /** tumble-trail — GitHub Actions; elle düzenlemeyin. */
-export const TUMBLE_TRAIL_ASSET_CACHE_KEY = "41084711477";
-export const TUMBLE_TRAIL_ASSET_SHA = "0416fb5d4b85367a3a914af13f69b9fb8d323c0f";
+export const TUMBLE_TRAIL_ASSET_CACHE_KEY = "41093008702";
+export const TUMBLE_TRAIL_ASSET_SHA = "f4e0fb62d1eb12b5dbef72ee597a5429b7e18888";
