@@ -4,18 +4,20 @@
   "description": "10+ yıllık deneyimle React, Next.js, TypeScript (frontend) ve Java, Spring Boot (backend) ile uçtan uca, ölçeklenebilir ve performanslı web uygulamaları geliştiriyorum.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "background_color": "#011317",
+  "theme_color": "#14b8a6",
   "icons": [
     {
-      "src": "/assets/img/favicon.ico",
+      "src": "/assets/logos/icon-192-v1.png",
       "sizes": "192x192",
-      "type": "image/x-icon"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "/assets/img/huseyindol.png",
+      "src": "/assets/logos/icon-512-v1.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }

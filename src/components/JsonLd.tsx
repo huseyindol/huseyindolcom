@@ -9,7 +9,7 @@ export function PersonJsonLd() {
     alternateName: 'huseyindol',
     url: SITE_URL,
     jobTitle: 'Software Developer',
-    image: `${SITE_URL}/assets/img/huseyindol.png`,
+    image: `${SITE_URL}/assets/logos/icon-512-v1.png`,
     email: 'huseyindol@gmail.com',
     identifier: 'huseyindol',
     sameAs: [
@@ -105,7 +105,7 @@ export function ArticleJsonLd({
       name: 'Hüseyin DOL',
       logo: {
         '@type': 'ImageObject',
-        url: `${SITE_URL}/assets/img/huseyindol.png`,
+        url: `${SITE_URL}/assets/logos/icon-512-v1.png`,
       },
     },
     mainEntityOfPage: {

@@ -89,5 +89,7 @@ describe('/amp (Pages Router)', () => {
     expect(html).toContain('Hüseyin DOL kimdir?')
     expect(html).toContain('property="og:title"')
     expect(html).toContain('name="twitter:card"')
+    expect(html).toContain('/assets/logos/og-phoenix-v1.png')
+    expect(html).toContain('/assets/logos/favicon-32x32-v1.png')
   })
 })

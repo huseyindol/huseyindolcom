@@ -44,7 +44,7 @@ export const DEFAULT_KEYWORDS = [
   'Yazılım Geliştirici',
 ]
 
-const DEFAULT_IMAGE = '/assets/img/huseyindol.png'
+const DEFAULT_IMAGE = '/assets/logos/og-phoenix-v1.png'
 
 export interface SeoProps {
   /** Sayfa başlığı — şablonla sarılır ("%s | Hüseyin DOL"). Verilmezse varsayılan başlık. */
@@ -122,11 +122,23 @@ export function Seo({
         key="og:description"
       />
       <meta property="og:image" content={imageUrl} key="og:image" />
+      <meta
+        property="og:image:secure_url"
+        content={imageUrl}
+        key="og:image:secure_url"
+      />
+      {imageUrl.endsWith('.png') && (
+        <meta
+          property="og:image:type"
+          content="image/png"
+          key="og:image:type"
+        />
+      )}
       <meta property="og:image:width" content="1200" key="og:image:width" />
       <meta property="og:image:height" content="630" key="og:image:height" />
       <meta
         property="og:image:alt"
-        content="Hüseyin DOL - Software Developer"
+        content="Hüseyin DOL — Systems • AI • Cloud • Engineering • Studio"
         key="og:image:alt"
       />
       {publishedTime && (
@@ -150,6 +162,11 @@ export function Seo({
         key="twitter:description"
       />
       <meta name="twitter:image" content={imageUrl} key="twitter:image" />
+      <meta
+        name="twitter:image:alt"
+        content="Hüseyin DOL — Systems • AI • Cloud • Engineering • Studio"
+        key="twitter:image:alt"
+      />
 
       {/* AI crawler'lar için llms.txt discovery (Metadata API alternates.types karşılığı) */}
       <link
