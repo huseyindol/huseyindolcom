@@ -1,6 +1,6 @@
-# Tumble Trail 4x4 — Destek
+# Offroad Trail 4x4 — Destek
 
-_Tumble Trail 4x4, sonsuz prosedürel dağ ve şehir yollarında geçen 2.5D bir 4x4 arazi sürüş oyunudur: süspansiyonu anlık ayarla, engelleri aş, yakıt bidonlarını kaçırma ve topladığın jetonlarla garajda aracını geliştir._
+_Offroad Trail 4x4, sonsuz prosedürel dağ ve şehir yollarında geçen 2.5D bir 4x4 arazi sürüş oyunudur: süspansiyonu anlık ayarla, engelleri aş, yakıt bidonlarını kaçırma ve topladığın jetonlarla garajda aracını geliştir._
 
 ## Sık sorulan sorular
 
@@ -14,7 +14,7 @@ _Tumble Trail 4x4, sonsuz prosedürel dağ ve şehir yollarında geçen 2.5D bir
 
 ### Zorluk modları (HOBBY, KOLAY, OTO) arasındaki fark nedir?
 
-- **HOBBY:** Rahat sürüş modudur. Yol daha yumuşaktır; araç ters düşerse tavandan çıkan kaldıraç aracı düzeltir ("HOP HOP!" → "TAMAM!") ve yakıt biterse yedek yakıt devreye girer. Tur kendiliğinden bitmez; koşuyu kaydetmek için sağ üstten duraklatıp (**⏸**) **MENÜ** ya da **BAŞTAN** seçebilirsiniz. Hobby rekorları puan tablosunda kendi ayrı sekmesinde tutulur.
+- **HOBBY:** Rahat sürüş modudur. Yol daha yumuşaktır; araç ters düşerse tavandan çıkan kaldıraç aracı düzeltir ("HOP HOP!" → "TAMAM!") ve yakıt biterse yedek yakıt devreye girer. Tur kendiliğinden bitmez; koşuyu kaydetmek için sağ üstten duraklatıp (**⏸**) **MENÜ** ya da **BAŞTAN** seçebilirsiniz. Hobby, Kolay ve Oto rekorlarının her biri puan tablosunda kendi ayrı kategori sekmesinde tutulur.
 - **KOLAY:** Büyük kayalar ve yuvarlanan kayalar yoktur, engeller daha alçaktır; ancak devrilme ve yakıt kuralları geçerlidir.
 - **OTO (varsayılan):** Tüm dağ ve şehir engelleri açıktır; ilerledikçe zorluk kademeli olarak artar.
 
@@ -26,9 +26,9 @@ Kolay ve Oto modlarında yakıt, katettiğiniz mesafeye göre tükenir. Üst ort
 - **Büyük bidon ve benzin istasyonu:** Her 4–6 bidonda bir dağ yolunda ve her **şehir bölgesinin** girişinde yer alan benzin istasyonunda büyük bidon bulunur; depoyu tamamen doldurur.
 - Garajdan **Yakıt Deposu** yükseltmesi alarak toplam depo kapasitenizi seviye başına +%12 artırabilirsiniz.
 
-### Garaj yükseltmeleri ve oyuncu adı kayıtları nasıl çalışır?
+### Garaj yükseltmeleri, sürücü plakası ve küresel skor tablosu nasıl çalışır?
 
-Ana menüdeki oyuncu adı kutusuna yazdığınız **her isim kendi ayrı jeton kasasına, garaj seviyelerine ve kişisel rekoruna** sahiptir. Böylece aynı cihazda birden fazla kişi kendi garajıyla oynayabilir. Garajda 4 parça (Motor, Lastikler, Süspansiyon, Yakıt Deposu) 5'er seviyeye kadar geliştirilebilir; ayrıca koşu sonunda her 25 metre için +1 mesafe bonusu jetonu eklenir.
+İlk açılışta sunulan pencereden (veya ana menüdeki sürücü plakasından / puan tablosundan) seçtiğiniz benzersiz sürücü takma adı (2–16 karakter) adil rekabet için profilinize **tek seferlik ve kalıcı olarak** sabitlenir ve ana menüdeki 2.5D metal sürücü plakasında görünür. iPhone ve iPad'de dilerseniz **Apple Game Center** bağlantısını (**Game Center ile Bağlan** veya **ⓘ → Game Center**) kullanarak kilitli küresel sürücü adınızı ve kategori rekorlarınızı cihazlarınız arasında yedekleyip geri yükleyebilirsiniz. Önceden çevrimdışı oynadıysanız jeton kasanız ile garaj seviyeleriniz yeni sürücü adınıza otomatik devredilir ve geçmiş yerel rekorlarınızdan en fazla **2 kategoriyi** küresel sıralamaya taşıyabilirsiniz. Küresel Puan Tablosunda **HOBBY**, **KOLAY** ve **OTO** kategorilerinin her biri ayrı sıralanır (İlk 50 liste ve kendi dünya sıranız). Garajda 4 parça (Motor, Lastikler, Süspansiyon, Yakıt Deposu) 5'er seviyeye kadar geliştirilebilir; ayrıca koşu sonunda her 25 metre için +1 mesafe bonusu jetonu eklenir.
 
 ### Gece, mevsimler ve şehir bölgeleri ne zaman değişir?
 
@@ -47,7 +47,7 @@ Koşuda ilerledikçe gün döngüsü (şafak, gündüz, gün batımı, gece) ve 
 
 ### Oyun internet gerektiriyor mu?
 
-Hayır. Tumble Trail 4x4 tamamen internetsiz (çevrimdışı) oynanabilir. İnternet yalnızca reklamlar ve gizlilik/destek bağlantıları için kullanılır.
+Hayır. Offroad Trail 4x4 tamamen internetsiz (çevrimdışı) oynanabilir (henüz küresel sürücü adı seçmediyseniz açılış penceresindeki **Çevrimdışı Oyna** düğmesiyle doğrudan oyuna geçebilirsiniz). İnternet bağlantısı küresel puan tablosu, reklamlar ve gizlilik/destek bağlantıları için kullanılır.
 
 ## İletişim
 

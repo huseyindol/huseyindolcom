@@ -1,35 +1,40 @@
-# Tumble Trail 4x4 — Privacy Policy
+# Offroad Trail 4x4 — Privacy Policy
 
-_Effective date: October 16, 2026_
+_Effective date: November 1, 2026_
 
 ## In short
 
-- Tumble Trail 4x4 does **not collect or send** personal data to any server operated by us. It asks for no account, sign-up, email, phone number, photos, camera or microphone permission.
-- Your player nickname, coins, garage upgrades, personal records, local leaderboard and settings are stored **only locally on your device** (iOS UserDefaults / browser localStorage).
-- The iOS app shows interstitial ads and optional rewarded ads ("Watch an ad → 2× coins") through **Google AdMob**. In the European Economic Area (EEA) and the UK, Google's User Messaging Platform (**UMP**) consent form is presented; on iOS, Apple's **App Tracking Transparency (ATT)** permission is requested before loading ads. If permission is declined, ad requests are sent as non-personalized (`npa=1`).
+- Offroad Trail 4x4 does **not ask for** an account, sign-up, email address, phone number, real name, photos, camera or microphone permission.
+- Your coin balance, garage upgrades, personal category records and settings are stored **locally on your device** (iOS UserDefaults / browser localStorage).
+- **Global Leaderboard & Optional Apple Game Center Backup:** Starting with version 1.1.0, the game assigns a random, account-free anonymous identifier (**Firebase Anonymous Auth**) per device or browser and syncs your highest distance record under your permanently locked nickname (chosen nickname up to 16 characters, distance, coins, vehicle color and difficulty category) to the global leaderboard hosted on **Google Cloud Firestore** (`eur3` — Europe). On iPhone and iPad, you may optionally link **Apple Game Center** to back up and restore your locked global driver nickname and personal leaderboard records across your iOS devices (no email, real name or friend list is collected; the Web version uses anonymous auth only).
+- **Anonymous gameplay analytics:** To balance gameplay and improve stability, both the iOS and Web versions log anonymous in-game events (screen views, run start/end reason, garage upgrades, seasonal theme preference) via **Google Analytics for Firebase**.
+- **Advertising (iOS app only):** The iOS app shows interstitial ads and optional rewarded ads ("Watch an ad → 2× coins") through **Google AdMob**. In the European Economic Area (EEA) and the UK, Google's User Messaging Platform (**UMP**) consent form is presented; on iOS, Apple's **App Tracking Transparency (ATT)** permission is requested before loading ads. If permission is declined, ad requests are sent as non-personalized (`npa=1`). The web version has no ads.
 - There are no in-app purchases in the app.
-- There are no third-party analytics tools.
-- **Web version (huseyindol.com/games/tumble-trail):** no ads, no purchases and no analytics tools. Game data is kept only in your browser's local storage.
 
 ## 1. Who we are
 
-Tumble Trail 4x4 is a 2.5D mountain and offroad driving game developed by independent developer **Hüseyin DOL**. This policy applies to the iPhone/iPad app and the web version. Contact: [huseyindol@gmail.com](mailto:huseyindol@gmail.com).
+Offroad Trail 4x4 is a 2.5D mountain and offroad driving game developed by independent developer **Hüseyin DOL**. This policy applies to the iPhone/iPad app and the web version (`huseyindol.com/games/tumble-trail`). Contact: [huseyindol@gmail.com](mailto:huseyindol@gmail.com).
 
 ## 2. What the game itself handles
 
-To work, the game stores only the following information **locally on your device**. It never leaves the device, is not sent to us and is not shared with anyone:
+**Information stored locally on your device.** The following progress and preference data stays on your device (iOS UserDefaults or browser localStorage):
 
-- Your chosen player nickname (up to 16 characters; defaults to "Player" / "Oyuncu" if left blank), vehicle color and difficulty mode (Hobby, Easy, Auto)
-- Coin balance, garage upgrade levels (Engine, Tires, Suspension, Fuel Tank) and best distance records kept per player nickname
-- Local on-device leaderboard (top 20 runs in the Easy/Auto and Hobby tabs: nickname, distance, coins, color, difficulty, date)
-- Settings: sound, vibration and language preference (System / Türkçe / English)
-- Ad frequency counters: total completed runs and runs since the last interstitial ad
+- Your permanently locked driver nickname (2–16 characters; or local profile before locking a global name), vehicle color and difficulty mode (Hobby, Easy, Auto)
+- Your coin balance, garage upgrade levels (Engine, Tires, Suspension, Fuel Tank) and local best distances and run history across each difficulty category (Hobby, Easy, Auto)
+- Settings: sound, vibration, language preference (System / Türkçe / English) and seasonal theme preference (Auto / On / Off)
+- Ad frequency counters (iOS only): total completed runs and runs since the last interstitial ad
 
-There are no online accounts, cloud saves, chat, friend lists, user-generated content sharing or global server leaderboards in the game.
+**Global Leaderboard (Firebase Anonymous Auth, iOS Apple Game Center and Cloud Firestore).** The Scores screen globally ranks the highest distances across all players in each of the Hobby, Easy and Auto categories:
 
-## 3. Advertising, consent and tracking (Google AdMob, UMP and ATT)
+- Without requiring any registration or password, the app generates a random anonymous user identifier (**Firebase Anonymous Auth UID**) for your device or browser, used solely to reserve your unique nickname and maintain a single personal-record entry per global category board.
+- **Optional Apple Game Center linking (iOS only):** On iPhone and iPad, if you are signed in to Apple Game Center (or choose **Connect Game Center** in the driver-name modal or **ⓘ → Game Center**), Apple's `GameKit` verification is used solely to link your Firebase UID with your Game Center player identifier (`gc.apple.com`) and suggest your Game Center alias if you have not picked a nickname yet. This allows your locked global driver nickname and personal category records to restore automatically after reinstalling or switching to another iPhone/iPad. Game Center linking is completely optional; we never access your friend list, email address or Apple Account details, and it is never used for advertising tracking.
+- When you choose and confirm an available nickname (2–16 characters, filtered against inappropriate terms — please avoid entering your real name or personal details) in the global driver-name prompt at launch (or via the main-menu driver plate / leaderboard screen), that nickname is **permanently and uniquely locked** to your anonymous device ID on Cloud Firestore (`/players/{uid}` and `/usernames/{key}`). If you have no internet connection, you can choose **Play Offline** to play locally without locking a name; no scores are uploaded while unlocked.
+- Once your nickname is locked, setting a new personal distance record (or migrating up to 2 prior local category records during nickname confirmation) writes only 6 fields to **Google Cloud Firestore** (`eur3` — European region): your locked nickname, distance (meters), coins earned in that run, vehicle color, difficulty mode (`hobby`, `easy` or `auto`) and a server timestamp.
+- Global leaderboard entries are visible to other players inside the game (Top 50 list and global rank). Unlimited-coin test/VIP nicknames are excluded from the global board for fair play. There is no chat, private messaging or friend list in the game.
 
-Tumble Trail 4x4 is free to play; development of the iOS app is supported by ads served by **Google AdMob** (Google Mobile Ads SDK).
+## 3. Advertising, consent and tracking (Google AdMob, UMP and ATT — iOS only)
+
+Offroad Trail 4x4 is free to play; development of the iOS app is supported by ads served by **Google AdMob** (Google Mobile Ads SDK). The web version shows no ads.
 
 **Consent and tracking choices (UMP and ATT).**
 
@@ -37,7 +42,7 @@ Tumble Trail 4x4 is free to play; development of the iOS app is supported by ads
 - **Apple App Tracking Transparency (ATT):** On iOS, the system tracking permission prompt is shown before the first ad request. If you allow tracking, Google may use the device's advertising identifier (IDFA) to serve personalized ads and measure ad performance. If you **ask the app not to track** (or if tracking is restricted on your device), iOS zeroes out the advertising identifier and the app sends all ad requests as **non-personalized ads** (`nonPersonalizedAds / npa=1`); all game features continue to work without restriction. You can change your ATT permission at any time in iPhone/iPad **Settings → Privacy & Security → Tracking**.
 - **Content rating:** Ad requests are configured with a maximum ad content rating of `PG` (parental guidance suggested).
 
-**Information Google may process.** According to Google's App Store data disclosure guidance and the Google Mobile Ads SDK privacy manifest, the SDK may process the following data types from the device to serve and measure ads, prevent fraud and improve its service:
+**Information Google may process for ads.** According to Google's App Store data disclosure guidance and the Google Mobile Ads SDK privacy manifest, the SDK may process the following data types from the device to serve and measure ads, prevent fraud and improve its service:
 
 - **Coarse Location:** general geographic region estimated from the IP address (the app never requests GPS or precise location permission)
 - **Device ID:** the advertising identifier (IDFA, only if ATT permission is granted) and app- or developer-scoped identifiers
@@ -57,26 +62,27 @@ How Google processes this information is governed by its own policies: [Google P
 
 There are no in-app purchases or subscriptions in the app. The app does not ask for or process any payment information.
 
-## 5. Analytics and crash reports
+## 5. Analytics and crash reports (Google Analytics for Firebase and Apple)
 
-The app contains no third-party analytics tools (apart from the Google Mobile Ads SDK's own diagnostics described above). If "Share With App Developers" is enabled on your device, Apple may provide us with anonymous crash and performance reports containing no personal information; you can manage this in **Settings → Privacy & Security → Analytics & Improvements**.
+To understand gameplay balance (such as where runs end due to fuel or flipping, and which garage upgrades are used) and improve stability, both the iOS and Web versions use **Google Analytics for Firebase**:
+
+- Logged events consist strictly of anonymous gameplay interactions: active screen (`menu`, `game`, `garage`, `leaderboard`, `info_sheet`), run start and end reason (`flipped`, `out_of_fuel`, `quit_pause`), distance and coins reached, garage upgrade levels, rewarded 2× coin usage and seasonal theme preference.
+- Firebase Analytics may process an app-instance identifier, device model, OS version and coarse country/region derived from the IP address; it collects no real-world personal identity (name, email, phone) and is not used for cross-app advertising tracking. Details: [Privacy and Security in Firebase](https://firebase.google.com/support/privacy).
+- In addition, if "Share With App Developers" is enabled on your iOS device, Apple may provide us with anonymous crash and performance reports containing no personal information; you can manage this in **Settings → Privacy & Security → Analytics & Improvements**.
 
 ## 6. Data retention and deletion
 
-All game data saved by the app stays on your device:
-
-- Deleting the app from your device removes all local game records (nicknames, coins, garage levels, records and settings).
-- On the web version, clearing your browser's site data removes all local records.
-
-Data processed by Google for its ad service is retained under the periods and rules in Google's privacy policy. You can manage your ad personalization and consent choices through **ⓘ → Ad privacy options** inside the game (where applicable) or in iOS **Settings → Privacy & Security → Tracking / Apple Advertising**.
+- **Local game records:** Deleting the app from your device (or clearing site data in your browser on the web version) removes all local records (coins, garage levels, local records and settings).
+- **Global leaderboard and nickname reservation:** Your claimed global nickname is permanently bound to your device's anonymous UID to prevent impersonation. If you want your device's anonymous nickname reservation and global leaderboard rows deleted completely, email [huseyindol@gmail.com](mailto:huseyindol@gmail.com) with the displayed nickname, difficulty tab and distance/coin score, and we will delete those records within a reasonable time.
+- **Google AdMob and Firebase data:** Data processed by Google for advertising and Firebase Analytics is retained according to Google and Firebase retention policies. You can manage your ad personalization and consent choices through **ⓘ → Ad privacy options** inside the game (where applicable) or in iOS **Settings → Privacy & Security → Tracking / Apple Advertising**.
 
 ## 7. Children's privacy
 
-Tumble Trail 4x4 is a general-audience (4+) game; it is not a "Made for Kids" app, and the in-game "Hobby" mode is simply a relaxed driving mode where the vehicle does not flip over. We do not knowingly collect personal data from players of any age. If you believe a child has sent us personal information by email, please contact us and we will promptly delete it.
+Offroad Trail 4x4 is a general-audience (4+) game; it is not a "Made for Kids" app, and the in-game "Hobby" mode is simply a relaxed driving mode where the vehicle does not flip over. We do not knowingly collect real-world identity or contact data from players of any age, and we encourage using a non-personal nickname on the leaderboard. If you notice personal information entered as a leaderboard nickname or sent by email, please contact us and we will promptly remove it.
 
 ## 8. Your rights
 
-Depending on where you live (e.g. GDPR, KVKK), you may have the right to access, correct, delete or restrict your personal data, to object to processing and to withdraw consent. Because we do not store personal data on our servers, we hold no records about you; you are still welcome to contact us at the address below with any questions or requests. You also have the right to lodge a complaint with your local data protection authority.
+Depending on where you live (e.g. GDPR, KVKK), you may have the right to access, correct, delete or restrict your data, to object to processing and to withdraw consent. You are welcome to contact us at the address below with any questions or requests, including removal of an anonymous global leaderboard entry. You also have the right to lodge a complaint with your local data protection authority.
 
 ## 9. Changes
 

@@ -1,6 +1,6 @@
-# Tumble Trail 4x4 — Support
+# Offroad Trail 4x4 — Support
 
-_Tumble Trail 4x4 is a 2.5D 4x4 offroad driving game set on endless procedural mountain and city roads: adjust your suspension on the fly, climb over obstacles, grab fuel cans and upgrade your vehicle in the garage._
+_Offroad Trail 4x4 is a 2.5D 4x4 offroad driving game set on endless procedural mountain and city roads: adjust your suspension on the fly, climb over obstacles, grab fuel cans and upgrade your vehicle in the garage._
 
 ## Frequently asked questions
 
@@ -14,7 +14,7 @@ _Tumble Trail 4x4 is a 2.5D 4x4 offroad driving game set on endless procedural m
 
 ### What is the difference between HOBBY, EASY and AUTO modes?
 
-- **HOBBY:** A relaxed driving mode. The road is gentler; if the vehicle flips upside down, a roof lever rights it automatically ("HEAVE HO!" → "DONE!"), and running out of fuel triggers a reserve refill. A Hobby run never ends on its own — to save your distance and coins, tap pause (**⏸**) in the top-right corner and choose **MENU** or **RESTART**. Hobby records have their own dedicated tab on the leaderboard.
+- **HOBBY:** A relaxed driving mode. The road is gentler; if the vehicle flips upside down, a roof lever rights it automatically ("HEAVE HO!" → "DONE!"), and running out of fuel triggers a reserve refill. A Hobby run never ends on its own — to save your distance and coins, tap pause (**⏸**) in the top-right corner and choose **MENU** or **RESTART**. Hobby, Easy and Auto records each have their own dedicated category tab on the leaderboard.
 - **EASY:** No boulders or rolling rocks and lower obstacles, while standard flip and fuel rules apply.
 - **AUTO (default):** All mountain and city obstacles are active, and difficulty scales up as you drive farther.
 
@@ -26,13 +26,13 @@ In Easy and Auto modes, fuel burns based on distance driven. Next to the fuel ba
 - **Big fuel can & gas station:** Every 4–6 cans on the mountain road — and at the gas station inside every **city zone** — you will find a big fuel can that fills the tank completely.
 - Upgrading the **Fuel Tank** in the garage increases tank capacity by +12% per level.
 
-### How do garage upgrades and player profiles work?
+### How do garage upgrades, the driver plate and the global leaderboard work?
 
-Every player nickname entered on the main menu has **its own separate coin balance, garage upgrade levels and personal best records**, so multiple people can play on the same device with their own progress. In the garage you can upgrade 4 parts (Engine, Tires, Suspension, Fuel Tank) up to level 5; you also earn a distance bonus of +1 coin per 25 meters at the end of each run.
+The unique driver nickname (2–16 characters) you choose in the launch prompt (or via the main-menu driver plate / leaderboard screen) is **permanently locked** to your profile for fair competition and displayed on your 2.5D metal driver plate on the main menu. On iPhone and iPad, you can optionally link **Apple Game Center** (**Connect Game Center** or **ⓘ → Game Center**) to back up and restore your locked global driver name and personal category records across your Apple devices. If you previously played offline, your coin balance and garage upgrade levels carry over automatically, and you can migrate up to **2 categories** of prior local records onto the global leaderboard. On the Global Scores screen, **HOBBY**, **EASY** and **AUTO** are ranked on their own dedicated category boards (Top 50 list plus your live world rank). In the garage you can upgrade 4 parts (Engine, Tires, Suspension, Fuel Tank) up to level 5; you also earn a distance bonus of +1 coin per 25 meters at the end of each run.
 
 ### When do night, seasons and city zones change?
 
-As you drive farther, the day cycle (dawn, day, sunset, night) and four seasons (spring, summer, autumn, winter) transition smoothly. At night, your headlight beam, street lamps and lit building windows illuminate the road; winter ice reduces tire grip, and rainy weather brings more mud sections. roughly every 1.3–1.6 km you cross a bridge or tunnel into a city zone.
+As you drive farther, the day cycle (dawn, day, sunset, night) and four seasons (spring, summer, autumn, winter) transition smoothly. At night, your headlight beam, street lamps and lit building windows illuminate the road; winter ice reduces tire grip, and rainy weather brings more mud sections. Roughly every 1.3–1.6 km you cross a bridge or tunnel into a city zone.
 
 ### How do I change language, sound or vibration?
 
@@ -47,7 +47,7 @@ As you drive farther, the day cycle (dawn, day, sunset, night) and four seasons 
 
 ### Does the game require an internet connection?
 
-No. Tumble Trail 4x4 plays completely offline. An internet connection is used only for ads and the privacy policy / support links.
+No. Offroad Trail 4x4 plays completely offline (if you have not yet locked a global driver name, tap **Play Offline** in the launch prompt to jump straight in). An internet connection is used for the global leaderboard, ads and the privacy policy / support links.
 
 ## Contact
 
