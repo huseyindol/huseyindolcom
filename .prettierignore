@@ -49,6 +49,7 @@ public/assets/games/**
 # Sync/build output
 src/lib/game-asset-version.generated.ts
 src/lib/game-ge-asset-version.generated.ts
+src/lib/*-asset-version.generated.ts
 
 # Reference/kaynak docs (gömülü kod blokları; Prettier reflow kırar, referans olarak kalır)
 docs/chat/*.md
