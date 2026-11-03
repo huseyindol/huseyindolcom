@@ -39,10 +39,11 @@ Koşuda ilerledikçe gün döngüsü (şafak, gündüz, gün batımı, gece) ve 
 - Ana menünün sağ üst köşesindeki **hoparlör** düğmesi sesi, **titreşim** düğmesi dokunsal geri bildirimi açıp kapatır.
 - Sağ üstteki **ⓘ (Bilgi ve ayarlar)** düğmesinden dili **Sistem / Türkçe / English** olarak seçebilirsiniz ("Sistem" seçiliyken cihaz dili Türkçe ise Türkçe, değilse İngilizce kullanılır).
 
-### Reklamlar ne zaman çıkar? Gizlilik seçeneklerimi nasıl yönetirim?
+### Reklamlar, 2X–10X Jeton Çarpanı ve Reklamları Kaldır nasıl çalışır?
 
 - Geçiş reklamları sürüş sırasında asla çıkmaz; yalnızca koşu bittikten sonra gösterilir. İlk 3 koşu reklamsızdır; sonrasında en fazla 2 koşuda 1 ve oturum başına en fazla 6 geçiş reklamı gösterilir.
-- Oyun sonu ekranındaki **"Reklam izle → 2× jeton"** düğmesi isteğe bağlıdır; izlendiğinde o koşunun kazancını ikiye katlar ve çıkışta ek geçiş reklamı göstermez.
+- **2X–10X Jeton Çarpanı:** Kolay ve Oto oyun sonu ekranında yer alan simetrik **2X–10X Jeton Çarpanı** (`2X | 3X | 5X | ★10X | 5X | 3X | 2X`) barında hareketli ibreyi durdurup isteğe bağlı ödüllü reklam izleyerek o koşuda kazandığınız toplam jetonu (toplanan jeton + mesafe bonusu) **2X, 3X, 5X veya 10X** değerine katlayabilirsiniz; ödüllü reklam izlediğiniz koşunun çıkışında ayrıca geçiş reklamı gösterilmez.
+- **Reklamları Kaldır:** Ana menüdeki veya sağ üstteki **ⓘ (Bilgi ve ayarlar)** penceresindeki **Reklamları Kaldır** tek seferlik uygulama içi satın alımıyla koşu sonu zorunlu geçiş reklamlarını kalıcı olarak kaldırabilirsiniz (oyun sonu ekranındaki isteğe bağlı ödüllü 2X–10X çarpan reklamları açık kalır). Uygulamayı silip yüklediğinizde ya da yeni bir iPhone/iPad'e geçtiğinizde **ⓘ → Satın Alımı Geri Yükle** düğmesiyle satın alımınızı ücretsiz geri yükleyebilirsiniz.
 - Avrupa Ekonomik Alanı ve Birleşik Krallık'ta onay tercihlerinizi ana menüdeki **ⓘ → Reklam gizlilik seçenekleri** düğmesinden değiştirebilirsiniz. iOS izleme (ATT) iznini **Ayarlar → Gizlilik ve Güvenlik → Takip** bölümünden yönetebilirsiniz. Ayrıntılar: [Gizlilik politikası](https://huseyindol.com/games/tumble-trail/gizlilik-politikasi).
 
 ### Oyun internet gerektiriyor mu?

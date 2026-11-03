@@ -39,10 +39,11 @@ As you drive farther, the day cycle (dawn, day, sunset, night) and four seasons 
 - Use the **speaker** and **vibration** buttons in the top-right corner of the main menu to toggle sound effects and haptics.
 - Tap **ⓘ (Info and settings)** in the top-right corner to switch the language between **System / Türkçe / English** (with "System", the game uses Turkish if the device language is Turkish, otherwise English).
 
-### When do ads appear? How do I manage my privacy choices?
+### How do ads, the 2X–10X Coin Multiplier and Remove Ads work?
 
 - Interstitial ads never appear while driving; they are shown only after a run ends. The first 3 runs are ad-free; after that, interstitials appear at most once every 2 runs and up to 6 times per session.
-- The **"Watch an ad → 2× coins"** button on the game-over screen is completely optional; watching it doubles that run's coins and skips the interstitial ad when leaving that screen.
+- **2X–10X Coin Multiplier:** On the Easy and Auto game-over screen, you can stop the moving needle on the symmetric **2X–10X Coin Multiplier** (`2X | 3X | 5X | ★10X | 5X | 3X | 2X`) bar and watch an optional rewarded ad to multiply that run's total coins (collected coins plus distance bonus) by **2X, 3X, 5X or 10X**; watching the rewarded ad also skips any interstitial ad when leaving that screen.
+- **Remove Ads:** With the one-time **Remove Ads** in-app purchase available on the main menu or inside **ⓘ (Info and settings)**, you can permanently remove mandatory run-end interstitial ads (optional game-over rewarded 2X–10X multiplier ads remain available whenever you want them). After reinstalling or switching to a new iPhone/iPad, tap **ⓘ → Restore Purchases** to restore your purchase at no cost.
 - In the European Economic Area and the UK, you can review or update your consent choices anytime via **ⓘ → Ad privacy options** on the main menu. You can manage iOS tracking (ATT) permission in **Settings → Privacy & Security → Tracking**. Details: [Privacy policy](https://huseyindol.com/games/tumble-trail/privacy-policy).
 
 ### Does the game require an internet connection?

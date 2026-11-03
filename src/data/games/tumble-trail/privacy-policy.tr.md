@@ -1,6 +1,6 @@
 # Offroad Trail 4x4 — Gizlilik Politikası
 
-_Yürürlük tarihi: 1 Kasım 2026_
+_Yürürlük tarihi: 3 Kasım 2026_
 
 ## Kısaca
 
@@ -8,8 +8,9 @@ _Yürürlük tarihi: 1 Kasım 2026_
 - Jeton kasanız, garaj geliştirmeleriniz, kişisel kategori rekorlarınız ve ayarlarınız **cihazınızda yerel olarak** (iOS UserDefaults / tarayıcı localStorage) saklanır.
 - **Küresel Skor Tablosu ve İsteğe Bağlı Apple Game Center Yedeği:** Sürüm 1.1.0 itibarıyla oyun, her cihaz veya tarayıcı için üyeliksiz rastgele bir anonim kimlik (**Firebase Anonymous Auth**) oluşturur ve seçip kalıcı olarak sabitlediğiniz takma adla en yüksek mesafe rekorunuzu (en fazla 16 karakterlik takma ad, mesafe, jeton, araç rengi ve zorluk kategorisi) Avrupa bölgesinde barındırılan **Google Cloud Firestore** (`eur3`) üzerindeki küresel puan tablosuna kaydeder. iPhone ve iPad'de dilerseniz **Apple Game Center** hesabınızı bağlayarak kilitli küresel sürücü adınızı ve rekorlarınızı cihazlarınız arasında yedekleyip geri yükleyebilirsiniz (e-posta, gerçek ad veya arkadaş listesi toplanmaz; Web sürümü yalnızca anonim kimlik kullanır).
 - **Anonim oynanış analitiği:** Oyun dengesini ve kararlılığını iyileştirmek için iOS ve Web sürümlerinde **Google Analytics for Firebase** aracılığıyla anonim oyun içi olaylar (ekran geçişleri, koşu başlangıcı/bitiş nedeni, garaj yükseltmeleri, sezon teması tercihi) ölçülür.
-- **Reklamlar (yalnız iOS uygulaması):** **Google AdMob** üzerinden geçiş reklamı ve isteğe bağlı ödüllü reklam ("Reklam izle → 2× jeton") gösterilir. Avrupa Ekonomik Alanı (AEA) ve Birleşik Krallık'ta Google'ın Kullanıcı Mesajlaşma Platformu (**UMP**) onay formu sunulur; iOS'ta reklam yüklenmeden önce Apple'ın **Uygulama Takibi Şeffaflığı (ATT)** izni sorulur. İzin verilmezse reklam istekleri kişiselleştirilmemiş (`npa=1`) olarak yapılır. Web sürümünde reklam yoktur.
-- Uygulamada uygulama içi satın alma yoktur.
+- **Reklamlar (yalnız iOS uygulaması):** **Google AdMob** üzerinden geçiş reklamı ve isteğe bağlı ödüllü reklam ("Reklam İzle · 2X–10X Jeton Çarpanı") gösterilir. Avrupa Ekonomik Alanı (AEA) ve Birleşik Krallık'ta Google'ın Kullanıcı Mesajlaşma Platformu (**UMP**) onay formu sunulur; iOS'ta reklam yüklenmeden önce Apple'ın **Uygulama Takibi Şeffaflığı (ATT)** izni sorulur. İzin verilmezse reklam istekleri kişiselleştirilmemiş (`npa=1`) olarak yapılır. Web sürümünde reklam yoktur.
+- **İsteğe bağlı "Reklamları Kaldır" satın alımı (yalnız iOS uygulaması):** Dilerseniz tek seferlik uygulama içi satın almayla koşu sonu zorunlu geçiş reklamlarını kalıcı olarak kaldırabilirsiniz (isteğe bağlı ödüllü çarpan reklamları kullanılabilir kalır). Ödeme ve satın alım doğrulama işlemleri Apple (**App Store / StoreKit**) ve **RevenueCat** altyapısı üzerinden anonim olarak yürütülür; ödeme veya kart bilgileriniz bizimle paylaşılmaz.
+- **Anlık bildirimler ve sürüm kontrolü (yalnız iOS uygulaması):** İsteğe bağlı oyun içi duyuru ve güncelleme bildirimleri için **Firebase Cloud Messaging (FCM)** ve **Apple Push Notification service (APNs)** cihaz belirteci (push token) kullanılır; izin verilmezse oyun hiçbir şekilde kısıtlanmaz ve bildirimler iOS **Ayarlar** menüsünden her zaman kapatılabilir. Açılışta güncel sürüm kontrolü (`/config/app`) kişisel veri gönderilmeden yapılır.
 
 ## 1. Biz kimiz
 
@@ -55,19 +56,20 @@ Google'ın bu verileri nasıl işlediği kendi politikalarına tabidir: [Google 
 **Reklamların zamanlaması.**
 
 - **Geçiş reklamları:** Sürüş sırasında, açılışta, garajda, puan tablosunda ya da duraklatıp oyuna devam ederken asla çıkmaz. Yalnızca bir koşu bittikten sonra (Kolay/Oto'da oyun sonu ekranından çıkarken; Hobby modunda duraklat menüsünden çıkarken/baştan başlarken) gösterilebilir. İlk **3 koşu** tamamen reklamsızdır; sonrasında en fazla **2 koşuda 1** ve bir oturumda en fazla **6** geçiş reklamı gösterilir.
-- **Ödüllü reklam ("Reklam izle → 2× jeton"):** Yalnızca Kolay/Oto oyun sonu ekranında, tamamen sizin seçiminize bağlı olarak sunulur. İzlerseniz o koşuda topladığınız jeton ve mesafe bonusu ikiye katlanır ve o koşunun çıkışında ayrıca geçiş reklamı gösterilmez.
+- **Ödüllü reklam ("Reklam İzle · 2X–10X Jeton Çarpanı"):** Yalnızca Kolay/Oto oyun sonu ekranında, tamamen sizin seçiminize bağlı olarak sunulur. İzlerseniz o koşuda topladığınız jeton ve mesafe bonusu simetrik çarpan barında durdurduğunuz değerle (2X, 3X, 5X veya 10X) çarpılır ve o koşunun çıkışında ayrıca geçiş reklamı gösterilmez.
 - İnternet bağlantısı yoksa reklam gösterilmez ve oyun çevrimdışı olarak kesintisiz oynanır.
 
-## 4. Uygulama içi satın alma
+## 4. Uygulama içi satın alma ("Reklamları Kaldır" — yalnız iOS)
 
-Uygulamada uygulama içi satın alma veya abonelik yoktur. Uygulama hiçbir ödeme bilgisi istemez ve işlemez.
+iOS uygulamasında isteğe bağlı tek bir tüketilmeyen (non-consumable) uygulama içi satın alma bulunur: **Reklamları Kaldır** (`com.huseyindol.tumbleTrail.removeads`). Bu satın alma yalnızca koşu sonu zorunlu geçiş reklamlarını kalıcı olarak devre dışı bırakır; oyun sonu ekranındaki isteğe bağlı ödüllü çarpan reklamları kullanılabilir kalır. Tüm ödeme, abonelik/hak doğrulama ve geri yükleme (**Satın Alımı Geri Yükle**) işlemleri Apple'ın **App Store / StoreKit** ve **RevenueCat** altyapısı üzerinden anonim uygulama kimliğiyle gerçekleşir; uygulama kredi kartı veya fatura bilgilerinize erişmez ve bunları saklamaz (yalnızca satın alma hakkının açık/kapalı durumu cihazınızda yerel olarak kaydedilir). Web sürümünde uygulama içi satın alma yoktur.
 
-## 5. Analiz ve çökme raporları (Google Analytics for Firebase ve Apple)
+## 5. Analiz, bildirimler, sürüm kontrolü ve çökme raporları (Firebase, APNs ve Apple)
 
 Oyun dengesini (örneğin hangi mesafelerde yakıtın bittiğini veya aracın devrildiğini, hangi garaj geliştirmelerinin tercih edildiğini) anlamak ve teknik sorunları tespit etmek amacıyla iOS ve Web sürümlerinde **Google Analytics for Firebase** kullanılır:
 
-- Gönderilen olaylar yalnızca anonim oyun içi etkileşimlerden oluşur: açılan ekran (`menu`, `game`, `garage`, `leaderboard`, `info_sheet`), koşu başlangıcı ve bitiş nedeni (`flipped`, `out_of_fuel`, `quit_pause`), ulaşılan mesafe ve jeton, garaj geliştirme seviyeleri, ödüllü 2× jeton kullanımı ve sezon teması tercihi.
+- Gönderilen olaylar yalnızca anonim oyun içi etkileşimlerden oluşur: açılan ekran (`menu`, `game`, `garage`, `leaderboard`, `info_sheet`), koşu başlangıcı ve bitiş nedeni (`flipped`, `out_of_fuel`, `quit_pause`), ulaşılan mesafe ve jeton, garaj geliştirme seviyeleri, ödüllü 2X–10X jeton çarpanı kullanımı ve sezon teması tercihi.
 - Firebase Analytics uygulama örneği kimliği, cihaz modeli, işletim sistemi sürümü ve IP adresinden türetilen yaklaşık ülke/bölge bilgisini işleyebilir; oyuncunun gerçek kimliğini (ad, e-posta, telefon) toplamaz ve üçüncü taraf uygulamalar genelinde reklam takibi (tracking) amacıyla kullanılmaz. Ayrıntılar: [Firebase Gizlilik ve Güvenlik](https://firebase.google.com/support/privacy).
+- **Anlık Bildirimler ve Sürüm Kontrolü (Push Notifications & Version Check — yalnız iOS):** iOS uygulamasında yeni özellik ve etkinlik duyurularını iletmek için **Firebase Cloud Messaging (FCM)** ve **Apple Push Notification service (APNs)** kullanılır. Bildirim izni tamamen isteğe bağlıdır; izin verirseniz cihazınıza ait anonim bildirim belirteci (push token) yalnızca genel duyuru kanalına (`all_players`) bildirim göndermek için işlenir, reklam takibi veya kişisel profilleme amacıyla kullanılmaz. Bildirim izni vermezseniz oyunun hiçbir özelliği kısıtlanmaz ve izni istediğiniz zaman iPhone/iPad **Ayarlar → Bildirimler → Offroad Trail** bölümünden kapatabilirsiniz. Ayrıca uygulama açılışında minimum ve güncel sürüm bilgisini (`/config/app`) kontrol etmek için kişisel veri göndermeden salt okunur bir sorgu yapılır.
 - Ayrıca iOS cihazınızda "Uygulama geliştiricileriyle paylaş" ayarı açıksa Apple, kişisel bilgi içermeyen anonim çökme ve performans raporlarını bize iletebilir; bunu cihazınızın **Ayarlar → Gizlilik ve Güvenlik → Analiz ve İyileştirmeler** bölümünden yönetebilirsiniz.
 
 ## 6. Veri saklama ve silme
