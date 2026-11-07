@@ -1,6 +1,6 @@
 # Plufy's World — Privacy Policy
 
-_Effective date: November 6, 2026_
+_Effective date: November 7, 2026_
 
 ## In short
 
@@ -13,13 +13,13 @@ _Effective date: November 6, 2026_
 
 ## 1. Who we are
 
-Plufy's World (Turkish name: Plufy'nin Dünyası) is a children's storybook game developed by independent developer **Hüseyin DOL**. This policy applies to the iPhone app and the web demo. Contact: [huseyindol@gmail.com](mailto:huseyindol@gmail.com).
+Plufy's World (Turkish name: Plufy'nin Dünyası) is a storybook game for families, developed by independent developer **Hüseyin DOL**. This policy applies to the iPhone app and the web demo. Contact: [huseyindol@gmail.com](mailto:huseyindol@gmail.com).
 
 ## 2. What the game itself handles
 
 To work, the game stores only the following information **locally on your device**. It never leaves the device, is not sent to us and is not shared with anyone:
 
-- Progress: completed pages, stars and unlocked content in the books
+- Progress: finished pages, stars and the colors made in the colors book
 - Settings: sound effects, music, vibration, read-aloud and language preference
 - Whether the tutorial has been shown, and the number of finished games (for ad frequency)
 
@@ -48,8 +48,8 @@ How Google uses this information is governed by its own policies: [Google Privac
 
 **When ads appear.**
 
-- Ads never appear during play; they are shown only after a game is finished, on the way back to the storybook.
-- The first 3 games are ad-free; after that one ad every 3 finished games (the first ad appears at the 6th finished game) and no more than 6 per session. There are no ads in the tutorial, at launch or in Settings.
+- Ads never appear during play; they are shown only after a book page is finished, on the way back to the book.
+- The first 3 games are ad-free; after that one ad every 3 finished games (the first ad appears at the 6th finished game) and no more than 6 per session. There are no ads in the tutorial, at launch, on the meadow, on the picnic screen or in Settings.
 - Tapping an ad may take you outside the app (to the App Store or a website).
 - Without an internet connection no ads are shown and the game simply continues.
 
@@ -59,7 +59,7 @@ There are no in-app purchases in the app; neither the game screens nor Settings 
 
 ## 5. Read-aloud
 
-The words and object names on a finished page are read aloud using the iPhone's built-in speech voice. This happens entirely on the device and works offline; nothing is recorded and no data is sent. Read-aloud can be turned off in Settings.
+In the colors book, the color and object name on a finished page are read aloud using the iPhone's built-in speech voice. This happens entirely on the device and works offline; nothing is recorded and no data is sent. Read-aloud can be turned off in Settings.
 
 ## 6. Analytics and crash reports
 
@@ -67,10 +67,10 @@ The app contains no third-party analytics or crash-reporting tools (apart from t
 
 ## 7. Children's privacy
 
-Because children may also play Plufy's World, we designed the game not to collect personal data. We do not knowingly collect personal data from children. We aim to follow the principles of the U.S. Children's Online Privacy Protection Act (COPPA), the EU General Data Protection Regulation's provisions on children (GDPR) and Turkey's Personal Data Protection Law No. 6698 (KVKK).
+Because children in the family may also play Plufy's World, we designed the game not to collect personal data. We do not knowingly collect personal data from children. We aim to follow the principles of the U.S. Children's Online Privacy Protection Act (COPPA), the EU General Data Protection Regulation's provisions on children (GDPR) and Turkey's Personal Data Protection Law No. 6698 (KVKK).
 
 - Every ad request is made non-personalized and with Google's child-directed treatment tag for COPPA (see section 3).
-- Settings and external links such as this privacy policy are behind a parental gate (press and hold the gear icon on the home screen for 1.5 seconds).
+- Settings and external links such as this privacy policy are behind a parental gate: on the picnic screen where the three books are, press and hold the gear icon in the top-right corner for 1.5 seconds.
 - There are no accounts, chat, user-generated content or social media in the game.
 
 ## 8. Data retention and deletion
@@ -78,7 +78,7 @@ Because children may also play Plufy's World, we designed the game not to collec
 Everything the game stores stays on your device. To delete it:
 
 - Settings → **Reset everything**: progress, stars, tutorial status and settings are deleted and the game starts as if newly installed.
-- Deleting the app removes all the game's data from the device.
+- Deleting the app removes all of the game's data from the device.
 
 Information processed by Google for its ad service is retained according to the periods and rules in Google's privacy policy. For requests about this you can contact Google or us ([huseyindol@gmail.com](mailto:huseyindol@gmail.com)); we will be happy to help.
 

@@ -1,6 +1,6 @@
 # Plufy'nin Dünyası — Gizlilik Politikası
 
-_Yürürlük tarihi: 6 Kasım 2026_
+_Yürürlük tarihi: 7 Kasım 2026_
 
 ## Kısaca
 
@@ -13,13 +13,13 @@ _Yürürlük tarihi: 6 Kasım 2026_
 
 ## 1. Biz kimiz
 
-Plufy'nin Dünyası (İngilizce adı: Plufy's World), bağımsız geliştirici **Hüseyin DOL** tarafından geliştirilen bir çocuk hikâye kitabı oyunudur. Bu politika, iPhone uygulaması ve web demosu için geçerlidir. İletişim: [huseyindol@gmail.com](mailto:huseyindol@gmail.com).
+Plufy'nin Dünyası (İngilizce adı: Plufy's World), bağımsız geliştirici **Hüseyin DOL** tarafından geliştirilen, aileler için bir hikâye kitabı oyunudur. Bu politika, iPhone uygulaması ve web demosu için geçerlidir. İletişim: [huseyindol@gmail.com](mailto:huseyindol@gmail.com).
 
 ## 2. Oyunun kendisi hangi bilgileri işler
 
 Oyun, oynanabilmesi için yalnızca aşağıdaki bilgileri **cihazınızda yerel olarak** saklar. Bu bilgiler cihazdan çıkmaz, bize iletilmez ve kimseyle paylaşılmaz:
 
-- İlerleme: tamamlanan sayfalar, yıldızlar ve kitaplarda açılan içerikler
+- İlerleme: tamamlanan sayfalar, yıldızlar ve Renkler kitabında yapılan renkler
 - Ayarlar: ses efektleri, müzik, titreşim, sesli okuma ve dil tercihi
 - Öğreticinin görülüp görülmediği ve reklam sıklığı için bitirilen oyun sayısı
 
@@ -48,8 +48,8 @@ Google'ın bu bilgileri nasıl kullandığı kendi politikalarına tabidir: [Goo
 
 **Reklamların zamanlaması.**
 
-- Reklamlar oyun ortasında asla gösterilmez; yalnızca bir oyun bittikten sonra, hikâye kitabına dönerken gösterilir.
-- İlk 3 oyun reklamsızdır; ardından her 3 biten oyunda bir (ilk reklam 6. biten oyundadır) ve bir oturumda en fazla 6 reklam gösterilir. Öğretici bölümünde, açılışta ve Ayarlar'da reklam yoktur.
+- Reklamlar oyun ortasında asla gösterilmez; yalnızca bir kitap sayfası bittikten sonra, kitaba dönerken gösterilir.
+- İlk 3 oyun reklamsızdır; ardından her 3 biten oyunda bir (ilk reklam 6. biten oyundadır) ve bir oturumda en fazla 6 reklam gösterilir. Öğretici bölümünde, açılışta, çayırda, piknik ekranında ve Ayarlar'da reklam yoktur.
 - Reklama dokunmak sizi uygulamanın dışına (App Store ya da bir web sitesi) götürebilir.
 - İnternet bağlantısı yoksa reklam gösterilmez; oyun beklemeden devam eder.
 
@@ -59,7 +59,7 @@ Uygulamada uygulama içi satın alma yoktur; oyun ekranlarında ve Ayarlar'da sa
 
 ## 5. Sesli okuma
 
-Bitirilen sayfadaki sözcükler ve nesne adları, iPhone'un yerleşik konuşma sesiyle okunur. Bu işlem tamamen cihazda yapılır, internet gerektirmez; ses kaydı yapılmaz ve hiçbir veri gönderilmez. Sesli okuma Ayarlar'dan kapatılabilir.
+Renkler kitabında bitirilen sayfadaki renk ve nesne adı, iPhone'un yerleşik konuşma sesiyle okunur. Bu işlem tamamen cihazda yapılır, internet gerektirmez; ses kaydı yapılmaz ve hiçbir veri gönderilmez. Sesli okuma Ayarlar'dan kapatılabilir.
 
 ## 6. Analiz ve çökme raporları
 
@@ -67,10 +67,10 @@ Uygulamada üçüncü taraf analiz ya da çökme raporlama aracı yoktur (Google
 
 ## 7. Çocukların gizliliği
 
-Plufy'nin Dünyası'yı çocuklar da oynayabildiği için oyunu, kişisel veri toplamayacak şekilde tasarladık. Çocuklardan bilerek kişisel veri toplamayız. ABD Çocukların Çevrimiçi Gizliliğini Koruma Yasası (COPPA), AB Genel Veri Koruma Tüzüğü'nün çocuklara ilişkin hükümleri (GDPR) ve Türkiye'deki 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) ilkelerine uygun davranmayı amaçlarız.
+Plufy'nin Dünyası'nı ailedeki çocuklar da oynayabildiği için oyunu, kişisel veri toplamayacak şekilde tasarladık. Çocuklardan bilerek kişisel veri toplamayız. ABD Çocukların Çevrimiçi Gizliliğini Koruma Yasası (COPPA), AB Genel Veri Koruma Tüzüğü'nün çocuklara ilişkin hükümleri (GDPR) ve Türkiye'deki 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) ilkelerine uygun davranmayı amaçlarız.
 
 - Her reklam isteği, Google'ın COPPA kapsamındaki çocuklara yönelik işlem etiketiyle ve kişiselleştirilmemiş olarak yapılır (bkz. 3. bölüm).
-- Ayarlar ve bu gizlilik politikası gibi dış bağlantılar ebeveyn kapısının arkasındadır (ana ekrandaki dişli simgesine 1,5 saniye basılı tutulur).
+- Ayarlar ve bu gizlilik politikası gibi dış bağlantılar ebeveyn kapısının arkasındadır: üç kitabın durduğu piknik ekranında sağ üstteki dişli simgesine 1,5 saniye basılı tutulur.
 - Oyunda hesap, sohbet, kullanıcı içeriği ya da sosyal medya yoktur.
 
 ## 8. Veri saklama ve silme
@@ -93,5 +93,3 @@ Bu politikayı, uygulama ya da mevzuat değiştikçe güncelleyebiliriz. Güncel
 ## 11. İletişim
 
 Hüseyin DOL (bağımsız geliştirici) · E-posta: [huseyindol@gmail.com](mailto:huseyindol@gmail.com) · Web: [huseyindol.com](https://huseyindol.com) · Destek sayfası: [https://huseyindol.com/games/plufy/destek](https://huseyindol.com/games/plufy/destek)
-
----
