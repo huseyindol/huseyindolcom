@@ -7,7 +7,7 @@ import Link from 'next/link'
 export interface GameDocPageProps {
   doc: GameDoc
   lang: GameDocLang
-  /** Bu sayfanın yolu ("/games/hamur-usta/destek"). */
+  /** Bu sayfanın yolu ("/games/plufy/destek"). */
   path: string
   /** Diğer dildeki karşılığı. */
   alternatePath: string

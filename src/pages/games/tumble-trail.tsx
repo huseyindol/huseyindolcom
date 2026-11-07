@@ -12,8 +12,8 @@ export default function TumbleTrailGamePage() {
   return (
     <>
       <Seo
-        rawTitle="Tumble Trail 4x4 Oyunu | Hüseyin DOL"
-        description="Tumble Trail 4x4: iPhone, iPad (App Store) ve Flutter Web üzerinde oynanabilen 2.5D 4x4 arazi macerası. Süspansiyonu ayarla, dağ ve şehir engellerini aş, garajda aracını geliştir."
+        rawTitle="Offroad Trail 4x4 Oyunu | Hüseyin DOL"
+        description="Offroad Trail 4x4: iPhone, iPad (App Store) ve Flutter Web üzerinde oynanabilen 2.5D 4x4 arazi macerası. Süspansiyonu ayarla, dağ ve şehir engellerini aş, garajda aracını geliştir."
         canonical="/games/tumble-trail"
       />
       <Head>
@@ -35,7 +35,7 @@ export default function TumbleTrailGamePage() {
                 Projeler
               </Link>
               <h1 className="text-2xl font-extrabold tracking-tight md:text-3xl">
-                Tumble Trail 4x4
+                Offroad Trail 4x4
               </h1>
               <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
                 iPhone &amp; iPad için App Store’da ve aşağıda tarayıcıda

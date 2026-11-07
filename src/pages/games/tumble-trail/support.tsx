@@ -17,8 +17,8 @@ export const getStaticProps: GetStaticProps<GameDocPageProps> = async () => ({
     lang: 'en',
     path: '/games/tumble-trail/support',
     alternatePath: '/games/tumble-trail/destek',
-    gameTitle: 'Tumble Trail 4x4',
+    gameTitle: 'Offroad Trail 4x4',
     gamePath: '/games/tumble-trail',
-    description: 'Support and FAQ for Tumble Trail 4x4.',
+    description: 'Support and FAQ for Offroad Trail 4x4.',
   },
 })

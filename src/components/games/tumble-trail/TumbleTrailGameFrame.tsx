@@ -143,7 +143,7 @@ export function TumbleTrailGameFrame() {
       </div>
 
       <iframe
-        title="Tumble Trail 4x4 Oyunu"
+        title="Offroad Trail 4x4 Oyunu"
         src={`/assets/games/tumble-trail/index.html?v=${TUMBLE_TRAIL_ASSET_CACHE_KEY}`}
         allow="autoplay; fullscreen; gamepad"
         allowFullScreen

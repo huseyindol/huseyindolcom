@@ -1,6 +1,6 @@
 # Hyper Drift: Arcade — Gizlilik Politikası
 
-_Yürürlük tarihi: 7 Ekim 2026_
+_Yürürlük tarihi: 6 Kasım 2026_
 
 ## Kısaca
 
@@ -9,19 +9,19 @@ _Yürürlük tarihi: 7 Ekim 2026_
 - Oyun, **Google AdMob** üzerinden reklam gösterir. Her reklam isteği kişiselleştirilmemiş reklam, Google'ın çocuklara yönelik işlem etiketi ve en kısıtlı içerik sınırı (G) ile yapılır. Uygulama reklam kimliği (IDFA) istemez ve izleme izni sormaz.
 - Uygulamada uygulama içi satın alma yoktur.
 - Üçüncü taraf analiz (analytics) aracı yoktur.
-- **Web demosu (huseyindol.com/games/hyper-drift-arcade):** reklam, satın alma ve analiz aracı yoktur. İlerleme yalnızca tarayıcınızın yerel depolamasında (localStorage) tutulur. Sesli okuma (web'de açıksa) tarayıcının kendi konuşma motorunu kullanır. Sayfayı barındıran site, kendi sunucu kayıtlarını kendi politikasına göre tutar.
+- **Web demosu (huseyindol.com/games/hyper-drift-arcade):** reklam, satın alma ve analiz aracı yoktur. İlerleme yalnızca tarayıcınızın yerel depolamasında (localStorage) tutulur. Sayfayı barındıran site, kendi sunucu kayıtlarını kendi politikasına göre tutar.
 
 ## 1. Biz kimiz
 
-Hyper Drift: Arcade (İngilizce adı: Hyper Drift: Arcade: Color Mix), bağımsız geliştirici **Hüseyin DOL** tarafından geliştirilen bir renk karıştırma oyunudur. Bu politika, iPhone uygulaması ve web demosu için geçerlidir. İletişim: [huseyindol@gmail.com](mailto:huseyindol@gmail.com).
+Hyper Drift: Arcade, bağımsız geliştirici **Hüseyin DOL** tarafından geliştirilen bir kuşbakışı 2D drift oyunudur. Bu politika, iPhone uygulaması ve web demosu için geçerlidir. İletişim: [huseyindol@gmail.com](mailto:huseyindol@gmail.com).
 
 ## 2. Oyunun kendisi hangi bilgileri işler
 
 Oyun, oynanabilmesi için yalnızca aşağıdaki bilgileri **cihazınızda yerel olarak** saklar. Bu bilgiler cihazdan çıkmaz, bize iletilmez ve kimseyle paylaşılmaz:
 
-- İlerleme: tamamlanan seviyeler, yıldızlar ve hikâye kitabında yapılan renkler
-- Ayarlar: ses efektleri, müzik, titreşim, sesli okuma ve dil tercihi
-- Öğreticinin görülüp görülmediği ve reklam sıklığı için bitirilen oyun sayısı
+- İlerleme: pist ve mod (normal / çocuk) bazında en iyi drift skorları ile garaj seçimleri
+- Ayarlar: oyuncu adı, yön kontrolü, ses ve ses düzeyi, çocuk modu tercihleri
+- Reklam sıklığı için bitirilen koşu sayısı
 
 Oyun ad, e-posta, telefon numarası, fotoğraf, ses kaydı, kesin konum, rehber ya da başka bir kişisel veri istemez ve toplamaz. Oyunda sohbet, paylaşım, kullanıcı içeriği ya da sosyal medya özelliği yoktur.
 
@@ -48,8 +48,8 @@ Google'ın bu bilgileri nasıl kullandığı kendi politikalarına tabidir: [Goo
 
 **Reklamların zamanlaması.**
 
-- Reklamlar oyun ortasında asla gösterilmez; yalnızca bir seviye bittikten sonra, hikâye kitabına dönerken gösterilir.
-- İlk 5 oyun reklamsızdır; sonra en fazla her 3 oyunda bir, bir oturumda en fazla 6 reklam gösterilir. Öğretici seviyesinde, açılışta ve Ayarlar'da reklam yoktur.
+- Reklamlar sürüş sırasında asla gösterilmez; yalnızca bir koşu bittikten sonra gösterilir.
+- İlk 3 koşu reklamsızdır; ardından her 3 biten koşuda bir (ilk reklam 6. biten koşudadır) ve bir oturumda en fazla 6 reklam gösterilir. Ödüllü reklam ve banner yoktur.
 - Reklama dokunmak sizi uygulamanın dışına (App Store ya da bir web sitesi) götürebilir.
 - İnternet bağlantısı yoksa reklam gösterilmez; oyun beklemeden devam eder.
 
@@ -57,9 +57,9 @@ Google'ın bu bilgileri nasıl kullandığı kendi politikalarına tabidir: [Goo
 
 Uygulamada uygulama içi satın alma yoktur; oyun ekranlarında ve Ayarlar'da satın alma teklifi bulunmaz. Uygulama ödeme bilgisi istemez ve işlemez.
 
-## 5. Sesli okuma
+## 5. Ses
 
-Bitirilen sayfadaki renk ve nesne adı, iPhone'un yerleşik konuşma sesiyle okunur. Bu işlem tamamen cihazda yapılır, internet gerektirmez; ses kaydı yapılmaz ve hiçbir veri gönderilmez. Sesli okuma Ayarlar'dan kapatılabilir.
+Oyunun motor ve drift sesleri tamamen cihazınızda üretilir ve internet gerektirmez; ses kaydı yapılmaz ve hiçbir veri gönderilmez. Ses, Ayarlar'dan kapatılabilir veya alçaltılabilir.
 
 ## 6. Analiz ve çökme raporları
 
@@ -70,15 +70,12 @@ Uygulamada üçüncü taraf analiz ya da çökme raporlama aracı yoktur (Google
 Hyper Drift: Arcade'yı çocuklar da oynayabildiği için oyunu, kişisel veri toplamayacak şekilde tasarladık. Çocuklardan bilerek kişisel veri toplamayız. ABD Çocukların Çevrimiçi Gizliliğini Koruma Yasası (COPPA), AB Genel Veri Koruma Tüzüğü'nün çocuklara ilişkin hükümleri (GDPR) ve Türkiye'deki 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) ilkelerine uygun davranmayı amaçlarız.
 
 - Her reklam isteği, Google'ın COPPA kapsamındaki çocuklara yönelik işlem etiketiyle ve kişiselleştirilmemiş olarak yapılır (bkz. 3. bölüm).
-- Ayarlar ve bu gizlilik politikası gibi dış bağlantılar ebeveyn kapısının arkasındadır (ana ekrandaki dişli simgesine 1,5 saniye basılı tutulur).
+- Reklamlar sürüş sırasında asla gösterilmez; yalnızca koşu sonunda gösterilir.
 - Oyunda hesap, sohbet, kullanıcı içeriği ya da sosyal medya yoktur.
 
 ## 8. Veri saklama ve silme
 
-Oyunun sakladığı tüm bilgiler yalnızca cihazınızdadır. Silmek için:
-
-- Ayarlar → **Her şeyi sıfırla**: ilerleme, yıldızlar, öğretici bilgisi ve ayarlar silinir; oyun ilk kez indirilmiş gibi açılır.
-- Uygulamayı cihazdan silmek, oyunun cihazdaki tüm verisini siler.
+Oyunun sakladığı tüm bilgiler yalnızca cihazınızdadır. Silmek için uygulamayı cihazdan kaldırmanız yeterlidir; bu işlem oyunun cihazdaki tüm verisini (skorlar, oyuncu adı ve ayarlar) siler.
 
 Google'ın reklam hizmeti için işlediği bilgiler Google'ın gizlilik politikasındaki süreler ve kurallara göre saklanır. Bu konudaki talepleriniz için Google ile ya da bizimle ([huseyindol@gmail.com](mailto:huseyindol@gmail.com)) iletişime geçebilirsiniz; size yardımcı oluruz.
 

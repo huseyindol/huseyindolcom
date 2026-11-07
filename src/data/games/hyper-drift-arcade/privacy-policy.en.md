@@ -1,6 +1,6 @@
-# Hyper Drift: Arcade: Color Mix — Privacy Policy
+# Hyper Drift: Arcade — Privacy Policy
 
-_Effective date: October 7, 2026_
+_Effective date: November 6, 2026_
 
 ## In short
 
@@ -9,19 +9,19 @@ _Effective date: October 7, 2026_
 - The game shows ads through **Google AdMob**. Every ad request is made for non-personalized ads, with Google's child-directed treatment tag and the strictest content rating (G). The app does not request the advertising identifier (IDFA) and never asks for tracking permission.
 - There are no in-app purchases in the app.
 - There are no third-party analytics tools.
-- **Web demo (huseyindol.com/games/hyper-drift-arcade):** no ads, no purchases and no analytics tools. Progress is kept only in your browser's local storage (localStorage). Read-aloud (if available on the web) uses the browser's own speech engine. The site hosting the page keeps its own server logs under its own policy.
+- **Web demo (huseyindol.com/games/hyper-drift-arcade):** no ads, no purchases and no analytics tools. Progress is kept only in your browser's local storage (localStorage). The site hosting the page keeps its own server logs under its own policy.
 
 ## 1. Who we are
 
-Hyper Drift: Arcade: Color Mix (Turkish name: Hyper Drift: Arcade) is a color-mixing game developed by independent developer **Hüseyin DOL**. This policy applies to the iPhone app and the web demo. Contact: [huseyindol@gmail.com](mailto:huseyindol@gmail.com).
+Hyper Drift: Arcade is a top-down 2D drift game developed by independent developer **Hüseyin DOL**. This policy applies to the iPhone app and the web demo. Contact: [huseyindol@gmail.com](mailto:huseyindol@gmail.com).
 
 ## 2. What the game itself handles
 
 To work, the game stores only the following information **locally on your device**. It never leaves the device, is not sent to us and is not shared with anyone:
 
-- Progress: completed levels, stars and the colors made in the storybook
-- Settings: sound effects, music, vibration, read-aloud and language preference
-- Whether the tutorial has been shown, and the number of finished games (for ad frequency)
+- Progress: best drift scores per course and mode (normal / child) and garage choices
+- Settings: player name, steering mode, sound and volume, child mode preferences
+- The number of finished runs (for ad frequency)
 
 The game does not ask for or collect names, email addresses, phone numbers, photos, voice recordings, precise location, contacts or any other personal data. There is no chat, sharing, user-generated content or social media in the game.
 
@@ -48,8 +48,8 @@ How Google uses this information is governed by its own policies: [Google Privac
 
 **When ads appear.**
 
-- Ads never appear during play; they are shown only after a level is finished, on the way back to the storybook.
-- The first 5 games are ad-free; after that at most one ad every 3 games and no more than 6 per session. There are no ads in the tutorial level, at launch or in Settings.
+- Ads never appear while driving; they are shown only after a run is finished.
+- The first 3 runs are ad-free; after that one ad every 3 finished runs (the first ad appears at the 6th finished run) and no more than 6 per session. There are no rewarded ads and no banners.
 - Tapping an ad may take you outside the app (to the App Store or a website).
 - Without an internet connection no ads are shown and the game simply continues.
 
@@ -57,9 +57,9 @@ How Google uses this information is governed by its own policies: [Google Privac
 
 There are no in-app purchases in the app; neither the game screens nor Settings contain purchase offers. The app does not ask for or process any payment information.
 
-## 5. Read-aloud
+## 5. Sound
 
-The color and object name on a finished page is read aloud using the iPhone's built-in speech voice. This happens entirely on the device and works offline; nothing is recorded and no data is sent. Read-aloud can be turned off in Settings.
+The game's engine and drift sounds are generated entirely on your device and work offline; nothing is recorded and no data is sent. Sound can be turned off or lowered in Settings.
 
 ## 6. Analytics and crash reports
 
@@ -70,15 +70,12 @@ The app contains no third-party analytics or crash-reporting tools (apart from t
 Because children may also play Hyper Drift: Arcade, we designed the game not to collect personal data. We do not knowingly collect personal data from children. We aim to follow the principles of the U.S. Children's Online Privacy Protection Act (COPPA), the EU General Data Protection Regulation's provisions on children (GDPR) and Turkey's Personal Data Protection Law No. 6698 (KVKK).
 
 - Every ad request is made non-personalized and with Google's child-directed treatment tag for COPPA (see section 3).
-- Settings and external links such as this privacy policy are behind a parental gate (press and hold the gear icon on the home screen for 1.5 seconds).
+- Ads never appear while driving; they are shown only at the end of a run.
 - There are no accounts, chat, user-generated content or social media in the game.
 
 ## 8. Data retention and deletion
 
-Everything the game stores stays on your device. To delete it:
-
-- Settings → **Reset everything**: progress, stars, tutorial status and settings are deleted and the game starts as if newly installed.
-- Deleting the app removes all of the game's data from the device.
+Everything the game stores stays on your device. To delete it, simply remove the app from your device; this deletes all of the game's data (scores, player name and settings).
 
 Information processed by Google for its ad service is retained according to the periods and rules in Google's privacy policy. For requests about this you can contact Google or us ([huseyindol@gmail.com](mailto:huseyindol@gmail.com)); we will be happy to help.
 

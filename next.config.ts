@@ -127,6 +127,23 @@ const nextConfig = {
         destination: '/assets/games/hyper-drift-arcade/:path*',
         permanent: true,
       },
+      // Oyun yeniden adlandırıldı: Hamur Usta → Plufy'nin Dünyası (2026-11-06).
+      // Eski sayfa, doc sayfaları ve eski web build yolu (yer imleri, iframe gömmeleri) korunsun.
+      {
+        source: '/games/hamur-usta',
+        destination: '/games/plufy',
+        permanent: true,
+      },
+      {
+        source: '/games/hamur-usta/:path*',
+        destination: '/games/plufy/:path*',
+        permanent: true,
+      },
+      {
+        source: '/assets/games/hamur-usta/:path*',
+        destination: '/assets/games/plufy/:path*',
+        permanent: true,
+      },
     ]
   },
 
