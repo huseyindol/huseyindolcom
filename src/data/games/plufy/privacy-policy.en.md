@@ -1,14 +1,14 @@
 # Plufy's World — Privacy Policy
 
-_Effective date: November 7, 2026_
+_Effective date: November 9, 2026_
 
 ## In short
 
-- Plufy's World does **not collect** personal data. It asks for no account, sign-up, name, email, photos, location permission or microphone.
+- Plufy's World does **not collect** personal data that identifies you. It asks for no account, sign-up, name, email, photos, location permission or microphone.
 - Game progress is stored **only on your device**; it is never sent to us or anyone else.
 - The game shows ads through **Google AdMob**. Every ad request is made for non-personalized ads, with Google's child-directed treatment tag and the strictest content rating (G). The app does not request the advertising identifier (IDFA) and never asks for tracking permission.
 - There are no in-app purchases in the app.
-- There are no third-party analytics tools.
+- To improve the game, anonymous usage statistics (which screens are opened, which book page is finished or left unfinished and how long it took) are collected with **Google Analytics for Firebase**. They are not linked to your identity, are not used for advertising or tracking, and are deleted after 2 months (see section 6).
 - **Web demo (huseyindol.com/games/plufy):** no ads, no purchases and no analytics tools. Progress is kept only in your browser's local storage (localStorage). Read-aloud (if available on the web) uses the browser's own speech engine. The site hosting the page keeps its own server logs under its own policy.
 
 ## 1. Who we are
@@ -23,7 +23,7 @@ To work, the game stores only the following information **locally on your device
 - Settings: sound effects, music, vibration, read-aloud and language preference
 - Whether the tutorial has been shown, and the number of finished games (for ad frequency)
 
-The game does not ask for or collect names, email addresses, phone numbers, photos, voice recordings, precise location, contacts or any other personal data. There is no chat, sharing, user-generated content or social media in the game.
+In addition, the anonymous usage statistics described in section 6 are sent to Google Analytics for Firebase. The game does not ask for or collect names, email addresses, phone numbers, photos, voice recordings, precise location, contacts or any other personal data. There is no chat, sharing, user-generated content or social media in the game.
 
 ## 3. Advertising (Google AdMob)
 
@@ -61,30 +61,53 @@ There are no in-app purchases in the app; neither the game screens nor Settings 
 
 In the colors book, the color and object name on a finished page are read aloud using the iPhone's built-in speech voice. This happens entirely on the device and works offline; nothing is recorded and no data is sent. Read-aloud can be turned off in Settings.
 
-## 6. Analytics and crash reports
+## 6. Analytics (Google Analytics for Firebase) and crash reports
 
-The app contains no third-party analytics or crash-reporting tools (apart from the Google Mobile Ads SDK's own diagnostics described above). If "Share With App Developers" is turned on on your iPhone, Apple may share crash and performance reports that contain no personal information with us; this is managed by Apple and can be turned off in iPhone Settings → Privacy & Security → Analytics & Improvements.
+To understand which parts of the game are enjoyed and which pages are hard, and to improve the game, the iPhone app uses Google's **Google Analytics for Firebase** service.
+
+**What is collected.** Only the following in-game events are sent, using fixed names and numbers:
+
+- The screen that is opened (meadow, picnic, books, play, Settings)
+- The book that is opened; the number of the page that is started, finished or left unfinished, the play time (in seconds), whether the page had been finished before, and the stars earned in the colors book
+- A book being completed and an interstitial ad being shown
+- App usage measured automatically by Google: first open, number and length of sessions, app version, device model and operating system version
+- A random **app instance ID** specific to this installation of the app (not the advertising identifier; it is reset when the app is deleted) and an **approximate location** at country/city level derived from the masked IP address (the IP address is not stored)
+
+**What is not collected, and the settings we use.**
+
+- No names, email addresses, free text, user IDs or advertising identifier (IDFA) are sent. The version of Firebase without advertising identifier support is used, and the app never asks for tracking (ATT) permission.
+- Analytics data is not used for advertising: ad storage, ad user data and ad personalization consents are **off**, and registration with ad networks is **off**; Google Signals and advertising links are not used. The data is not combined with other companies' data and no tracking takes place.
+- This information is not linked to your identity; we only look at aggregated statistics (e.g. "the share of players who finished page 3").
+
+**Retention.** Event-level analytics data is kept in Google Analytics for **2 months** and then deleted automatically; aggregated reports (counts) contain no personal information.
+
+**The web demo has no analytics.** How Google processes this information is governed by its own policies: [Google Privacy Policy](https://policies.google.com/privacy) · [How Google uses information from sites or apps that use our services](https://policies.google.com/technologies/partner-sites) · [Data privacy in Google Analytics](https://support.google.com/analytics/answer/6004245).
+
+**Crash reports.** The app contains no separate crash-reporting tool (apart from the Google Mobile Ads SDK's own diagnostics described in section 3). If "Share With App Developers" is turned on on your iPhone, Apple may share crash and performance reports that contain no personal information with us; this is managed by Apple and can be turned off in iPhone Settings → Privacy & Security → Analytics & Improvements.
 
 ## 7. Children's privacy
 
-Because children in the family may also play Plufy's World, we designed the game not to collect personal data. We do not knowingly collect personal data from children. We aim to follow the principles of the U.S. Children's Online Privacy Protection Act (COPPA), the EU General Data Protection Regulation's provisions on children (GDPR) and Turkey's Personal Data Protection Law No. 6698 (KVKK).
+Because children in the family may also play Plufy's World, we designed the game not to collect personal data that identifies anyone. We do not knowingly collect personal data from children. We aim to follow the principles of the U.S. Children's Online Privacy Protection Act (COPPA), the EU General Data Protection Regulation's provisions on children (GDPR) and Turkey's Personal Data Protection Law No. 6698 (KVKK).
 
 - Every ad request is made non-personalized and with Google's child-directed treatment tag for COPPA (see section 3).
+- Analytics collects only anonymous gameplay statistics; no advertising identifier, user ID or free text is sent, and it is not used for advertising (see section 6).
 - Settings and external links such as this privacy policy are behind a parental gate: on the picnic screen where the three books are, press and hold the gear icon in the top-right corner for 1.5 seconds.
 - There are no accounts, chat, user-generated content or social media in the game.
 
 ## 8. Data retention and deletion
 
-Everything the game stores stays on your device. To delete it:
+The information the game itself stores (progress, settings) stays on your device. To delete it:
 
 - Settings → **Reset everything**: progress, stars, tutorial status and settings are deleted and the game starts as if newly installed.
-- Deleting the app removes all of the game's data from the device.
+- Deleting the app removes all of the game's data from the device and also resets the app instance ID used for analytics.
+
+The anonymous event data sent to Google Analytics is deleted automatically after 2 months (see section 6).
 
 Information processed by Google for its ad service is retained according to the periods and rules in Google's privacy policy. For requests about this you can contact Google or us ([huseyindol@gmail.com](mailto:huseyindol@gmail.com)); we will be happy to help.
 
 ## 9. Your rights
 
-Depending on where you live (e.g. GDPR, KVKK), you may have the right to access, correct or delete your personal data and to object to its processing. Because we do not collect personal data, we hold no records about you; you are still welcome to send us any questions or requests at the address below. You also have the right to lodge a complaint with your local data protection authority.
+Depending on where you live (e.g. GDPR, KVKK), you may have the right to access, correct or delete your personal data and to object to its processing. Because we do not collect personal data that identifies you and do not link analytics data to your identity, we hold no records we could match to you; you are still welcome to send us any questions or requests at the address below. You also have the right to lodge a complaint with your local data protection authority.
 
 ## 10. Changes
 
