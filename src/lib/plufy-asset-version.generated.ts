@@ -1,3 +1,3 @@
 /** plufy — GitHub Actions; elle düzenlemeyin. */
-export const PLUFY_ASSET_CACHE_KEY = "42355615595";
-export const PLUFY_ASSET_SHA = "e6d123ea10c6accd9257390ae8b132f65eff490d";
+export const PLUFY_ASSET_CACHE_KEY = "42619614613";
+export const PLUFY_ASSET_SHA = "cc3f39c33aa2b7398bf87c474e09b0eae400a111";
