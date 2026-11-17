@@ -29,7 +29,7 @@ const components = {
   ),
   p: (props: React.ComponentPropsWithoutRef<'p'>) => (
     <p
-      className="mb-6 leading-relaxed text-slate-700 dark:text-slate-300"
+      className="mb-6 leading-relaxed text-slate-800 dark:text-slate-200"
       {...props}
     >
       {props.children}
@@ -152,7 +152,7 @@ export function MdxContent({
   source,
 }: Readonly<{ source: MDXRemoteSerializeResult }>) {
   return (
-    <div className="prose-emerald prose-lg dark:prose-invert w-full max-w-none">
+    <div className="prose-emerald prose-lg dark:prose-invert w-full max-w-none text-slate-800 dark:text-slate-200">
       <MDXRemote {...source} components={components} />
     </div>
   )

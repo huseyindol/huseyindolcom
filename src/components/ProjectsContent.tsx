@@ -582,7 +582,7 @@ export default function ProjectsContent() {
             <h1 className="mb-5 text-4xl font-black tracking-tight md:text-6xl">
               Projelerim &amp; Skill Stüdyosu
             </h1>
-            <p className="mx-auto max-w-2xl text-lg text-zinc-400 md:text-xl">
+            <p className="mx-auto max-w-2xl text-lg text-muted-foreground md:text-xl">
               AI Agent Skill çalışmalarım (
               <strong className="text-zinc-200">VulnGuardian</strong>), Elly
               multi-tenant CMS ekosistemi ve tarayıcıda doğrudan oynanabilen
@@ -636,17 +636,17 @@ export default function ProjectsContent() {
         <div className="container mx-auto px-6">
           <div className="mx-auto max-w-6xl">
             <KineticScrollItem side="left">
-              <div className="relative overflow-hidden rounded-3xl border border-teal-500/30 bg-zinc-950 p-6 text-zinc-100 shadow-2xl md:p-10">
+              <div className="spotlight-card relative overflow-hidden rounded-3xl border p-6 shadow-2xl md:p-10">
                 <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-teal-500/15 blur-3xl" />
 
                 <div className="relative flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
                   <div className="max-w-2xl space-y-4">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="inline-flex items-center gap-1.5 rounded-full border border-teal-400/35 bg-teal-500/15 px-3 py-1 font-mono text-xs font-bold text-teal-300">
+                      <span className="brand-text-accent inline-flex items-center gap-1.5 rounded-full border border-teal-400/35 bg-teal-500/15 px-3 py-1 font-mono text-xs font-bold">
                         <SparklesIcon className="h-3.5 w-3.5" />
                         YENİ · AI AGENT SKILL ÇALIŞMALARI (SKILL STUDIO)
                       </span>
-                      <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-[11px] text-zinc-300">
+                      <span className="brand-panel rounded-full border px-3 py-1 font-mono text-[11px]">
                         Antigravity &amp; Claude Code
                       </span>
                     </div>
@@ -656,12 +656,12 @@ export default function ProjectsContent() {
                         <ShieldAlertIcon className="h-7 w-7" />
                       </div>
                       <div>
-                        <h2 className="text-2xl font-black tracking-tight text-white md:text-3xl">
+                        <h2 className="text-2xl font-black tracking-tight md:text-3xl">
                           Vuln
                           <span className="brand-text-accent">
                             Guardian
                           </span>{' '}
-                          <span className="text-base font-semibold text-zinc-400">
+                          <span className="text-base font-semibold text-muted-foreground">
                             (huseyindol/vuln-guardian)
                           </span>
                         </h2>
@@ -672,7 +672,7 @@ export default function ProjectsContent() {
                       </div>
                     </div>
 
-                    <p className="text-sm leading-relaxed text-zinc-300 sm:text-base">
+                    <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
                       6 farklı ekosistemdeki (
                       <code className="text-teal-300">package.json</code>,{' '}
                       <code className="text-teal-300">pom.xml</code>,{' '}
@@ -680,13 +680,11 @@ export default function ProjectsContent() {
                       <code className="text-teal-300">requirements.txt</code>,{' '}
                       <code className="text-teal-300">go.mod</code>,{' '}
                       <code className="text-teal-300">Cargo.toml</code>)
-                      zafiyetli paketleri canlı{' '}
-                      <strong className="text-white">OSV.dev</strong>,{' '}
-                      <strong className="text-white">GHSA</strong> ve{' '}
-                      <strong className="text-white">CVE</strong>{' '}
+                      zafiyetli paketleri canlı <strong>OSV.dev</strong>,{' '}
+                      <strong>GHSA</strong> ve <strong>CVE</strong>{' '}
                       veritabanlarından tespit eder; her paket için ayrı PR açıp
                       mail spam&apos;i üretmek yerine tüm güncellemeleri{' '}
-                      <strong className="text-white">
+                      <strong>
                         5 aşamalı Breaking-Change &amp; HTTP 200 Smoke
                       </strong>{' '}
                       kapısından geçirerek tek seferde güvenli versiyona çeker
@@ -703,7 +701,7 @@ export default function ProjectsContent() {
                       ].map(tag => (
                         <span
                           key={tag}
-                          className="rounded-lg border border-white/10 bg-white/[0.04] px-2.5 py-1 text-xs font-medium text-zinc-200"
+                          className="rounded-lg border px-2.5 py-1 text-xs font-medium text-foreground dark:text-zinc-200"
                         >
                           {tag}
                         </span>
@@ -712,9 +710,9 @@ export default function ProjectsContent() {
                   </div>
 
                   {/* Right side command card + actions */}
-                  <div className="flex flex-col justify-between gap-4 rounded-2xl border border-white/10 bg-black/40 p-5 lg:w-96 lg:shrink-0">
+                  <div className="brand-panel flex flex-col justify-between gap-4 rounded-2xl border p-5 lg:w-96 lg:shrink-0">
                     <div>
-                      <div className="mb-2 flex items-center justify-between text-xs text-zinc-400">
+                      <div className="mb-2 flex items-center justify-between text-xs text-muted-foreground">
                         <span className="inline-flex items-center gap-1.5 font-mono font-semibold text-teal-300">
                           <TerminalIcon className="h-3.5 w-3.5" />
                           Hızlı Skill Kurulumu
@@ -723,7 +721,7 @@ export default function ProjectsContent() {
                           ● PUBLIC REPO
                         </span>
                       </div>
-                      <pre className="overflow-x-auto rounded-xl border border-white/10 bg-zinc-900/90 p-3 font-mono text-[11px] leading-relaxed text-zinc-200">
+                      <pre className="overflow-x-auto rounded-xl border border-white/10 bg-zinc-900/90 p-3 font-mono text-[11px] leading-relaxed text-foreground dark:text-zinc-200">
                         <code>
                           {`git clone https://github.com/huseyindol/vuln-guardian.git
 cd vuln-guardian && bun install
@@ -754,7 +752,7 @@ bun run skill:install`}
                           href="https://github.com/huseyindol/vuln-guardian"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-xs font-semibold text-zinc-200 transition-colors hover:bg-white/10"
+                          className="bg-background/50 inline-flex items-center justify-center gap-1.5 rounded-xl border border-border px-3 py-2 text-xs font-semibold text-foreground transition-colors hover:bg-white/10 dark:text-zinc-200"
                         >
                           <Github className="h-3.5 w-3.5" />
                           GitHub Repo
@@ -768,7 +766,7 @@ bun run skill:install`}
 
             {/* Elly Ecosystem Spotlight — VulnGuardian'ın kardeş kartı */}
             <KineticScrollItem side="right" className="mt-6">
-              <div className="relative overflow-hidden rounded-3xl border border-teal-500/30 bg-zinc-950 p-6 text-zinc-100 shadow-2xl md:p-10">
+              <div className="spotlight-card relative overflow-hidden rounded-3xl border p-6 shadow-2xl md:p-10">
                 <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-emerald-500/15 blur-3xl" />
 
                 <div className="relative flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
@@ -778,7 +776,7 @@ bun run skill:install`}
                         <SparklesIcon className="h-3.5 w-3.5" />
                         ÖNE ÇIKAN · PROD EKOSİSTEMİ
                       </span>
-                      <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-[11px] text-zinc-300">
+                      <span className="brand-panel rounded-full border px-3 py-1 font-mono text-[11px]">
                         4 Repo · 1 Studio · K3s + Cloudflare
                       </span>
                     </div>
@@ -788,10 +786,10 @@ bun run skill:install`}
                         <LayersIcon className="h-7 w-7" />
                       </div>
                       <div>
-                        <h2 className="text-2xl font-black tracking-tight text-white md:text-3xl">
+                        <h2 className="text-2xl font-black tracking-tight md:text-3xl">
                           Elly{' '}
                           <span className="brand-text-accent">Ecosystem</span>{' '}
-                          <span className="text-base font-semibold text-zinc-400">
+                          <span className="text-base font-semibold text-muted-foreground">
                             (elly-studio)
                           </span>
                         </h2>
@@ -802,25 +800,21 @@ bun run skill:install`}
                       </div>
                     </div>
 
-                    <p className="text-sm leading-relaxed text-zinc-300 sm:text-base">
+                    <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
                       Tek çekirdekten yönetilen, dört repolu uçtan uca prod
                       ekosistemi:{' '}
-                      <strong className="text-white">
+                      <strong>
                         her kiracı kendi izole PostgreSQL veritabanında
                       </strong>{' '}
                       yaşar (database-per-tenant);{' '}
-                      <strong className="text-white">
-                        Spring Boot 3.5 / Java 21
-                      </strong>{' '}
-                      çekirdeği JWE şifreli kimlik doğrulama, TOTP iki adımlı
-                      doğrulama ve Redis önbelleği sunar.{' '}
-                      <strong className="text-white">Next.js 16</strong> panel +
-                      tenant site,{' '}
-                      <strong className="text-white">Flutter</strong> mobil
-                      yönetim uygulaması, RabbitMQ kuyruklu e-posta altyapısı,
-                      WebRTC görüntülü/sesli destek çağrıları (iOS CallKit) ve
-                      Google Gemini destekli AI içerik üretimiyle — bu site
-                      dahil tüm kiracı siteler yayınlanır.
+                      <strong>Spring Boot 3.5 / Java 21</strong> çekirdeği JWE
+                      şifreli kimlik doğrulama, TOTP iki adımlı doğrulama ve
+                      Redis önbelleği sunar. <strong>Next.js 16</strong> panel +
+                      tenant site, <strong>Flutter</strong> mobil yönetim
+                      uygulaması, RabbitMQ kuyruklu e-posta altyapısı, WebRTC
+                      görüntülü/sesli destek çağrıları (iOS CallKit) ve Google
+                      Gemini destekli AI içerik üretimiyle — bu site dahil tüm
+                      kiracı siteler yayınlanır.
                     </p>
 
                     <div className="flex flex-wrap gap-2 pt-1">
@@ -833,7 +827,7 @@ bun run skill:install`}
                       ].map(tag => (
                         <span
                           key={tag}
-                          className="rounded-lg border border-white/10 bg-white/[0.04] px-2.5 py-1 text-xs font-medium text-zinc-200"
+                          className="rounded-lg border px-2.5 py-1 text-xs font-medium text-foreground dark:text-zinc-200"
                         >
                           {tag}
                         </span>
@@ -842,9 +836,9 @@ bun run skill:install`}
                   </div>
 
                   {/* Right side architecture card + actions */}
-                  <div className="flex flex-col justify-between gap-4 rounded-2xl border border-white/10 bg-black/40 p-5 lg:w-96 lg:shrink-0">
+                  <div className="brand-panel flex flex-col justify-between gap-4 rounded-2xl border p-5 lg:w-96 lg:shrink-0">
                     <div>
-                      <div className="mb-2 flex items-center justify-between text-xs text-zinc-400">
+                      <div className="mb-2 flex items-center justify-between text-xs text-muted-foreground">
                         <span className="inline-flex items-center gap-1.5 font-mono font-semibold text-emerald-300">
                           <TerminalIcon className="h-3.5 w-3.5" />
                           Repo Haritası
@@ -853,7 +847,7 @@ bun run skill:install`}
                           ● PROD / CANLI
                         </span>
                       </div>
-                      <pre className="overflow-x-auto rounded-xl border border-white/10 bg-zinc-900/90 p-3 font-mono text-[11px] leading-relaxed text-zinc-200">
+                      <pre className="overflow-x-auto rounded-xl border border-white/10 bg-zinc-900/90 p-3 font-mono text-[11px] leading-relaxed text-foreground dark:text-zinc-200">
                         <code>
                           {`elly-backend  Spring Boot 3.5 · Java 21 · PG·Redis·MQ
 elly-admin    Next.js 16 · App Router · Panel
@@ -887,7 +881,7 @@ elly-mobile   Flutter 3 · CallKit · Push/VoIP`}
                           href="https://admin.huseyindol.com"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-xs font-semibold text-zinc-200 transition-colors hover:bg-white/10"
+                          className="bg-background/50 inline-flex items-center justify-center gap-1.5 rounded-xl border border-border px-3 py-2 text-xs font-semibold text-foreground transition-colors hover:bg-white/10 dark:text-zinc-200"
                         >
                           <LayoutDashboardIcon className="h-3.5 w-3.5" />
                           Admin Paneli

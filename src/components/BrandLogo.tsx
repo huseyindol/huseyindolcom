@@ -11,22 +11,10 @@ export default function BrandLogo({
   scrolled = false,
   footer = false,
 }: BrandLogoProps) {
-  // Hero üstü (scrolled=false): zemin her temada koyu teal gradyan → yazı HER
-  // temada beyaz kalır (light temada koyu foreground'a düşüp okunmaz oluyordu —
-  // sayfa geçişlerinde "Hüseyin" kayboluyordu). scrolled: header katı zemine
-  // oturur → tema foreground'u. footer: koyu zemin → beyaz.
-  const textClass = footer
-    ? 'text-white'
-    : scrolled
-      ? 'text-foreground'
-      : 'text-white'
-  // Alt yazı (SYSTEMS • AI • CLOUD...) da aynı zemin mantığını izler: koyu
-  // zeminde muted-foreground (light'ta orta gri) kontrastsız kalıyordu (QA).
-  const subtitleClass = footer
-    ? 'text-zinc-300'
-    : scrolled
-      ? 'text-muted-foreground'
-      : 'text-zinc-300'
+  // brand-hero-surface tema-duyarlı olduğundan (2026-11-18) hero/footer zemini
+  // light'ta AÇIK → metinler tema foreground'u; dark'ta beyaz. Sabit renk yok.
+  const textClass = 'text-foreground dark:text-white'
+  const subtitleClass = 'text-muted-foreground dark:text-zinc-300'
 
   return (
     <div className="group flex items-center gap-2.5 sm:gap-3">

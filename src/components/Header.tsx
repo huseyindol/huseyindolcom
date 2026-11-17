@@ -109,7 +109,7 @@ export default function Header() {
                     : 'text-primary dark:text-white'
                   : scrolled
                     ? 'text-muted-foreground hover:text-foreground'
-                    : 'text-foreground/60 hover:text-foreground dark:text-white/70 dark:hover:text-white'
+                    : 'text-zinc-800 hover:text-zinc-950 dark:text-white/75 dark:hover:text-white'
               }`}
             >
               {link.label}

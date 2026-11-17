@@ -104,7 +104,7 @@ export default function Footer() {
               {techStack.map(tech => (
                 <span
                   key={tech}
-                  className="rounded-md border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-slate-300"
+                  className="brand-panel rounded-md border px-2.5 py-1 text-xs"
                 >
                   {tech}
                 </span>
@@ -148,7 +148,7 @@ export default function Footer() {
                   target={s.href.startsWith('mailto') ? undefined : '_blank'}
                   aria-label={s.label}
                   title={s.label}
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-400 transition-all hover:border-white/30 hover:bg-white/10 hover:text-white"
+                  className="bg-background/60 hover:border-primary/50 flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground transition-all hover:text-foreground"
                 >
                   <s.icon className="h-4 w-4" />
                 </Link>
@@ -162,7 +162,7 @@ export default function Footer() {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-sm text-slate-500 sm:flex-row"
+          className="mt-16 flex flex-col items-center justify-between gap-4 border-t pt-8 text-sm text-muted-foreground sm:flex-row"
         >
           <p className="flex items-center gap-2">
             © {currentYear} Hüseyin DOL. Made with

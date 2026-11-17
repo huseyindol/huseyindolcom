@@ -52,6 +52,9 @@
     --brand-badge-bg: rgba(13, 148, 136, 0.1);
     --brand-badge-border: rgba(13, 148, 136, 0.3);
     --brand-badge-text: #0f766e;
+    --spotlight-bg: hsl(180 14% 98%);
+    --spotlight-text: hsl(190 35% 10%);
+    --spotlight-border: rgba(13, 148, 136, 0.35);
 
     --hero-gradient-start: 173 80% 40%;
     --hero-gradient-end: 192 91% 42%;
@@ -153,6 +156,9 @@
     --brand-badge-bg: rgba(20, 184, 166, 0.12);
     --brand-badge-border: rgba(45, 212, 191, 0.32);
     --brand-badge-text: #99f6e4;
+    --spotlight-bg: #09090b;
+    --spotlight-text: #f4f4f5;
+    --spotlight-border: rgba(20, 184, 166, 0.3);
     --color-background: hsl(190 35% 4%);
     --color-foreground: hsl(180 20% 96%);
     --color-card: hsl(190 28% 7%);
@@ -249,6 +255,41 @@
     background-color: var(--brand-panel-bg);
     border-color: var(--brand-panel-border);
     color: var(--brand-hero-muted);
+  }
+
+  /* Proje spotlight kartları (VulnGuardian/Elly) — önceden sabit koyu (QA 2026-11-18) */
+  .spotlight-card {
+    background-color: var(--spotlight-bg);
+    color: var(--spotlight-text);
+    border-color: var(--spotlight-border);
+  }
+
+  /* Makale gövdesi — "defter sayfası": kağıt kart + sol marj çizgisi (QA önerisi) */
+  .notepad-card {
+    position: relative;
+    background-color: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow-subtle);
+    padding: 1.75rem 1.75rem 2.25rem;
+    --notepad-margin: 2.75rem;
+    padding-left: calc(var(--notepad-margin) + 1.25rem);
+  }
+  @media (min-width: 768px) {
+    .notepad-card {
+      padding: 2.5rem 3rem 3rem;
+      --notepad-margin: 3.5rem;
+      padding-left: calc(var(--notepad-margin) + 1.75rem);
+    }
+  }
+  .notepad-card::before {
+    content: '';
+    position: absolute;
+    top: 0.75rem;
+    bottom: 0.75rem;
+    left: var(--notepad-margin);
+    width: 1px;
+    background-color: hsl(173 80% 40% / 0.4);
   }
 
   .brand-glow-orb {
