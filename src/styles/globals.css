@@ -429,6 +429,51 @@
     backface-visibility: hidden;
   }
 
+  /*
+   * KineticScrollItem (2026-11-18): sağdan/soldan TEK SEFERLİK giriş — kendi
+   * alanına geldiğinde kenetlenir ve SABİT kalır (sürekli scroll-kayması kaldırıldı;
+   * KineticScrollBanner/brand-hero-surface kinetik akışını sürdürür).
+   * --kin-intensity inline (component'ten), --kin-shift mobil/masaüstü farkı burada.
+   */
+  .kinetic-reveal {
+    --kin-shift: 88px;
+    --kin-intensity: 1;
+    transition:
+      transform 700ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 500ms ease-out;
+  }
+
+  @media (max-width: 767px) {
+    .kinetic-reveal {
+      --kin-shift: 54px;
+    }
+  }
+
+  .kinetic-reveal.from-left {
+    transform: translate3d(
+        calc(var(--kin-shift) * var(--kin-intensity) * -1),
+        18px,
+        0
+      )
+      scale(0.96);
+    opacity: 0.35;
+  }
+
+  .kinetic-reveal.from-right {
+    transform: translate3d(
+        calc(var(--kin-shift) * var(--kin-intensity)),
+        18px,
+        0
+      )
+      scale(0.96);
+    opacity: 0.35;
+  }
+
+  .kinetic-reveal.is-settled {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
+  }
+
   .editorial-grid-bg {
     background-image:
       linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
@@ -474,6 +519,7 @@
 
   @media (prefers-reduced-motion: reduce) {
     .gpu-kinetic,
+    .kinetic-reveal,
     .sda-slide-left,
     .sda-slide-right {
       animation: none !important;

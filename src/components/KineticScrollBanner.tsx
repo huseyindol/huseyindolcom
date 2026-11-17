@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import { useEffect, useRef } from 'react'
 
 export interface KineticTrackItem {
@@ -143,9 +143,14 @@ interface KineticScrollItemProps {
 }
 
 /**
- * Scroll pozisyonuna duyarlı sağdan/soldan kayarak merkeze kenetlenen kapsayıcı.
- * Tek seferlik useInView yerine hem mobilde hem masaüstünde her aşağı/yukarı
- * kaydırmada GPU transform: translate3d(...) ile akıcı hareket üretir.
+ * İçerik bloklarının sağdan/soldan TEK SEFERLİK giriş animasyonu (2026-11-18):
+ * Scroll ile alan görünür olduğunda yan yönden kayarak yerine kenetlenir ve
+ * ARTIK HAREKET ETMEZ — sonraki scroll'larda sabit durur. (Önceki davranış:
+ * scroll pozisyonuna bağlı sürekli kayma/opaklık oyunu.)
+ *
+ * KineticScrollBanner (brand-hero-surface) bu davranışın DIŞINDADIR — banner'ın
+ * kinetik akış efekti korunur. Stil: globals.css `.kinetic-reveal` (CSS değişkenli
+ * başlangıç offset'i + `is-settled` ile 0'a kenetlenme; reduced-motion'da kapalı).
  */
 export function KineticScrollItem({
   children,
@@ -154,65 +159,47 @@ export function KineticScrollItem({
   className = '',
 }: KineticScrollItemProps) {
   const ref = useRef<HTMLDivElement>(null)
+  const settledRef = useRef(false)
 
   useEffect(() => {
-    if (
-      typeof window === 'undefined' ||
-      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-    ) {
+    const el = ref.current
+    if (!el || settledRef.current) {
       return
     }
 
-    let rafId = 0
-    const dir = side === 'left' ? -1 : 1
-
-    const updatePosition = () => {
-      const el = ref.current
-      if (!el) return
-      const vh = window.innerHeight || 800
-      const isMobile = (window.innerWidth || 1024) < 768
-      const maxShiftX = (isMobile ? 54 : 88) * intensity
-      const rect = el.getBoundingClientRect()
-      const elemCenter = rect.top + rect.height / 2
-      const viewportCenter = vh * 0.52
-
-      // Merkeze yaklaştıkça (dead-zone içinde) 0'a kenetlenir, alt/üst kenarlarda sağa/sola kayar
-      const normalized = (elemCenter - viewportCenter) / (vh * 0.58)
-      const deadZone = 0.18
-      let offsetFactor = 0
-      if (Math.abs(normalized) > deadZone) {
-        const sign = normalized > 0 ? 1 : -1
-        const raw = (Math.abs(normalized) - deadZone) / (1 - deadZone)
-        offsetFactor = sign * Math.min(1, raw)
-      }
-
-      const shiftX = offsetFactor * dir * maxShiftX
-      const shiftY = offsetFactor * 18
-      const scale = 1 - Math.min(0.06, Math.abs(offsetFactor) * 0.05)
-      const opacity = Math.max(0.35, 1 - Math.abs(offsetFactor) * 0.55)
-
-      el.style.transform = `translate3d(${shiftX.toFixed(1)}px, ${shiftY.toFixed(1)}px, 0) scale(${scale.toFixed(3)})`
-      el.style.opacity = opacity.toFixed(2)
+    // Reduced-motion: globals.css'teki @media bloğu transform/opacity'yi zorlar —
+    // sadece settle işaretle, animasyon tetiklenmez.
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+      el.classList.add('is-settled')
+      settledRef.current = true
+      return
     }
 
-    const onScroll = () => {
-      cancelAnimationFrame(rafId)
-      rafId = requestAnimationFrame(updatePosition)
-    }
+    const observer = new IntersectionObserver(
+      entries => {
+        if (entries.some(entry => entry.isIntersecting)) {
+          settledRef.current = true
+          el.classList.add('is-settled')
+          observer.disconnect()
+        }
+      },
+      // Eleman alanına "yerleşme" eşiği: yeterli kısmı görünür olunca kenetlen
+      // (uzun bloklar için düşük threshold — yüksek elementte 0.3 asla tutmaz)
+      { threshold: 0.2, rootMargin: '0px 0px -5% 0px' },
+    )
+    observer.observe(el)
 
-    window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll, { passive: true })
-    updatePosition()
-
-    return () => {
-      cancelAnimationFrame(rafId)
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onScroll)
-    }
-  }, [side, intensity])
+    return () => observer.disconnect()
+  }, [])
 
   return (
-    <div ref={ref} className={`gpu-kinetic ${className}`}>
+    <div
+      ref={ref}
+      style={{ '--kin-intensity': String(intensity) } as CSSProperties}
+      className={`kinetic-reveal gpu-kinetic ${
+        side === 'left' ? 'from-left' : 'from-right'
+      } ${className}`}
+    >
       {children}
     </div>
   )
