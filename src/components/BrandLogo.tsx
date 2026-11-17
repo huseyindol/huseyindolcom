@@ -7,10 +7,9 @@ interface BrandLogoProps {
   footer?: boolean
 }
 
-export default function BrandLogo({
-  scrolled = false,
-  footer = false,
-}: BrandLogoProps) {
+// scrolled/footer: artık renk bu props'lara değil tema token'larına bağlı;
+// imza çağıranlarla uyum için korunur (gelecekte tekrar davranış bağlanabilir).
+export default function BrandLogo(_props: BrandLogoProps) {
   // brand-hero-surface tema-duyarlı olduğundan (2026-11-18) hero/footer zemini
   // light'ta AÇIK → metinler tema foreground'u; dark'ta beyaz. Sabit renk yok.
   const textClass = 'text-foreground dark:text-white'
