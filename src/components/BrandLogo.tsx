@@ -11,11 +11,22 @@ export default function BrandLogo({
   scrolled = false,
   footer = false,
 }: BrandLogoProps) {
+  // Hero üstü (scrolled=false): zemin her temada koyu teal gradyan → yazı HER
+  // temada beyaz kalır (light temada koyu foreground'a düşüp okunmaz oluyordu —
+  // sayfa geçişlerinde "Hüseyin" kayboluyordu). scrolled: header katı zemine
+  // oturur → tema foreground'u. footer: koyu zemin → beyaz.
   const textClass = footer
     ? 'text-white'
     : scrolled
       ? 'text-foreground'
-      : 'text-foreground dark:text-white'
+      : 'text-white'
+  // Alt yazı (SYSTEMS • AI • CLOUD...) da aynı zemin mantığını izler: koyu
+  // zeminde muted-foreground (light'ta orta gri) kontrastsız kalıyordu (QA).
+  const subtitleClass = footer
+    ? 'text-zinc-300'
+    : scrolled
+      ? 'text-muted-foreground'
+      : 'text-zinc-300'
 
   return (
     <div className="group flex items-center gap-2.5 sm:gap-3">
@@ -36,7 +47,9 @@ export default function BrandLogo({
             DOL
           </span>
         </div>
-        <span className="mt-1 block font-mono text-[7.5px] font-medium uppercase leading-tight tracking-[0.05em] text-muted-foreground sm:text-[9.5px] sm:tracking-[0.12em]">
+        <span
+          className={`mt-1 block font-mono text-[7.5px] font-medium uppercase leading-tight tracking-[0.05em] sm:text-[9.5px] sm:tracking-[0.12em] ${subtitleClass}`}
+        >
           {SUBTITLE_PARTS.map((part, idx) => (
             <Fragment key={part}>
               {idx > 0 && (

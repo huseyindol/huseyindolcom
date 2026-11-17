@@ -1,27 +1,30 @@
 @import 'tailwindcss';
 
 @theme {
-  /* Light theme colors — Nordic Teal Editorial (Default) */
-  --color-background: hsl(180 20% 98%);
+  /* Light theme colors — Nordic Teal Editorial (Default)
+   * 2026-11-18: "fog" tonuna çekildi — saf beyaz kart/arka plan parlaklığı
+   * kırıldı (kullanıcı talebi: light tema fazla beyaz); katman farkı korundu:
+   * card (98%) > background (95%) > secondary/muted (91%). */
+  --color-background: hsl(180 16% 95%);
   --color-foreground: hsl(190 35% 8%);
-  --color-card: hsl(0 0% 100%);
+  --color-card: hsl(180 14% 98%);
   --color-card-foreground: hsl(190 35% 8%);
-  --color-popover: hsl(0 0% 100%);
+  --color-popover: hsl(180 14% 98%);
   --color-popover-foreground: hsl(190 35% 8%);
   --color-primary: hsl(173 80% 36%);
   --color-primary-foreground: hsl(0 0% 100%);
-  --color-secondary: hsl(180 18% 94%);
+  --color-secondary: hsl(180 14% 91%);
   --color-secondary-foreground: hsl(190 35% 11%);
-  --color-muted: hsl(180 18% 94%);
-  --color-muted-foreground: hsl(190 14% 40%);
+  --color-muted: hsl(180 14% 91%);
+  --color-muted-foreground: hsl(190 15% 34%);
   --color-accent: hsl(173 80% 40%);
   --color-accent-foreground: hsl(190 35% 8%);
   --color-destructive: hsl(0 84.2% 60.2%);
   --color-destructive-foreground: hsl(210 40% 98%);
-  --color-border: hsl(185 18% 88%);
-  --color-input: hsl(185 18% 88%);
+  --color-border: hsl(185 16% 85%);
+  --color-input: hsl(185 16% 85%);
   --color-ring: hsl(173 80% 36%);
-  --color-skill-bg: hsl(173 70% 95%);
+  --color-skill-bg: hsl(173 55% 92%);
 
   /* Border radius */
   --radius: 0.5rem;
