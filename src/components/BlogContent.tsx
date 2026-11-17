@@ -117,7 +117,7 @@ export default function BlogContent({ posts, categories }: BlogContentProps) {
             <h1 className="mb-5 text-4xl font-black tracking-tight md:text-6xl">
               Makalelerim
             </h1>
-            <p className="text-lg text-zinc-400 md:text-xl">
+            <p className="text-lg text-muted-foreground md:text-xl">
               Yazılım geliştirme süreçleri, kariyer deneyimlerim ve modern
               teknolojiler üzerine teknik notlarım.
             </p>

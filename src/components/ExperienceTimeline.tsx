@@ -123,7 +123,9 @@ export default function ExperienceTimeline({
             <h1 className="mb-5 text-4xl font-black tracking-tight md:text-6xl">
               {title}
             </h1>
-            <p className="text-lg text-zinc-400 md:text-xl">{description}</p>
+            <p className="text-lg text-muted-foreground md:text-xl">
+              {description}
+            </p>
           </div>
 
           {/* Career summary stats */}

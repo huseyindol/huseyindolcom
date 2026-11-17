@@ -1,5 +1,10 @@
 @import 'tailwindcss';
 
+/* dark: variantı next-themes CLASS stratejisine bağlı (html.dark). Tailwind v4
+ * default'u prefers-color-scheme (OS) idi — OS dark + site light kombinasyonunda
+ * dark: stilleri uygulanıp beyaz metinler açık zeminde kayboluyordu (2026-11-18). */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   /* Light theme colors — Nordic Teal Editorial (Default)
    * 2026-11-18: "fog" tonuna çekildi — saf beyaz kart/arka plan parlaklığı
