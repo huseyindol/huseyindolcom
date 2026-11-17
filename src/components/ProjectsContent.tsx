@@ -723,13 +723,22 @@ export default function ProjectsContent() {
                           ● PUBLIC REPO
                         </span>
                       </div>
-                      <pre className="whitespace-pre-wrap break-words rounded-xl border border-white/10 bg-zinc-900/90 p-3 font-mono text-[11px] leading-relaxed text-foreground dark:text-zinc-200">
-                        <code>
-                          {`git clone https://github.com/huseyindol/vuln-guardian.git
-cd vuln-guardian && bun install
-bun run skill:install`}
-                        </code>
-                      </pre>
+                      {/* Terminal her temada KOYU kalır — metinler her temada parlak
+                         (önceki text-foreground light'ta koyu-üstü-koyu yapıyordu). */}
+                      <div className="rounded-xl border border-white/10 bg-zinc-950/95 p-3 font-mono text-[11px] leading-relaxed">
+                        {[
+                          'git clone https://github.com/huseyindol/vuln-guardian.git',
+                          'cd vuln-guardian && bun install',
+                          'bun run skill:install',
+                        ].map(cmd => (
+                          <div key={cmd} className="break-all py-0.5">
+                            <span className="font-bold text-emerald-400">
+                              ${' '}
+                            </span>
+                            <span className="text-zinc-100">{cmd}</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
 
                     <div className="flex flex-col gap-2.5">
@@ -849,14 +858,36 @@ bun run skill:install`}
                           ● PROD / CANLI
                         </span>
                       </div>
-                      <pre className="whitespace-pre-wrap break-words rounded-xl border border-white/10 bg-zinc-900/90 p-3 font-mono text-[11px] leading-relaxed text-foreground dark:text-zinc-200">
-                        <code>
-                          {`elly-backend  Spring Boot 3.5 · Java 21 · PG·Redis·MQ
-elly-admin    Next.js 16 · App Router · Panel
-elly-tenant   Next.js 16 · Pages Router · (bu site!)
-elly-mobile   Flutter 3 · CallKit · Push/VoIP`}
-                        </code>
-                      </pre>
+                      {/* Grid hizalama: boşluk- hizalama wrap'te çöküyordu; isimler
+                         emerald (marka), açıklamalar parlak gri — kontrast AA+ */}
+                      <div className="rounded-xl border border-white/10 bg-zinc-950/95 p-3 font-mono text-[11px] leading-relaxed">
+                        {(
+                          [
+                            [
+                              'elly-backend',
+                              'Spring Boot 3.5 · Java 21 · PG·Redis·MQ',
+                            ],
+                            ['elly-admin', 'Next.js 16 · App Router · Panel'],
+                            [
+                              'elly-tenant',
+                              'Next.js 16 · Pages Router · (bu site!)',
+                            ],
+                            ['elly-mobile', 'Flutter 3 · CallKit · Push/VoIP'],
+                          ] as const
+                        ).map(([repo, desc]) => (
+                          <div
+                            key={repo}
+                            className="grid grid-cols-[92px_1fr] gap-x-2.5 py-0.5"
+                          >
+                            <span className="font-semibold text-emerald-300">
+                              {repo}
+                            </span>
+                            <span className="break-words text-zinc-300">
+                              {desc}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
 
                     <div className="flex flex-col gap-2.5">
