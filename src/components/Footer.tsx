@@ -51,7 +51,7 @@ export default function Footer() {
   return (
     <footer
       ref={ref}
-      className="brand-hero-surface relative overflow-hidden border-t border-white/10 text-zinc-100"
+      className="brand-hero-surface relative overflow-hidden border-t"
     >
       {/* Architectural grid & subtle brand glow */}
       <div className="editorial-grid-bg pointer-events-none absolute inset-0 opacity-40" />

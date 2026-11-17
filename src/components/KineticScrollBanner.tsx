@@ -85,7 +85,7 @@ export function KineticScrollBanner({
   return (
     <section
       aria-label={ariaLabel}
-      className="brand-hero-surface relative overflow-hidden border-b border-white/10 py-14 text-zinc-100 md:py-24"
+      className="brand-hero-surface relative overflow-hidden border-b py-14 md:py-24"
     >
       <div className="container mx-auto mb-8 flex flex-wrap items-center justify-between gap-3 px-6">
         <div>
@@ -96,7 +96,7 @@ export function KineticScrollBanner({
             {title}
           </h2>
         </div>
-        <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-xs text-zinc-400">
+        <span className="brand-panel rounded-full border px-3 py-1 font-mono text-xs">
           {badge}
         </span>
       </div>
@@ -117,15 +117,15 @@ export function KineticScrollBanner({
             </span>
             <span
               className={`text-xl font-black tracking-tighter sm:text-3xl md:text-5xl ${
-                track.accent ? 'brand-text-accent' : 'text-zinc-100'
+                track.accent ? 'brand-text-accent' : ''
               }`}
             >
               {track.primary}
             </span>
-            <span className="text-lg font-light text-zinc-600 sm:text-2xl">
+            <span className="text-muted-foreground/70 text-lg font-light sm:text-2xl">
               {'///'}
             </span>
-            <span className="text-base font-semibold text-zinc-400 sm:text-xl md:text-3xl">
+            <span className="text-base font-semibold text-muted-foreground sm:text-xl md:text-3xl">
               {track.secondary}
             </span>
           </div>

@@ -139,7 +139,7 @@ export default function SkillsContent({
   return (
     <div className="min-h-screen overflow-hidden">
       {/* Hero header */}
-      <section className="brand-hero-surface relative -mt-20 overflow-hidden border-b border-white/10 py-32 pt-32 text-zinc-100 md:py-40 md:pt-40">
+      <section className="brand-hero-surface relative -mt-20 overflow-hidden border-b py-32 pt-32 md:py-40 md:pt-40">
         <div className="editorial-grid-bg pointer-events-none absolute inset-0 opacity-50" />
         <div className="brand-glow-orb pointer-events-none absolute left-1/2 top-0 h-80 w-[640px] -translate-x-1/2 rounded-full blur-3xl" />
 

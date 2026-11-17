@@ -146,7 +146,7 @@ export default function Hero() {
 
 function HeroBanner() {
   return (
-    <section className="brand-hero-surface relative -mt-20 overflow-hidden border-b border-white/10 py-36 pt-36 text-zinc-100 md:py-48 md:pt-48">
+    <section className="brand-hero-surface relative -mt-20 overflow-hidden border-b py-36 pt-36 md:py-48 md:pt-48">
       <div className="editorial-grid-bg pointer-events-none absolute inset-0 opacity-60" />
       <div className="brand-glow-orb pointer-events-none absolute left-1/2 top-0 h-[420px] w-[760px] -translate-x-1/2 rounded-full blur-3xl" />
 
@@ -159,13 +159,11 @@ function HeroBanner() {
           <h1 className="mb-6 text-5xl font-black leading-none tracking-tight md:text-7xl">
             <span className="text-gradient">{siteInfo.title.highlight}</span>
             <br />
-            <span className="mt-2 inline-block text-zinc-100">
-              {siteInfo.title.rest}
-            </span>
+            <span className="mt-2 inline-block">{siteInfo.title.rest}</span>
           </h1>
 
           <p
-            className="mx-auto mb-10 max-w-3xl text-xl leading-relaxed text-zinc-400 md:text-2xl"
+            className="mx-auto mb-10 max-w-3xl text-xl leading-relaxed text-muted-foreground md:text-2xl"
             dangerouslySetInnerHTML={{ __html: siteInfo.description }}
           />
 
@@ -184,7 +182,7 @@ function HeroBanner() {
             <Button
               variant="outline"
               size="lg"
-              className="rounded-full border-white/20 bg-white/5 px-7 text-zinc-100 backdrop-blur transition-all hover:scale-105 hover:border-white/40 hover:bg-white/10"
+              className="bg-background/60 hover:border-primary/50 rounded-full border-border px-7 text-foreground backdrop-blur transition-all hover:scale-105 hover:bg-background"
               onClick={() => {
                 sendGTMEvent({ event: 'buttonClick', platform: 'cv-download' })
                 window.open(siteInfo.cvUrl, '_blank')
@@ -201,7 +199,7 @@ function HeroBanner() {
                 key={link.platform}
                 href={link.url}
                 target="_blank"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 text-zinc-300 transition-all hover:scale-110 hover:border-white/40 hover:bg-white/15 hover:text-white"
+                className="bg-background/60 hover:border-primary/50 flex h-10 w-10 items-center justify-center rounded-full border border-border text-muted-foreground transition-all hover:scale-110 hover:text-foreground"
               >
                 {link.platform === 'github' && <Github className="h-4 w-4" />}
                 {link.platform === 'linkedin' && (
@@ -263,7 +261,7 @@ function AboutSection() {
                 <div className="brand-pill-btn animate-badge-up absolute -bottom-3 -right-3 rounded-2xl px-4 py-2 text-xs font-bold shadow-lg">
                   10+ yıl deneyim
                 </div>
-                <div className="animate-badge-down absolute -left-3 top-10 rounded-2xl border border-white/15 bg-zinc-900 px-4 py-2 text-xs font-bold text-zinc-100 shadow-lg">
+                <div className="brand-panel animate-badge-down absolute -left-3 top-10 rounded-2xl border px-4 py-2 text-xs font-bold shadow-lg">
                   Full Stack
                 </div>
               </div>

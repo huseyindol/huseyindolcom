@@ -36,15 +36,22 @@
 @layer base {
   :root,
   :root[data-palette='teal'] {
-    --brand-accent: #14b8a6;
-    --brand-accent-strong: #0d9488;
-    --brand-accent-soft: #5eead4;
-    --brand-accent-fg: #031314;
-    --brand-surface: #040c0e;
-    --brand-glow-bg: rgba(20, 184, 166, 0.13);
-    --brand-badge-bg: rgba(20, 184, 166, 0.12);
-    --brand-badge-border: rgba(45, 212, 191, 0.32);
-    --brand-badge-text: #99f6e4;
+    /* 2026-11-18: light tema değerleri — brand-hero-surface bölümleri ve accent
+     * metinleri açık zeminde okunur (dark karşılıkları .dark bloğunda). */
+    --brand-accent: #0d9488;
+    --brand-accent-strong: #0f766e;
+    --brand-accent-soft: #14b8a6;
+    --brand-accent-fg: #ffffff;
+    --brand-surface: hsl(180 18% 92.5%);
+    --brand-hero-text: hsl(190 35% 10%);
+    --brand-hero-border: hsl(185 16% 84%);
+    --brand-hero-muted: hsl(190 12% 38%);
+    --brand-panel-bg: rgba(255, 255, 255, 0.65);
+    --brand-panel-border: hsl(185 16% 86%);
+    --brand-glow-bg: rgba(13, 148, 136, 0.1);
+    --brand-badge-bg: rgba(13, 148, 136, 0.1);
+    --brand-badge-border: rgba(13, 148, 136, 0.3);
+    --brand-badge-text: #0f766e;
 
     --hero-gradient-start: 173 80% 40%;
     --hero-gradient-end: 192 91% 42%;
@@ -131,6 +138,21 @@
   }
 
   .dark {
+    /* Dark brand seti (2026-11-18) — light'a çekilen :root değerlerinin koyu karşılıkları */
+    --brand-accent: #14b8a6;
+    --brand-accent-strong: #0d9488;
+    --brand-accent-soft: #5eead4;
+    --brand-accent-fg: #031314;
+    --brand-surface: #040c0e;
+    --brand-hero-text: #f4f4f5;
+    --brand-hero-border: rgba(255, 255, 255, 0.1);
+    --brand-hero-muted: hsl(185 12% 64%);
+    --brand-panel-bg: rgba(255, 255, 255, 0.05);
+    --brand-panel-border: rgba(255, 255, 255, 0.1);
+    --brand-glow-bg: rgba(20, 184, 166, 0.13);
+    --brand-badge-bg: rgba(20, 184, 166, 0.12);
+    --brand-badge-border: rgba(45, 212, 191, 0.32);
+    --brand-badge-text: #99f6e4;
     --color-background: hsl(190 35% 4%);
     --color-foreground: hsl(180 20% 96%);
     --color-card: hsl(190 28% 7%);
@@ -218,6 +240,15 @@
 
   .brand-hero-surface {
     background-color: var(--brand-surface);
+    color: var(--brand-hero-text);
+    border-color: var(--brand-hero-border);
+  }
+
+  /* Banner/başlık pill ve panel yüzeyleri (önceki border-white/10 bg-white/5) */
+  .brand-panel {
+    background-color: var(--brand-panel-bg);
+    border-color: var(--brand-panel-border);
+    color: var(--brand-hero-muted);
   }
 
   .brand-glow-orb {
@@ -478,10 +509,18 @@
   }
 
   .editorial-grid-bg {
+    /* Light: koyu çizgili kareli doku (açık zeminde görünür);
+     * dark: beyaz çizgiler (koyu zeminde) — tema-duyarlı (2026-11-18) */
+    background-image:
+      linear-gradient(to right, rgba(13, 42, 46, 0.055) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(13, 42, 46, 0.055) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  .dark .editorial-grid-bg {
     background-image:
       linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-    background-size: 56px 56px;
   }
 
   @keyframes sda-enter-left {
