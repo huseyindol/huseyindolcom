@@ -54,8 +54,8 @@ const envSchema = z.object({
   // Microsoft Clarity — heatmap & session recording (ID set edilmezse hiç yüklenmez)
   NEXT_PUBLIC_CLARITY_PROJECT_ID: z.string().optional(),
 
-  // Revalidation
-  NEXT_PUBLIC_REVALIDATE_SECRET: z
+  // Revalidation — server-only (NEXT_PUBLIC öneki YOK: client bundle'a sızmaz)
+  REVALIDATE_SECRET: z
     .string()
     .optional()
     .refine(val => !val || val === '' || val.length >= 6, {
@@ -186,9 +186,7 @@ export function printEnvInfo(): void {
   console.log(`NODE_ENV: ${env.NODE_ENV}`)
   console.log(`Base URL: ${getBaseUrl()}`)
   console.log(`Email Service: ${env.NEXT_PUBLIC_RESEND_API_KEY ? '✅' : '❌'}`)
-  console.log(
-    `Revalidation: ${env.NEXT_PUBLIC_REVALIDATE_SECRET ? '✅' : '❌'}`,
-  )
+  console.log(`Revalidation: ${env.REVALIDATE_SECRET ? '✅' : '❌'}`)
   console.log('=================================\n')
 }
 

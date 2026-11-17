@@ -4,17 +4,20 @@ type RevalidateBody = {
   tag?: string
   path?: string
   type?: 'page' | 'layout'
-  secret?: string
 }
 
-function isAuthorized(req: NextApiRequest, providedSecret?: string): boolean {
-  const configuredSecret = process.env.NEXT_PUBLIC_REVALIDATE_SECRET
-  if (!configuredSecret) return true
+/**
+ * Yetkilendirme FAIL-CLOSED'dur: `REVALIDATE_SECRET` (server-only, NEXT_PUBLIC
+ * öneksiz — istemci bundle'ına sızmaz) yapılandırılmamışsa istek reddedilir.
+ * Secret yalnız `Authorization: Bearer <secret>` header'ından kabul edilir;
+ * body/query üzerinden secret gönderimi kaldırıldı (log/referans sızıntısı).
+ */
+function isAuthorized(req: NextApiRequest): boolean {
+  const configuredSecret = process.env.REVALIDATE_SECRET
+  if (!configuredSecret) return false
   const authHeader = req.headers.authorization || ''
-  const bearer = authHeader.startsWith('Bearer ')
-    ? authHeader.slice(7)
-    : undefined
-  return (bearer || providedSecret) === configuredSecret
+  if (!authHeader.startsWith('Bearer ')) return false
+  return authHeader.slice(7) === configuredSecret
 }
 
 /**
@@ -39,7 +42,7 @@ export default async function handler(
   }
 
   const body = (req.body ?? {}) as RevalidateBody
-  if (!isAuthorized(req, body.secret)) {
+  if (!isAuthorized(req)) {
     return res.status(401).json({ ok: false, error: 'Unauthorized' })
   }
 

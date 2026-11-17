@@ -1,5 +1,5 @@
-// import { apiRateLimiter, generalRateLimiter } from '@/lib/rate-limiter-store'
-import { generateCSP } from '@/lib/security'
+import { createRateLimiter } from '@/lib/rate-limiter'
+import { generateCSP, getClientIp } from '@/lib/security'
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 import { refreshTokenProxy } from './proxy/refreshTokenProxy'
@@ -7,41 +7,59 @@ import { removeCookies } from './proxy/removeCookies'
 import { CookieEnum } from './utils/constant/cookieConstant'
 
 /**
+ * Login brute-force koruması (Y7): `/api/auth/login` BFF route'u için IP başına
+ * 10 istek / 5 dakika.
+ *
+ * NOT: Bu sayaç IN-MEMORY'dir — Vercel serverless/middleware'de her lambda/edge
+ * instance'ı KENDİ sayacını tutar. Yani limit instance başına geçerlidir; bu
+ * katman best-effort bir ek korumadır, asıl rate-limit koruması backend'in 429'udur.
+ */
+const loginRateLimiter = createRateLimiter({
+  windowMs: 5 * 60 * 1000,
+  max: 10,
+})
+
+/**
  * Middleware to handle security headers and rate limiting
  */
 export async function proxy(request: NextRequest) {
   const response = NextResponse.next()
 
-  // Rate limiting devre dışı (429'dan kaçınmak için). Tekrar açmak için üstteki import'ları ve bloğu uncomment edin.
-  /*
-  const clientIp = getClientIp(request.headers)
-  const isApiRoute = request.nextUrl.pathname.startsWith('/api/')
-  const rateLimiter = isApiRoute ? apiRateLimiter : generalRateLimiter
-  const rateLimitResult = await rateLimiter.check(clientIp)
-  response.headers.set('X-RateLimit-Limit', String(rateLimitResult.limit))
-  response.headers.set(
-    'X-RateLimit-Remaining',
-    String(rateLimitResult.remaining),
-  )
-  response.headers.set(
-    'X-RateLimit-Reset',
-    new Date(rateLimitResult.reset).toISOString(),
-  )
-  if (!rateLimitResult.success) {
-    return new NextResponse('Too Many Requests', {
-      status: 429,
-      headers: {
-        'Content-Type': 'application/json',
-        'Retry-After': String(
-          Math.ceil((rateLimitResult.reset - Date.now()) / 1000),
-        ),
-        'X-RateLimit-Limit': String(rateLimitResult.limit),
-        'X-RateLimit-Remaining': '0',
-        'X-RateLimit-Reset': new Date(rateLimitResult.reset).toISOString(),
-      },
-    })
+  // Login rate limit (yalnız /api/auth/login — genel /api limiti bilinçli kapalı)
+  if (request.nextUrl.pathname === '/api/auth/login') {
+    const clientIp = getClientIp(request.headers)
+    const rateLimitResult = await loginRateLimiter.check(clientIp)
+    response.headers.set('X-RateLimit-Limit', String(rateLimitResult.limit))
+    response.headers.set(
+      'X-RateLimit-Remaining',
+      String(rateLimitResult.remaining),
+    )
+    response.headers.set(
+      'X-RateLimit-Reset',
+      new Date(rateLimitResult.reset).toISOString(),
+    )
+    if (!rateLimitResult.success) {
+      return new NextResponse(
+        JSON.stringify({
+          ok: false,
+          error:
+            'Çok fazla giriş denemesi. Lütfen birkaç dakika sonra tekrar deneyin.',
+        }),
+        {
+          status: 429,
+          headers: {
+            'Content-Type': 'application/json',
+            'Retry-After': String(
+              Math.ceil((rateLimitResult.reset - Date.now()) / 1000),
+            ),
+            'X-RateLimit-Limit': String(rateLimitResult.limit),
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': new Date(rateLimitResult.reset).toISOString(),
+          },
+        },
+      )
+    }
   }
-  */
 
   // Security Headers
   // Prevent DNS prefetching

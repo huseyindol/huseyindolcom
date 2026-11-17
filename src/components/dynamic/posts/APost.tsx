@@ -1,3 +1,4 @@
+import { HtmlContent } from '@/components/html-content'
 import { Post } from '@/types/BaseResponse'
 
 export default function APost(props: Post) {
@@ -21,11 +22,11 @@ export default function APost(props: Post) {
         )}
       </header>
 
+      {/* CMS içeriği DOMPurify'den geçer (stored-XSS kapatma, C4) */}
       {content && (
-        <div
-          className="relative mb-5 max-h-[120px] overflow-hidden text-sm leading-7 text-slate-300"
-          dangerouslySetInnerHTML={{ __html: content }}
-        />
+        <div className="relative mb-5 max-h-[120px] overflow-hidden text-sm leading-7 text-slate-300">
+          <HtmlContent source={content} />
+        </div>
       )}
 
       <footer className="flex justify-end">

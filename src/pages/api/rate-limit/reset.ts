@@ -2,14 +2,17 @@ import { apiRateLimiter, generalRateLimiter } from '@/lib/rate-limiter-store'
 import { getClientIp } from '@/lib/security'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-function isAuthorized(req: NextApiRequest, secret?: string): boolean {
-  const configuredSecret = process.env.NEXT_PUBLIC_REVALIDATE_SECRET
-  if (!configuredSecret) return true
+/**
+ * Yetkilendirme FAIL-CLOSED'dur (revalidate endpoint'i ile aynı desen):
+ * `REVALIDATE_SECRET` (server-only) yapılandırılmamışsa istek reddedilir;
+ * secret yalnız `Authorization: Bearer <secret>` header'ından kabul edilir.
+ */
+function isAuthorized(req: NextApiRequest): boolean {
+  const configuredSecret = process.env.REVALIDATE_SECRET
+  if (!configuredSecret) return false
   const authHeader = req.headers.authorization || ''
-  const bearer = authHeader.startsWith('Bearer ')
-    ? authHeader.slice(7)
-    : undefined
-  return (bearer || secret) === configuredSecret
+  if (!authHeader.startsWith('Bearer ')) return false
+  return authHeader.slice(7) === configuredSecret
 }
 
 /** req.headers (düz obje) → getClientIp'in beklediği Headers arayüzü. */
@@ -31,7 +34,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const q = (k: string) =>
     typeof req.query[k] === 'string' ? (req.query[k] as string) : undefined
 
-  if (!isAuthorized(req, q('secret'))) {
+  if (!isAuthorized(req)) {
     return res.status(401).json({ ok: false, error: 'Unauthorized' })
   }
 

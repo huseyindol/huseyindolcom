@@ -102,20 +102,48 @@ describe('Security Utilities', () => {
   })
 
   describe('getClientIp', () => {
-    it('should get IP from x-forwarded-for header', () => {
+    it('should pick rightmost public IP from x-forwarded-for (spoof-safe)', () => {
       const headers = new Headers()
-      headers.set('x-forwarded-for', '192.168.1.1, 10.0.0.1')
+      // Soldaki "1.2.3.4" istemci tarafından sahte edilmiş olabilir;
+      // en sağdaki güvenilir proxy'nin eklediği public IP seçilir.
+      headers.set('x-forwarded-for', '1.2.3.4, 203.0.113.7')
 
       const ip = getClientIp(headers)
-      expect(ip).toBe('192.168.1.1')
+      expect(ip).toBe('203.0.113.7')
+    })
+
+    it('should skip private hops from the right', () => {
+      const headers = new Headers()
+      headers.set('x-forwarded-for', '203.0.113.10, 10.0.0.1, 192.168.1.1')
+
+      const ip = getClientIp(headers)
+      expect(ip).toBe('203.0.113.10')
+    })
+
+    it('should prefer x-vercel-forwarded-for on Vercel', () => {
+      const headers = new Headers()
+      headers.set('x-vercel-forwarded-for', '198.51.100.3, 10.0.0.2')
+      headers.set('x-forwarded-for', '203.0.113.7')
+
+      const ip = getClientIp(headers)
+      expect(ip).toBe('198.51.100.3')
     })
 
     it('should get IP from x-real-ip header', () => {
       const headers = new Headers()
-      headers.set('x-real-ip', '192.168.1.2')
+      headers.set('x-real-ip', '203.0.113.2')
 
       const ip = getClientIp(headers)
-      expect(ip).toBe('192.168.1.2')
+      expect(ip).toBe('203.0.113.2')
+    })
+
+    it('should fall back to x-real-ip when XFF has only private IPs', () => {
+      const headers = new Headers()
+      headers.set('x-forwarded-for', '192.168.1.1, 10.0.0.1')
+      headers.set('x-real-ip', '203.0.113.9')
+
+      const ip = getClientIp(headers)
+      expect(ip).toBe('203.0.113.9')
     })
 
     it('should return default IP when no headers', () => {
@@ -123,15 +151,6 @@ describe('Security Utilities', () => {
       const ip = getClientIp(headers)
 
       expect(ip).toBe('127.0.0.1')
-    })
-
-    it('should prioritize x-forwarded-for over x-real-ip', () => {
-      const headers = new Headers()
-      headers.set('x-forwarded-for', '192.168.1.1')
-      headers.set('x-real-ip', '192.168.1.2')
-
-      const ip = getClientIp(headers)
-      expect(ip).toBe('192.168.1.1')
     })
   })
 

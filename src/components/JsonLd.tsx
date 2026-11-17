@@ -128,7 +128,11 @@ export function ArticleJsonLd({
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{
+        // `<` escape: JSON.stringify çıktısında "</script>" ile script bağlamından
+        // çıkışı engeller (başlık/açıklama CMS'ten geldiği için injected olabilir).
+        __html: JSON.stringify(schema).replace(/</g, '\\u003c'),
+      }}
     />
   )
 }

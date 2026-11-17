@@ -135,18 +135,75 @@ export function generateCSP(): string {
 }
 
 /**
+ * Private/reserved IP mi? (IPv4 özel aralıkları + IPv6 loopback/ULA/link-local).
+ * Köşeli parantezli `[::1]` ve IPv4-mapped `::ffff:10.0.0.1` formları da normalize edilir.
+ */
+function isPrivateIp(ip: string): boolean {
+  const normalized = ip
+    .trim()
+    .toLowerCase()
+    .replace(/^\[/, '')
+    .replace(/\]$/, '')
+    .replace(/^::ffff:/, '')
+  return (
+    normalized === '::1' ||
+    normalized.startsWith('fe80:') || // link-local
+    normalized.startsWith('fc') || // fc00::/7 unique-local (fc/fd)
+    normalized.startsWith('fd') ||
+    normalized === '0.0.0.0' ||
+    /^10\./.test(normalized) ||
+    /^127\./.test(normalized) ||
+    /^169\.254\./.test(normalized) ||
+    /^192\.168\./.test(normalized) ||
+    /^172\.(1[6-9]|2\d|3[01])\./.test(normalized)
+  )
+}
+
+/**
+ * XFF zincirinde sağdan sola (sunucuya en yakından istemciye) ilk PUBLIC IP'yi bul.
+ *
+ * Güven modeli: zincirin SOLUNDAKİ değerler istemci tarafından sahte edilebilir
+ * (`X-Forwarded-For: 1.2.3.4` ile ilk değer spoof edilir); buna karşılık EN SAĞDAKI
+ * değer doğrudan bize bakan güvenilir proxy tarafından eklenir. Bu yüzden sağdan
+ * başlanır ve ilk public (private/reserved olmayan) IP istemci kabul edilir;
+ * sağdaki değerler private ise (iç LB zinciri) soldaki ilk public'e geçilir.
+ */
+function firstPublicIpFromRight(forwardedFor: string): string | null {
+  const parts = forwardedFor
+    .split(',')
+    .map(part => part.trim())
+    .filter(Boolean)
+  for (let i = parts.length - 1; i >= 0; i--) {
+    if (!isPrivateIp(parts[i])) return parts[i]
+  }
+  return null
+}
+
+/**
  * Get client IP address from request headers
+ *
+ * Öncelik: Vercel'de `x-vercel-forwarded-for` (Vercel LB zinciri) → `x-forwarded-for`
+ * (sağdan sola ilk public IP) → `x-real-ip` (proxy'nin tek değer set ettiği ortamlar).
+ * Hiçbiri yoksa loopback varsayılır.
  */
 export function getClientIp(headers: Headers): string {
-  // Check common headers used by proxies and load balancers
+  // Vercel: yük dengeleyici zincirinin tamamını taşır; sağdan-sola tarama ile
+  // istemcinin eklediği sahte sol girişler etkisizleşir.
+  const vercelForwarded = headers.get('x-vercel-forwarded-for')
+  if (vercelForwarded) {
+    const ip = firstPublicIpFromRight(vercelForwarded)
+    if (ip) return ip
+  }
+
   const forwarded = headers.get('x-forwarded-for')
   if (forwarded) {
-    return forwarded.split(',')[0].trim()
+    const ip = firstPublicIpFromRight(forwarded)
+    if (ip) return ip
   }
 
   const realIp = headers.get('x-real-ip')
-  if (realIp) {
-    return realIp
+  if (realIp?.trim()) {
+    return realIp.trim()
   }
 
   // Fallback to a default value

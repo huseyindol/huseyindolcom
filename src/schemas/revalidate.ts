@@ -1,11 +1,12 @@
 import { z } from 'zod'
 
 // Request body for revalidate operations
+// Not: Yetkilendirme body/query ile değil, yalnız `Authorization: Bearer`
+// header'ı ile yapılır (server-only REVALIDATE_SECRET).
 export const RevalidateRequest = z.object({
   tag: z.string().optional().describe('Cache tag to revalidate'),
   path: z.string().optional().describe('Path to revalidate'),
   type: z.enum(['page', 'layout']).optional().describe('Type of revalidation'),
-  secret: z.string().optional().describe('Authorization secret'),
 })
 
 // Revalidate success response
