@@ -30,12 +30,24 @@ interface ApiResponse<T> {
 }
 
 async function fetchAllPosts(): Promise<CmsPost[]> {
-  const json = await fetcher<ApiResponse<CmsPost[]>>('/posts/list/summary', {
-    method: 'GET',
-    next: { tags: ['cms-posts'], revalidate: 86400 },
-  })
-  if (!json.result) throw new Error(json.message ?? 'API error')
-  return json.data
+  // Build-time dayanıklılık: SSG/ISR sırasında backend (Cloudflare arkası) geçici
+  // olarak erişilemezse (timeout / challenge HTML'i) build ÖLMEMELİ — boş liste ile
+  // statik sayfa üretilir, ISR revalidate (86400) ile sonradan dolar. Vercel build
+  // machine'lerinden anlık bloklar build kırılganlığı yaratıyordu (2026-11-17).
+  try {
+    const json = await fetcher<ApiResponse<CmsPost[]>>('/posts/list/summary', {
+      method: 'GET',
+      next: { tags: ['cms-posts'], revalidate: 86400 },
+    })
+    if (!json.result) throw new Error(json.message ?? 'API error')
+    return json.data
+  } catch (err) {
+    console.warn(
+      '[blog] posts fetch failed (build/revalidate sırasında) — boş listeyle devam:',
+      err instanceof Error ? err.message : err,
+    )
+    return []
+  }
 }
 
 async function fetchPostBySlug(slug: string): Promise<CmsPost | null> {

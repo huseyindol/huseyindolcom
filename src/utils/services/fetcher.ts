@@ -18,7 +18,8 @@ export const fetcher = async <T>(
   options: RequestInit = {},
 ): Promise<T> => {
   const fullUrl = await buildApiUrl(url)
-  console.log('fullUrl', fullUrl)
+  // (denetim D2) tam URL'i loglayan console.log kaldırıldı — production build
+  // loglarına sızıyordu; hata ayıklama gerekiyorsa geçici olarak geri ekleyin.
   const response = await fetch(fullUrl, options)
 
   if (response.status === 204) {
