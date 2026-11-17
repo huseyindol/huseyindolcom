@@ -584,12 +584,14 @@ export default function ProjectsContent() {
             </h1>
             <p className="mx-auto max-w-2xl text-lg text-muted-foreground md:text-xl">
               AI Agent Skill çalışmalarım (
-              <strong className="text-zinc-200">VulnGuardian</strong>), Elly
-              multi-tenant CMS ekosistemi ve tarayıcıda doğrudan oynanabilen
-              WebAssembly oyunlarım.
+              <strong className="font-bold text-foreground">
+                VulnGuardian
+              </strong>
+              ), Elly multi-tenant CMS ekosistemi ve tarayıcıda doğrudan
+              oynanabilen WebAssembly oyunlarım.
             </p>
 
-            <div className="mt-10 flex flex-wrap justify-center gap-8 text-sm text-slate-400">
+            <div className="mt-10 flex flex-wrap justify-center gap-8 text-sm text-muted-foreground">
               <div className="text-center">
                 <p className="brand-text-accent text-2xl font-black">
                   {totalCount}
@@ -665,7 +667,7 @@ export default function ProjectsContent() {
                             (huseyindol/vuln-guardian)
                           </span>
                         </h2>
-                        <p className="text-xs font-medium text-teal-300/90 sm:text-sm">
+                        <p className="brand-text-accent text-xs font-medium sm:text-sm">
                           Autonomous Vulnerability Intelligence, Single-Batch
                           Safe-Version Patcher &amp; Deploy Skill
                         </p>
@@ -721,7 +723,7 @@ export default function ProjectsContent() {
                           ● PUBLIC REPO
                         </span>
                       </div>
-                      <pre className="overflow-x-auto rounded-xl border border-white/10 bg-zinc-900/90 p-3 font-mono text-[11px] leading-relaxed text-foreground dark:text-zinc-200">
+                      <pre className="whitespace-pre-wrap break-words rounded-xl border border-white/10 bg-zinc-900/90 p-3 font-mono text-[11px] leading-relaxed text-foreground dark:text-zinc-200">
                         <code>
                           {`git clone https://github.com/huseyindol/vuln-guardian.git
 cd vuln-guardian && bun install
@@ -772,7 +774,7 @@ bun run skill:install`}
                 <div className="relative flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
                   <div className="max-w-2xl space-y-4">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/35 bg-emerald-500/15 px-3 py-1 font-mono text-xs font-bold text-emerald-300">
+                      <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-600/30 bg-emerald-500/10 px-3 py-1 font-mono text-xs font-bold text-emerald-700 dark:border-emerald-400/35 dark:bg-emerald-500/15 dark:text-emerald-300">
                         <SparklesIcon className="h-3.5 w-3.5" />
                         ÖNE ÇIKAN · PROD EKOSİSTEMİ
                       </span>
@@ -793,7 +795,7 @@ bun run skill:install`}
                             (elly-studio)
                           </span>
                         </h2>
-                        <p className="text-xs font-medium text-emerald-300/90 sm:text-sm">
+                        <p className="brand-text-accent text-xs font-medium sm:text-sm">
                           Multi-Tenant AI Destekli İçerik Platformu &amp; Canlı
                           Destek Hattı — şu anda gezdiğiniz sitenin altyapısı
                         </p>
@@ -839,7 +841,7 @@ bun run skill:install`}
                   <div className="brand-panel flex flex-col justify-between gap-4 rounded-2xl border p-5 lg:w-96 lg:shrink-0">
                     <div>
                       <div className="mb-2 flex items-center justify-between text-xs text-muted-foreground">
-                        <span className="inline-flex items-center gap-1.5 font-mono font-semibold text-emerald-300">
+                        <span className="inline-flex items-center gap-1.5 font-mono font-semibold text-emerald-700 dark:text-emerald-300">
                           <TerminalIcon className="h-3.5 w-3.5" />
                           Repo Haritası
                         </span>
@@ -847,7 +849,7 @@ bun run skill:install`}
                           ● PROD / CANLI
                         </span>
                       </div>
-                      <pre className="overflow-x-auto rounded-xl border border-white/10 bg-zinc-900/90 p-3 font-mono text-[11px] leading-relaxed text-foreground dark:text-zinc-200">
+                      <pre className="whitespace-pre-wrap break-words rounded-xl border border-white/10 bg-zinc-900/90 p-3 font-mono text-[11px] leading-relaxed text-foreground dark:text-zinc-200">
                         <code>
                           {`elly-backend  Spring Boot 3.5 · Java 21 · PG·Redis·MQ
 elly-admin    Next.js 16 · App Router · Panel
@@ -872,7 +874,7 @@ elly-mobile   Flutter 3 · CallKit · Push/VoIP`}
                           href="https://api.huseyindol.com/actuator/health"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-xs font-semibold text-emerald-300 transition-colors hover:bg-emerald-500/20"
+                          className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-3 py-2 text-xs font-semibold text-emerald-700 transition-colors hover:bg-emerald-500/20 dark:text-emerald-300"
                         >
                           <RadarIcon className="h-3.5 w-3.5" />
                           API Durumu
