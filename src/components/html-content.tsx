@@ -89,7 +89,7 @@ const Blockquote = ({ children, ...rest }: BlockProps) => (
 
 const Pre = ({ children, ...rest }: BlockProps) => (
   <pre
-    className="my-6 overflow-x-auto rounded-lg border border-slate-200 bg-slate-950 p-4 text-sm text-slate-100 shadow-lg dark:border-slate-800"
+    className="border-l-primary/60 my-6 overflow-x-auto rounded-lg border border-l-4 border-border bg-transparent p-4 font-mono text-sm text-foreground"
     {...rest}
   >
     {children}
@@ -98,7 +98,7 @@ const Pre = ({ children, ...rest }: BlockProps) => (
 
 const InlineCode = ({ children, ...rest }: BlockProps) => (
   <code
-    className="rounded bg-slate-100 px-[0.3rem] py-[0.2rem] font-mono text-sm text-emerald-600 dark:bg-slate-800 dark:text-emerald-400"
+    className="rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm text-primary dark:bg-slate-800/60 dark:text-emerald-400"
     {...rest}
   >
     {children}
