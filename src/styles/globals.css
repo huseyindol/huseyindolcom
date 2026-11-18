@@ -269,34 +269,6 @@
     border-color: var(--spotlight-border);
   }
 
-  /* Makale gövdesi — "defter sayfası": kağıt kart + sol marj çizgisi (QA önerisi) */
-  .notepad-card {
-    position: relative;
-    background-color: var(--color-card);
-    border: 1px solid var(--color-border);
-    border-radius: 0.75rem;
-    box-shadow: var(--shadow-subtle);
-    padding: 1.75rem 1.75rem 2.25rem;
-    --notepad-margin: 2.75rem;
-    padding-left: calc(var(--notepad-margin) + 1.25rem);
-  }
-  @media (min-width: 768px) {
-    .notepad-card {
-      padding: 2.5rem 3rem 3rem;
-      --notepad-margin: 3.5rem;
-      padding-left: calc(var(--notepad-margin) + 1.75rem);
-    }
-  }
-  .notepad-card::before {
-    content: '';
-    position: absolute;
-    top: 0.75rem;
-    bottom: 0.75rem;
-    left: var(--notepad-margin);
-    width: 1px;
-    background-color: hsl(173 80% 40% / 0.4);
-  }
-
   .brand-glow-orb {
     background-color: var(--brand-glow-bg);
   }

@@ -87,7 +87,7 @@ export default function BlogPostPage({
         )}
 
         <div className="container mx-auto px-6 pb-24">
-          <article className="notepad-card mx-auto my-8 max-w-3xl">
+          <article className="mx-auto w-full max-w-4xl px-4 sm:px-6">
             {/* Back link */}
             <div className="mb-8 pt-8">
               <Link
