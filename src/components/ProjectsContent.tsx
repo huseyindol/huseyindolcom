@@ -396,21 +396,22 @@ const projects: Project[] = [
     appIcon: '/assets/games/plufy/icons/Icon-192.png',
     title: "Plufy'nin Dünyası",
     engine: 'Flutter',
-    subtitle: 'Hikâye Kitabı (Web Demo)',
+    subtitle: 'Hikâye Kitabı (App Store & Web Demo)',
     description:
-      "Flutter ve Flame ile geliştirilmiş etkileşimli hikâye kitabı oyunu. Plufy ve Pobi ile çayır ve piknik dünyalarında yol al, sayfaları tamamla, sayıları parmağınla çiz ve hikâyeleri canlandır. Web demosunda ilk 3 sayfa oynanır; tam oyun yakında App Store'da.",
+      'Flutter ve Flame ile geliştirilmiş etkileşimli hikâye kitabı oyunu. Plufy ve Pobi ile çayır ve piknik dünyalarında yol al, sayfaları tamamla, sayıları parmağınla çiz ve hikâyeleri canlandır. Web demosunda ilk 3 sayfa oynanır; tam oyun iPhone için App Store’da yayında.',
     icon: GamepadIcon,
     gradient: 'from-emerald-400 to-teal-600',
     status: 'live',
-    statusLabel: 'Oyna',
-    techStack: ['Flutter', 'Flame', 'Dart', 'Next.js 16'],
+    statusLabel: 'App Store & Web',
+    techStack: ['Flutter', 'Flame', 'Dart', 'iOS App Store', 'Next.js 16'],
     highlights: [
       'Plufy ve Pobi ile çayır ve piknik dünyalarında hikâye kitapları',
       'Parmakla sürükleyerek yürütme, dokununca el sallama ve Sayılarla Oyna',
       'Ebeveyn kapılı ayarlar, sesli okuma ve çocuk güvenli reklam aralıkları',
     ],
+    appStoreUrl: 'https://apps.apple.com/app/id6831783212',
     liveUrl: '/games/plufy',
-    liveLabel: 'Oyna',
+    liveLabel: 'Web’de Oyna',
   },
 ]
 
